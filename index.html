@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Most Active GitHub Users • Commit Radar</title>
+    <title>Most Active GitHub Users</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,22 +40,15 @@
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
                     </svg>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="font-semibold text-slate-900 tracking-tight text-sm">
-                        Most Active GitHub Users
-                    </span>
-                    <span class="text-[11px] font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">radar</span>
-                </div>
+                <span class="font-semibold text-slate-900 tracking-tight text-sm">
+                    Most Active GitHub Users
+                </span>
             </a>
 
             <div class="flex items-center gap-4">
                 <a href="#about" onclick="openAboutModal(event)" class="text-xs font-medium text-slate-500 hover:text-slate-900 transition">
                     About
                 </a>
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-50 border border-slate-200 text-xs font-mono text-slate-600">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>active</span>
-                </span>
             </div>
         </div>
     </header>
@@ -204,7 +197,7 @@
 
     <!-- Global Footer -->
     <footer class="w-full border-t border-slate-100 py-6 px-6 text-center text-xs text-slate-400 bg-white">
-        <p>Most Active GitHub Users • Independent Open Source Telemetry</p>
+        <p>Most Active GitHub Users • Built by the community, for the community • Open Source</p>
     </footer>
 
     <!-- About Modal -->
@@ -216,12 +209,12 @@
             </div>
             <div class="text-xs text-slate-600 space-y-3 leading-relaxed">
                 <p>
-                    <strong>Most Active GitHub Users</strong> is a neutral, global open-source ranking platform. It indexes software engineers and developer collectives from any country worldwide.
+                    <strong>Most Active GitHub Users</strong> is an initiative built by the developer community, for the developer community. It exists to celebrate open source contributions and highlight talented engineers worldwide.
                 </p>
                 <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg font-mono text-[11px] text-slate-700 space-y-1">
-                    <p>• Engine: Go GraphQL crawler (Zero Rate-Limit Spikes)</p>
-                    <p>• Data Format: Standalone static JSON files per country</p>
-                    <p>• Metrics: Verified Public & Private contributions</p>
+                    <p>• Philosophy: Open Source Software</p>
+                    <p>• Data Source: Official GitHub GraphQL API</p>
+                    <p>• Architecture: Lightweight, community-maintained static rankings</p>
                 </div>
             </div>
             <div class="pt-3 border-t border-slate-100 flex justify-end">
@@ -234,7 +227,6 @@
 
     <!-- Frontend Logic & State Management -->
     <script>
-        // Neutral Country Presets List (Matches Go presets.go definitions)
         const countries = [
             { id: "angola", name: "Angola", code: "AO" },
             { id: "argentina", name: "Argentina", code: "AR" },
@@ -260,7 +252,6 @@
             { id: "worldwide", name: "Worldwide", code: "GL" }
         ].sort((a, b) => a.name.localeCompare(b.name));
 
-        // Sample Data Generation per Country (Matches the Go JSON contract)
         function generateCountryData(country) {
             return {
                 country: country.name,
@@ -275,7 +266,7 @@
                     { rank: 5, name: "Software Engineer", login: "soft_eng", contributions: 1040, commits: 810, prs: 41, company: "-" },
                     { rank: 6, name: "Backend Specialist", login: "backend_dev", contributions: 890, commits: 690, prs: 33, company: "@cloud-tech" },
                     { rank: 7, name: "Frontend Crafter", login: "ui_craft", contributions: 760, commits: 540, prs: 26, company: "@design-systems" },
-                    { rank: 8, name: "Fullstack Builder", login: "fullstack_mz", contributions: 650, commits: 480, prs: 19, company: "-" }
+                    { rank: 8, name: "Fullstack Builder", login: "fullstack_builder", contributions: 650, commits: 480, prs: 19, company: "-" }
                 ],
                 organizations: [
                     { rank: 1, name: "core-lab", members: 14, impact: "High" },
@@ -287,7 +278,6 @@
             };
         }
 
-        // Render Alphabet Quick Selector
         function renderAlphabetBar() {
             const letters = [...new Set(countries.map(c => c.name[0].toUpperCase()))].sort();
             const bar = document.getElementById('alphabetBar');
@@ -304,7 +294,6 @@
             });
         }
 
-        // Render Country Cards Grid
         function renderCountries(list) {
             const grid = document.getElementById('countriesGrid');
             grid.innerHTML = '';
@@ -332,7 +321,6 @@
             });
         }
 
-        // Search Filter
         function filterCountries() {
             const term = document.getElementById('countrySearch').value.toLowerCase().trim();
             const filtered = countries.filter(c => 
@@ -341,7 +329,6 @@
             renderCountries(filtered);
         }
 
-        // Switch to Country View
         function openCountryView(country) {
             document.getElementById('homeView').classList.add('hidden');
             document.getElementById('countryView').classList.remove('hidden');
@@ -360,7 +347,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Return to Home View
         function showHomeView(e) {
             if (e) e.preventDefault();
             document.getElementById('countryView').classList.add('hidden');
@@ -369,7 +355,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Tab Switcher (Developers vs Organizations)
         function switchTab(tab) {
             const devsBtn = document.getElementById('tabDevsBtn');
             const orgsBtn = document.getElementById('tabOrgsBtn');
@@ -389,7 +374,6 @@
             }
         }
 
-        // Render Top Developers Table
         function renderDevelopersTable(users) {
             const tbody = document.getElementById('devsTableBody');
             tbody.innerHTML = '';
@@ -413,7 +397,6 @@
             });
         }
 
-        // Render Top Organizations Table
         function renderOrganizationsTable(orgs) {
             const tbody = document.getElementById('orgsTableBody');
             tbody.innerHTML = '';
@@ -434,7 +417,6 @@
             });
         }
 
-        // Hash Navigation Handler
         function handleHashRoute() {
             const hash = window.location.hash;
             if (hash.startsWith('#country/')) {
@@ -448,7 +430,6 @@
             showHomeView();
         }
 
-        // About Modal
         function openAboutModal(e) {
             if (e) e.preventDefault();
             const modal = document.getElementById('aboutModal');
@@ -468,7 +449,6 @@
 
         window.addEventListener('hashchange', handleHashRoute);
 
-        // Initialize
         renderAlphabetBar();
         renderCountries(countries);
         handleHashRoute();
