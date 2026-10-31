@@ -1,2 +1,7 @@
-*.yml
+# Output data files
 *.csv
+_data/locations/*.yml
+
+# Local environment / IDE
+.DS_Store
+Thumbs.db
