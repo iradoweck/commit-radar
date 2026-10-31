@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Most Active GitHub Users • Coming Soon</title>
+    <title>Most Active GitHub Users • Commit Radar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,192 +19,211 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Subtle typing animations */
-        @keyframes typingBody {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-2px); }
-        }
-
-        @keyframes pawLeft {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
-        }
-
-        @keyframes pawRight {
-            0%, 100% { transform: translateY(-3px); }
-            50% { transform: translateY(0); }
-        }
-
-        @keyframes cursorBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        .coder-body {
-            animation: typingBody 1.2s ease-in-out infinite;
-        }
-
-        .coder-paw-l {
-            animation: pawLeft 0.28s ease-in-out infinite;
-        }
-
-        .coder-paw-r {
-            animation: pawRight 0.3s ease-in-out infinite;
-        }
-
-        .term-cursor {
-            animation: cursorBlink 0.9s infinite;
-        }
-
-        .log-line {
-            animation: fadeIn 0.4s ease-out;
+        .fade-in {
+            animation: fadeIn 0.25s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
+            from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-white text-slate-900 selection:bg-slate-100 selection:text-slate-900">
 
-    <!-- Clean & Neutral Global Header -->
-    <header class="w-full border-b border-slate-100 py-4 px-6 sm:px-12 bg-white sticky top-0 z-30">
-        <div class="max-w-4xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-7 h-7 rounded-lg bg-slate-950 flex items-center justify-center text-white">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+    <!-- Global Neutral Header -->
+    <header class="w-full border-b border-slate-200/80 bg-white sticky top-0 z-30">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" onclick="showHomeView(event)" class="flex items-center gap-3 cursor-pointer group">
+                <div class="w-8 h-8 rounded-lg bg-slate-950 flex items-center justify-center text-white group-hover:bg-slate-800 transition">
+                    <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="currentColor">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
                     </svg>
                 </div>
-                <span class="font-semibold text-slate-900 text-sm tracking-tight">
-                    Most Active GitHub Users
-                </span>
-            </div>
+                <div class="flex items-center gap-2">
+                    <span class="font-semibold text-slate-900 tracking-tight text-sm">
+                        Most Active GitHub Users
+                    </span>
+                    <span class="text-[11px] font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">radar</span>
+                </div>
+            </a>
 
-            <!-- Navigation: Tag & About trigger -->
             <div class="flex items-center gap-4">
-                <a href="#about" onclick="openAboutModal()" class="text-xs font-medium text-slate-500 hover:text-slate-900 transition">
+                <a href="#about" onclick="openAboutModal(event)" class="text-xs font-medium text-slate-500 hover:text-slate-900 transition">
                     About
                 </a>
                 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-50 border border-slate-200 text-xs font-mono text-slate-600">
-                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                    <span>v3.0.0-rc</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>active</span>
                 </span>
             </div>
         </div>
     </header>
 
-    <!-- Center Hero Section: Octocat Coding + Coming Soon -->
-    <main class="flex-1 flex flex-col items-center justify-center px-6 py-12 max-w-xl mx-auto w-full text-center">
-        
-        <!-- Status Tag Badge -->
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-medium mb-6">
-            <span class="w-1.5 h-1.5 rounded-full bg-slate-900"></span>
-            <span>Coming Soon</span>
-        </div>
+    <!-- Main Container -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-6 py-8">
 
-        <!-- Central Coding Octocat Illustration -->
-        <div class="relative w-64 h-56 mx-auto mb-6 flex flex-col items-center justify-center">
-            
-            <div class="coder-body flex flex-col items-center">
-                <!-- Octocat Head -->
-                <svg class="w-24 h-24 text-slate-900 drop-shadow-sm z-10" viewBox="0 0 24 24" fill="currentColor">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-                </svg>
+        <!-- VIEW 1: HOME (COUNTRY DIRECTORY HUB) -->
+        <section id="homeView" class="fade-in space-y-8">
+            <!-- Hero Title -->
+            <div class="text-center max-w-2xl mx-auto space-y-3 pt-4">
+                <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-950">
+                    Most Active GitHub Users
+                </h1>
+                <p class="text-sm sm:text-base text-slate-500 font-normal leading-relaxed">
+                    Explore developers and engineering organizations ranked by open-source contributions. Select a country below to view the rankings.
+                </p>
+            </div>
 
-                <!-- Typing Paws -->
-                <div class="flex justify-between w-20 -mt-2 z-20 px-3">
-                    <span class="coder-paw-l w-3 h-4 bg-slate-900 rounded-full"></span>
-                    <span class="coder-paw-r w-3 h-4 bg-slate-900 rounded-full"></span>
+            <!-- Instant Search Bar -->
+            <div class="max-w-xl mx-auto relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+                <input 
+                    type="text" 
+                    id="countrySearch" 
+                    placeholder="Search country by name or code (e.g. Mozambique, Brazil, Angola, UK)..."
+                    class="w-full pl-10 pr-4 py-2.5 text-sm bg-white border border-slate-200 rounded-xl outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition shadow-xs"
+                    oninput="filterCountries()"
+                >
+            </div>
+
+            <!-- A-Z Alphabet Quick Bar -->
+            <div id="alphabetBar" class="flex flex-wrap items-center justify-center gap-1 text-xs font-mono text-slate-500 max-w-2xl mx-auto py-1">
+                <!-- Generated via JS -->
+            </div>
+
+            <!-- Countries Grid -->
+            <div>
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        Country Directory
+                    </span>
+                    <span id="countryCount" class="text-xs font-mono text-slate-400">
+                        Available presets
+                    </span>
                 </div>
 
-                <!-- Minimalist Laptop -->
-                <div class="relative -mt-2 z-10 flex flex-col items-center">
-                    <div class="w-32 h-18 bg-slate-950 rounded-t-lg border border-slate-700 p-2 flex flex-col justify-between shadow-md">
-                        <div class="flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
-                            <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
-                            <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
-                        </div>
-                        <div class="font-mono text-[9px] text-slate-300 text-left leading-tight py-1">
-                            <p class="text-emerald-400 font-semibold">$ go run main.go</p>
-                            <p class="text-slate-400">crawling... <span class="term-cursor text-slate-100">_</span></p>
-                        </div>
+                <div id="countriesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                    <!-- Cards injected via JS -->
+                </div>
+            </div>
+        </section>
+
+
+        <!-- VIEW 2: COUNTRY RANKING VIEW (TABS: DEVS & ORGS) -->
+        <section id="countryView" class="fade-in space-y-6 hidden">
+            
+            <!-- Breadcrumbs & Back Navigation -->
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <button onclick="showHomeView(event)" class="inline-flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-950 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span>Back to all countries</span>
+                </button>
+
+                <div class="flex items-center gap-2 text-xs font-mono text-slate-400">
+                    <span id="countryGeneratedAt">updated recently</span>
+                </div>
+            </div>
+
+            <!-- Country Header Details -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <h2 id="countryTitle" class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-950">
+                            Country Name
+                        </h2>
+                        <span id="countryCodeBadge" class="text-xs font-mono uppercase bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">
+                            CODE
+                        </span>
                     </div>
-                    <div class="w-40 h-2 bg-slate-200 rounded-b shadow-sm border-t border-slate-300"></div>
+                    <p class="text-xs text-slate-500 mt-1">
+                        Ranked contributions, commits, pull requests, and verified organizations.
+                    </p>
+                </div>
+
+                <!-- Tabs: Developers vs Organizations -->
+                <div class="inline-flex p-1 bg-slate-100 rounded-xl text-xs font-medium border border-slate-200/60">
+                    <button id="tabDevsBtn" onclick="switchTab('devs')" class="px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition">
+                        Developers Ranking
+                    </button>
+                    <button id="tabOrgsBtn" onclick="switchTab('orgs')" class="px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition">
+                        Organizations Ranking
+                    </button>
                 </div>
             </div>
 
-            <!-- Floor Shadow -->
-            <div class="w-32 h-2.5 bg-slate-200/60 rounded-full blur-[1px] mt-2"></div>
-        </div>
-
-        <!-- Main Heading -->
-        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-950 mb-3">
-            Most Active GitHub Users
-        </h1>
-
-        <!-- Context & Value Proposition -->
-        <p class="text-sm sm:text-base text-slate-500 font-normal leading-relaxed mb-6 max-w-md mx-auto">
-            A real-time global telemetry platform tracking open-source commits, pull requests, and contributions worldwide.
-        </p>
-
-        <!-- Live Terminal Stream Box -->
-        <div class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-left font-mono text-xs shadow-xs">
-            <div class="flex items-center justify-between text-[11px] text-slate-400 border-b border-slate-200/70 pb-2 mb-2.5">
-                <span>repository telemetry</span>
-                <span class="flex items-center gap-1 text-emerald-600 font-semibold">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                    indexing
-                </span>
+            <!-- TAB CONTENT 1: DEVELOPERS TABLE -->
+            <div id="devsTabContent" class="space-y-4">
+                <div class="border border-slate-200 rounded-xl overflow-hidden shadow-xs">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-medium font-mono">
+                            <tr>
+                                <th class="py-3 px-4 w-14">#</th>
+                                <th class="py-3 px-4">Developer</th>
+                                <th class="py-3 px-4">Total Contributions</th>
+                                <th class="py-3 px-4">Commits</th>
+                                <th class="py-3 px-4">Pull Requests</th>
+                                <th class="py-3 px-4">Company / Organizations</th>
+                            </tr>
+                        </thead>
+                        <tbody id="devsTableBody" class="divide-y divide-slate-100 bg-white">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            
-            <div id="terminalStream" class="space-y-1.5 text-slate-600 text-[11px]">
-                <!-- Injected via JavaScript -->
-            </div>
-        </div>
 
-        <!-- About Button Trigger -->
-        <div class="mt-6">
-            <button onclick="openAboutModal()" class="text-xs text-slate-400 hover:text-slate-800 transition underline underline-offset-4">
-                Learn more about this project
-            </button>
-        </div>
+            <!-- TAB CONTENT 2: ORGANIZATIONS TABLE -->
+            <div id="orgsTabContent" class="space-y-4 hidden">
+                <div class="border border-slate-200 rounded-xl overflow-hidden shadow-xs">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-medium font-mono">
+                            <tr>
+                                <th class="py-3 px-4 w-16">#</th>
+                                <th class="py-3 px-4">Organization / Company</th>
+                                <th class="py-3 px-4">Associated Developers</th>
+                                <th class="py-3 px-4">Impact Ratio</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orgsTableBody" class="divide-y divide-slate-100 bg-white">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
 
     </main>
 
     <!-- Global Footer -->
-    <footer class="w-full border-t border-slate-100 py-4 px-6 text-center text-xs text-slate-400 bg-white">
-        <p>Most Active GitHub Users • Global Open Source Ranking Platform</p>
+    <footer class="w-full border-t border-slate-100 py-6 px-6 text-center text-xs text-slate-400 bg-white">
+        <p>Most Active GitHub Users • Independent Open Source Telemetry</p>
     </footer>
 
-    <!-- About Modal (Neutral & Informative) -->
+    <!-- About Modal -->
     <div id="aboutModal" class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
         <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 shadow-xl text-left space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div class="flex items-center gap-2">
-                    <span class="font-bold text-slate-900 text-sm">About Most Active GitHub Users</span>
-                </div>
-                <button onclick="closeAboutModal()" class="text-slate-400 hover:text-slate-600 p-1 text-sm font-mono">
-                    ✕
-                </button>
+                <span class="font-bold text-slate-900 text-sm">About Most Active GitHub Users</span>
+                <button onclick="closeAboutModal()" class="text-slate-400 hover:text-slate-600 p-1 text-sm font-mono">✕</button>
             </div>
-
             <div class="text-xs text-slate-600 space-y-3 leading-relaxed">
                 <p>
-                    <strong>Most Active GitHub Users</strong> is an independent open-source ranking system and live radar dedicated to highlighting active developers, engineers, and maintainers across various regions.
+                    <strong>Most Active GitHub Users</strong> is a neutral, global open-source ranking platform. It indexes software engineers and developer collectives from any country worldwide.
                 </p>
-                <p>
-                    Built on top of the <strong>GitHub GraphQL API v4</strong>, the engine overcomes traditional search limitations by indexing developers through structured queries, calculating real-world commit volumes, pull requests, and organizational contributions.
-                </p>
-                <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg font-mono text-[11px] text-slate-700">
-                    <p>• Engine: Go (Golang) compiled binary</p>
-                    <p>• Data Source: Official GitHub GraphQL API</p>
-                    <p>• Coverage: Mozambique (Primary Rollout) ➔ Global</p>
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg font-mono text-[11px] text-slate-700 space-y-1">
+                    <p>• Engine: Go GraphQL crawler (Zero Rate-Limit Spikes)</p>
+                    <p>• Data Format: Standalone static JSON files per country</p>
+                    <p>• Metrics: Verified Public & Private contributions</p>
                 </div>
             </div>
-
             <div class="pt-3 border-t border-slate-100 flex justify-end">
                 <button onclick="closeAboutModal()" class="px-4 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-black transition">
                     Close
@@ -213,36 +232,225 @@
         </div>
     </div>
 
-    <!-- Live Log Simulation Script -->
+    <!-- Frontend Logic & State Management -->
     <script>
-        const tasks = [
-            "fetching GraphQL nodes from GitHub API v4...",
-            "indexing global active developers...",
-            "computing commit volume and pull request ratios...",
-            "aggregating engineering organizations and teams...",
-            "validating preset definition checksums (SHA-256)...",
-            "optimizing telemetry pipeline in Go..."
-        ];
+        // Neutral Country Presets List (Matches Go presets.go definitions)
+        const countries = [
+            { id: "angola", name: "Angola", code: "AO" },
+            { id: "argentina", name: "Argentina", code: "AR" },
+            { id: "australia", name: "Australia", code: "AU" },
+            { id: "brazil", name: "Brazil", code: "BR" },
+            { id: "canada", name: "Canada", code: "CA" },
+            { id: "cape-verde", name: "Cape Verde", code: "CV" },
+            { id: "finland", name: "Finland", code: "FI" },
+            { id: "france", name: "France", code: "FR" },
+            { id: "germany", name: "Germany", code: "DE" },
+            { id: "india", name: "India", code: "IN" },
+            { id: "japan", name: "Japan", code: "JP" },
+            { id: "kenya", name: "Kenya", code: "KE" },
+            { id: "mozambique", name: "Mozambique", code: "MZ" },
+            { id: "nigeria", name: "Nigeria", code: "NG" },
+            { id: "norway", name: "Norway", code: "NO" },
+            { id: "portugal", name: "Portugal", code: "PT" },
+            { id: "rwanda", name: "Rwanda", code: "RW" },
+            { id: "south-africa", name: "South Africa", code: "ZA" },
+            { id: "sweden", name: "Sweden", code: "SE" },
+            { id: "united-kingdom", name: "United Kingdom", code: "GB" },
+            { id: "united-states", name: "United States", code: "US" },
+            { id: "worldwide", name: "Worldwide", code: "GL" }
+        ].sort((a, b) => a.name.localeCompare(b.name));
 
-        let index = 0;
+        // Sample Data Generation per Country (Matches the Go JSON contract)
+        function generateCountryData(country) {
+            return {
+                country: country.name,
+                country_code: country.code,
+                generated_at: new Date().toISOString().split('T')[0],
+                total_users: 256,
+                users: [
+                    { rank: 1, name: "Lead Architect", login: "lead_dev", contributions: 2420, commits: 1890, prs: 142, company: "@core-lab" },
+                    { rank: 2, name: "Staff Engineer", login: "staff_eng", contributions: 1980, commits: 1450, prs: 98, company: "@opensource" },
+                    { rank: 3, name: "Senior Developer", login: "sr_dev", contributions: 1640, commits: 1210, prs: 74, company: "Freelance" },
+                    { rank: 4, name: "Core Contributor", login: "core_contributor", contributions: 1320, commits: 980, prs: 52, company: "@community" },
+                    { rank: 5, name: "Software Engineer", login: "soft_eng", contributions: 1040, commits: 810, prs: 41, company: "-" },
+                    { rank: 6, name: "Backend Specialist", login: "backend_dev", contributions: 890, commits: 690, prs: 33, company: "@cloud-tech" },
+                    { rank: 7, name: "Frontend Crafter", login: "ui_craft", contributions: 760, commits: 540, prs: 26, company: "@design-systems" },
+                    { rank: 8, name: "Fullstack Builder", login: "fullstack_mz", contributions: 650, commits: 480, prs: 19, company: "-" }
+                ],
+                organizations: [
+                    { rank: 1, name: "core-lab", members: 14, impact: "High" },
+                    { rank: 2, name: "opensource", members: 9, impact: "High" },
+                    { rank: 3, name: "community", members: 6, impact: "Medium" },
+                    { rank: 4, name: "cloud-tech", members: 4, impact: "Medium" },
+                    { rank: 5, name: "design-systems", members: 3, impact: "Normal" }
+                ]
+            };
+        }
 
-        function addLog() {
-            const container = document.getElementById('terminalStream');
-            const p = document.createElement('p');
-            p.className = 'log-line flex items-center justify-between';
-            p.innerHTML = `
-                <span class="truncate">> ${tasks[index % tasks.length]}</span>
-                <span class="text-slate-400 shrink-0 font-mono text-[10px] ml-2">ok</span>
-            `;
-            container.appendChild(p);
-            index++;
+        // Render Alphabet Quick Selector
+        function renderAlphabetBar() {
+            const letters = [...new Set(countries.map(c => c.name[0].toUpperCase()))].sort();
+            const bar = document.getElementById('alphabetBar');
+            bar.innerHTML = '<span class="text-slate-400 mr-1">A-Z:</span>';
+            letters.forEach(letter => {
+                const btn = document.createElement('button');
+                btn.className = 'px-1.5 py-0.5 rounded hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition';
+                btn.textContent = letter;
+                btn.onclick = () => {
+                    document.getElementById('countrySearch').value = letter;
+                    filterCountries();
+                };
+                bar.appendChild(btn);
+            });
+        }
 
-            if (container.children.length > 3) {
-                container.removeChild(container.firstChild);
+        // Render Country Cards Grid
+        function renderCountries(list) {
+            const grid = document.getElementById('countriesGrid');
+            grid.innerHTML = '';
+            document.getElementById('countryCount').textContent = `${list.length} countries available`;
+
+            if (list.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-8 text-center text-xs text-slate-400">No matching countries found.</div>`;
+                return;
+            }
+
+            list.forEach(c => {
+                const card = document.createElement('div');
+                card.className = 'group p-3 rounded-xl border border-slate-200/80 hover:border-slate-900 bg-white hover:shadow-xs transition cursor-pointer flex items-center justify-between';
+                card.onclick = () => openCountryView(c);
+                card.innerHTML = `
+                    <div class="truncate">
+                        <span class="font-medium text-xs text-slate-900 group-hover:text-black block truncate">${c.name}</span>
+                        <span class="text-[10px] font-mono text-slate-400">${c.code}</span>
+                    </div>
+                    <svg class="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-900 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Search Filter
+        function filterCountries() {
+            const term = document.getElementById('countrySearch').value.toLowerCase().trim();
+            const filtered = countries.filter(c => 
+                c.name.toLowerCase().includes(term) || c.code.toLowerCase().includes(term)
+            );
+            renderCountries(filtered);
+        }
+
+        // Switch to Country View
+        function openCountryView(country) {
+            document.getElementById('homeView').classList.add('hidden');
+            document.getElementById('countryView').classList.remove('hidden');
+            
+            document.getElementById('countryTitle').textContent = country.name;
+            document.getElementById('countryCodeBadge').textContent = country.code;
+            
+            const data = generateCountryData(country);
+            document.getElementById('countryGeneratedAt').textContent = `Updated: ${data.generated_at}`;
+
+            renderDevelopersTable(data.users);
+            renderOrganizationsTable(data.organizations);
+            
+            switchTab('devs');
+            window.location.hash = `country/${country.id}`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Return to Home View
+        function showHomeView(e) {
+            if (e) e.preventDefault();
+            document.getElementById('countryView').classList.add('hidden');
+            document.getElementById('homeView').classList.remove('hidden');
+            window.location.hash = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Tab Switcher (Developers vs Organizations)
+        function switchTab(tab) {
+            const devsBtn = document.getElementById('tabDevsBtn');
+            const orgsBtn = document.getElementById('tabOrgsBtn');
+            const devsContent = document.getElementById('devsTabContent');
+            const orgsContent = document.getElementById('orgsTabContent');
+
+            if (tab === 'devs') {
+                devsBtn.className = 'px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition';
+                orgsBtn.className = 'px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition';
+                devsContent.classList.remove('hidden');
+                orgsContent.classList.add('hidden');
+            } else {
+                orgsBtn.className = 'px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition';
+                devsBtn.className = 'px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition';
+                orgsContent.classList.remove('hidden');
+                devsContent.classList.add('hidden');
             }
         }
 
-        function openAboutModal() {
+        // Render Top Developers Table
+        function renderDevelopersTable(users) {
+            const tbody = document.getElementById('devsTableBody');
+            tbody.innerHTML = '';
+            users.forEach(u => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50/70 transition-colors';
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-mono font-medium text-slate-400">#${u.rank}</td>
+                    <td class="py-3 px-4">
+                        <div class="flex items-center gap-2">
+                            <span class="font-medium text-slate-900">${u.name}</span>
+                            <span class="font-mono text-slate-400">@${u.login}</span>
+                        </div>
+                    </td>
+                    <td class="py-3 px-4 font-mono font-semibold text-slate-900">${u.contributions.toLocaleString()}</td>
+                    <td class="py-3 px-4 font-mono text-slate-600">${u.commits.toLocaleString()}</td>
+                    <td class="py-3 px-4 font-mono text-slate-600">${u.prs.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-slate-500 font-mono text-[11px]">${u.company}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Render Top Organizations Table
+        function renderOrganizationsTable(orgs) {
+            const tbody = document.getElementById('orgsTableBody');
+            tbody.innerHTML = '';
+            orgs.forEach(o => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50/70 transition-colors';
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-mono font-medium text-slate-400">#${o.rank}</td>
+                    <td class="py-3 px-4 font-medium text-slate-900 font-mono">${o.name}</td>
+                    <td class="py-3 px-4 font-mono text-slate-700 font-semibold">${o.members} developers</td>
+                    <td class="py-3 px-4">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono bg-slate-100 text-slate-600">
+                            ${o.impact}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Hash Navigation Handler
+        function handleHashRoute() {
+            const hash = window.location.hash;
+            if (hash.startsWith('#country/')) {
+                const countryId = hash.replace('#country/', '');
+                const target = countries.find(c => c.id === countryId);
+                if (target) {
+                    openCountryView(target);
+                    return;
+                }
+            }
+            showHomeView();
+        }
+
+        // About Modal
+        function openAboutModal(e) {
+            if (e) e.preventDefault();
             const modal = document.getElementById('aboutModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -254,16 +462,16 @@
             modal.classList.remove('flex');
         }
 
-        // Close on escape key
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeAboutModal();
         });
 
-        // Initialize logs
-        addLog();
-        addLog();
-        addLog();
-        setInterval(addLog, 2800);
+        window.addEventListener('hashchange', handleHashRoute);
+
+        // Initialize
+        renderAlphabetBar();
+        renderCountries(countries);
+        handleHashRoute();
     </script>
 </body>
 </html>
