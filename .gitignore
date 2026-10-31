@@ -2,6 +2,9 @@
 *.csv
 _data/locations/*.yml
 
+# Planning and notes
+*-plan.md
+
 # Local environment / IDE
 .DS_Store
 Thumbs.db
