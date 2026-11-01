@@ -63,10 +63,14 @@
                 </span>
             </a>
 
-            <!-- Header Actions: About, GitHub Repo Icon, Open PRs, Open Issues, Prominent Donate Button -->
+            <!-- Header Actions: About, Docs (Badges), GitHub Repo Icon, Open PRs, Open Issues, Prominent Donate Button -->
             <div class="flex items-center gap-3 sm:gap-4">
                 <a href="#about" onclick="openAboutModal(event)" class="text-xs font-medium text-slate-500 hover:text-slate-900 transition">
                     About
+                </a>
+                <a href="#docs" onclick="openDocsModal(event)" class="text-xs font-medium text-slate-500 hover:text-slate-900 transition flex items-center gap-1">
+                    <span>Docs</span>
+                    <span class="text-[9px] font-mono text-purple-700 bg-purple-50 border border-purple-200 px-1 py-0.2 rounded">Badges</span>
                 </a>
 
                 <!-- GitHub Repo Icon with Open PRs and Open Issues side-by-side -->
@@ -156,6 +160,83 @@
                     <!-- Cards injected via JS -->
                 </div>
             </div>
+
+            <!-- Home Section: Developers & Open Data Card -->
+            <div class="mt-12 p-6 rounded-2xl border border-slate-200/80 bg-slate-50/60 shadow-xs space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="font-bold text-slate-900 text-sm">Developers & Open Data</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-0.5">
+                            Machine-readable data archives and embeddable dynamic badges for your GitHub profiles.
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-2 shrink-0">
+                        <!-- Combined Global JSON Download Button -->
+                        <button onclick="downloadGlobalJson()" class="inline-flex items-center gap-2 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-950 px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition shadow-2xs cursor-pointer">
+                            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                            </svg>
+                            <span>Download Global JSON</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Global Badges Integration Section -->
+                <div class="space-y-4">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-900 block">Embed Badges in your GitHub README</span>
+                        <p class="text-[11px] text-slate-500">
+                            Display your verified ranking status using Shields.io dynamic badges directly on your profile.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Badge 1: User Badge -->
+                        <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2.5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-medium text-slate-700">Developer Profile Badge</span>
+                                <img src="https://img.shields.io/badge/Most_Active_GitHub_Users-Top_Contributor-0f172a?style=flat&logo=github&logoColor=white" alt="Developer Badge Preview" class="h-5">
+                            </div>
+                            <div class="relative">
+                                <input 
+                                    type="text" 
+                                    readonly 
+                                    value="[![Most Active GitHub Users](https://img.shields.io/badge/Most_Active_GitHub_Users-Top_Contributor-0f172a?style=flat&logo=github&logoColor=white)](https://github.com/iradoweck/commit-radar)" 
+                                    id="homeDevBadgeInput"
+                                    class="w-full text-[11px] font-mono bg-slate-50 border border-slate-200 rounded-lg pl-2.5 pr-16 py-1.5 text-slate-600 outline-none select-all"
+                                >
+                                <button onclick="copySnippet('homeDevBadgeInput', this)" class="absolute right-1 top-1 bottom-1 px-2.5 bg-slate-900 hover:bg-black text-white text-[10px] font-medium rounded-md transition cursor-pointer">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Badge 2: Org Badge -->
+                        <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2.5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-medium text-slate-700">Organization Badge</span>
+                                <img src="https://img.shields.io/badge/Most_Active_GitHub_Orgs-Ranked-0f172a?style=flat&logo=github&logoColor=white" alt="Organization Badge Preview" class="h-5">
+                            </div>
+                            <div class="relative">
+                                <input 
+                                    type="text" 
+                                    readonly 
+                                    value="[![Most Active GitHub Orgs](https://img.shields.io/badge/Most_Active_GitHub_Orgs-Ranked-0f172a?style=flat&logo=github&logoColor=white)](https://github.com/iradoweck/commit-radar)" 
+                                    id="homeOrgBadgeInput"
+                                    class="w-full text-[11px] font-mono bg-slate-50 border border-slate-200 rounded-lg pl-2.5 pr-16 py-1.5 text-slate-600 outline-none select-all"
+                                >
+                                <button onclick="copySnippet('homeOrgBadgeInput', this)" class="absolute right-1 top-1 bottom-1 px-2.5 bg-slate-900 hover:bg-black text-white text-[10px] font-medium rounded-md transition cursor-pointer">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
 
@@ -241,6 +322,262 @@
                 </div>
             </div>
 
+            <!-- Country Bottom Accordion: Developer Badges, Data Download & Calculation Logic -->
+            <div class="mt-8 border border-slate-200/90 rounded-2xl bg-white shadow-xs overflow-hidden">
+                <!-- Accordion Header Button -->
+                <button 
+                    onclick="toggleCountryAccordion()" 
+                    class="w-full px-6 py-4 flex items-center justify-between text-left bg-slate-50/70 hover:bg-slate-100/70 transition cursor-pointer"
+                >
+                    <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center text-xs font-mono">
+                            &lt;/&gt;
+                        </div>
+                        <div>
+                            <span class="font-bold text-xs sm:text-sm text-slate-900 block">
+                                Developer Badges, Data Download & Calculation Logic
+                            </span>
+                            <span class="text-[11px] text-slate-500">
+                                Official formula, live Shield badges and machine-readable data for <span id="accordionCountryName" class="font-medium text-slate-700">this country</span>.
+                            </span>
+                        </div>
+                    </div>
+                    <svg id="accordionIcon" class="w-4 h-4 text-slate-400 transform transition-transform duration-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+
+                <!-- Accordion Expandable Body -->
+                <div id="countryAccordionBody" class="hidden divide-y divide-slate-100 border-t border-slate-200/80">
+                    
+                    <!-- Section 1: Dynamic Shields.io Badges -->
+                    <div class="p-6 space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div>
+                                <span class="font-semibold text-xs text-slate-900 block">Regional Profile Badges</span>
+                                <span class="text-[11px] text-slate-500">Add official ranking verification badges to your personal or organization GitHub README.</span>
+                            </div>
+                            <span class="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">
+                                Live Shields.io Format
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- User Regional Badge -->
+                            <div class="p-4 rounded-xl border border-slate-200/90 bg-slate-50/50 space-y-2.5">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-medium text-slate-700">Developer Badge</span>
+                                    <img id="countryUserBadgeImg" src="" alt="Regional User Badge" class="h-5">
+                                </div>
+                                <div class="relative">
+                                    <input 
+                                        type="text" 
+                                        readonly 
+                                        id="countryUserBadgeInput"
+                                        class="w-full text-[11px] font-mono bg-white border border-slate-200 rounded-lg pl-2.5 pr-16 py-1.5 text-slate-600 outline-none select-all"
+                                    >
+                                    <button onclick="copySnippet('countryUserBadgeInput', this)" class="absolute right-1 top-1 bottom-1 px-2.5 bg-slate-900 hover:bg-black text-white text-[10px] font-medium rounded-md transition cursor-pointer">
+                                        Copy
+                                    </button>
+                                </div>
+                                <p class="text-[10px] text-slate-400">If unranked, users automatically display an unranked status badge.</p>
+                            </div>
+
+                            <!-- Org Regional Badge -->
+                            <div class="p-4 rounded-xl border border-slate-200/90 bg-slate-50/50 space-y-2.5">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-medium text-slate-700">Organization Badge</span>
+                                    <img id="countryOrgBadgeImg" src="" alt="Regional Org Badge" class="h-5">
+                                </div>
+                                <div class="relative">
+                                    <input 
+                                        type="text" 
+                                        readonly 
+                                        id="countryOrgBadgeInput"
+                                        class="w-full text-[11px] font-mono bg-white border border-slate-200 rounded-lg pl-2.5 pr-16 py-1.5 text-slate-600 outline-none select-all"
+                                    >
+                                    <button onclick="copySnippet('countryOrgBadgeInput', this)" class="absolute right-1 top-1 bottom-1 px-2.5 bg-slate-900 hover:bg-black text-white text-[10px] font-medium rounded-md transition cursor-pointer">
+                                        Copy
+                                    </button>
+                                </div>
+                                <p class="text-[10px] text-slate-400">Embed inside company or lab repositories on GitHub.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Transparent Pseudocode Algorithm -->
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="font-semibold text-xs text-slate-900 block">Calculation Logic & Filter Criteria</span>
+                                <span class="text-[11px] text-slate-500">Auditable pipeline extracting public commits and contributions over the past year.</span>
+                            </div>
+                            <span class="text-[10px] font-mono text-slate-400">GraphQL Pipeline</span>
+                        </div>
+
+                        <!-- Pseudocode code block -->
+                        <div class="rounded-xl bg-slate-950 p-4 border border-slate-800 text-slate-200 font-mono text-xs overflow-x-auto shadow-inner leading-relaxed">
+                            <span class="text-slate-500">// Pseudocode algorithm implemented in Go</span><br>
+                            <span class="text-cyan-400">githubUsers</span>.<span class="text-emerald-400">sort</span>(_.<span class="text-amber-300">followers</span>)<br>
+                            &nbsp;&nbsp;.<span class="text-emerald-400">filter</span>(_.<span class="text-amber-300">location</span> == <span id="pseudocodeLocation" class="text-pink-400">'Mozambique'</span>)<br>
+                            &nbsp;&nbsp;.<span class="text-emerald-400">take</span>(<span class="text-purple-400">1000</span>)<br>
+                            &nbsp;&nbsp;.<span class="text-emerald-400">sort</span>(_.<span class="text-amber-300">contributions</span>)<br>
+                            &nbsp;&nbsp;.<span class="text-emerald-400">take</span>(<span class="text-purple-400">256</span>)
+                        </div>
+                        <p class="text-[11px] text-slate-500">
+                            Includes all public commits. Users must meet a threshold of at least <strong>2 followers</strong> to be indexed in regional leaderboards.
+                        </p>
+                    </div>
+
+                    <!-- Section 3: Machine-Readable Country JSON Download -->
+                    <div class="p-6 bg-slate-50/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <span class="font-semibold text-xs text-slate-900 block">Raw Country Dataset</span>
+                            <span class="text-[11px] text-slate-500">Export the complete ranking in machine-readable JSON format for analysis or research.</span>
+                        </div>
+                        <button onclick="downloadCurrentCountryJson()" class="inline-flex items-center gap-2 bg-slate-900 hover:bg-black text-white px-3.5 py-1.5 rounded-lg text-xs font-medium font-mono transition shadow-2xs shrink-0 cursor-pointer">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                            </svg>
+                            <span>Download Country JSON</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- VIEW 3: DEDICATED DOCUMENTATION PAGE (#documentation) -->
+        <section id="docsView" class="fade-in space-y-8 hidden">
+            <!-- Header Nav -->
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <button onclick="showHomeView(event)" class="inline-flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-950 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span>Back to Directory</span>
+                </button>
+
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 text-purple-700 border border-purple-200">
+                        Docs & Integration Guide
+                    </span>
+                </div>
+            </div>
+
+            <!-- Page Title -->
+            <div class="space-y-2">
+                <h1 class="text-3xl font-bold tracking-tight text-slate-950">
+                    Badges & Integration Documentation
+                </h1>
+                <p class="text-sm text-slate-500 max-w-2xl leading-relaxed">
+                    A comprehensive guide to embedding verified ranking status badges, consuming machine-readable JSON datasets, and understanding telemetry extraction filters.
+                </p>
+            </div>
+
+            <!-- Cards Container -->
+            <div class="space-y-6">
+
+                <!-- Block 1: Developer Badges -->
+                <div class="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+                        <div>
+                            <span class="font-bold text-sm text-slate-900 block">1. Individual Developer Badges</span>
+                            <span class="text-xs text-slate-500">Showcase your verified open-source contributions ranking on your personal GitHub README.</span>
+                        </div>
+                        <img src="https://img.shields.io/badge/Most_Active_GitHub_Users-Top_Contributor-0f172a?style=flat&logo=github&logoColor=white" alt="Developer Badge Preview" class="h-5">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold text-slate-700 block">Markdown Code (Profile README):</label>
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                readonly 
+                                value="[![Most Active GitHub Users](https://img.shields.io/badge/Most_Active_GitHub_Users-Top_Contributor-0f172a?style=flat&logo=github&logoColor=white)](https://github.com/iradoweck/commit-radar)" 
+                                id="docDevBadgeInput"
+                                class="w-full text-xs font-mono bg-slate-50 border border-slate-200 rounded-xl pl-3 pr-20 py-2.5 text-slate-700 outline-none select-all"
+                            >
+                            <button onclick="copySnippet('docDevBadgeInput', this)" class="absolute right-1.5 top-1.5 bottom-1.5 px-3 bg-slate-900 hover:bg-black text-white text-xs font-medium rounded-lg transition cursor-pointer">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Block 2: Organization Badges -->
+                <div class="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+                        <div>
+                            <span class="font-bold text-sm text-slate-900 block">2. Organization & Lab Badges</span>
+                            <span class="text-xs text-slate-500">For engineering companies, universities, and open source collectives.</span>
+                        </div>
+                        <img src="https://img.shields.io/badge/Most_Active_GitHub_Orgs-Ranked-0f172a?style=flat&logo=github&logoColor=white" alt="Organization Badge Preview" class="h-5">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold text-slate-700 block">Markdown Code (Repository README):</label>
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                readonly 
+                                value="[![Most Active GitHub Orgs](https://img.shields.io/badge/Most_Active_GitHub_Orgs-Ranked-0f172a?style=flat&logo=github&logoColor=white)](https://github.com/iradoweck/commit-radar)" 
+                                id="docOrgBadgeInput"
+                                class="w-full text-xs font-mono bg-slate-50 border border-slate-200 rounded-xl pl-3 pr-20 py-2.5 text-slate-700 outline-none select-all"
+                            >
+                            <button onclick="copySnippet('docOrgBadgeInput', this)" class="absolute right-1.5 top-1.5 bottom-1.5 px-3 bg-slate-900 hover:bg-black text-white text-xs font-medium rounded-lg transition cursor-pointer">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Block 3: Localized Regional Badges & Unranked Fallback -->
+                <div class="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-4">
+                    <div class="pb-3 border-b border-slate-100">
+                        <span class="font-bold text-sm text-slate-900 block">3. Regional Dynamic Parameters & Unranked Fallbacks</span>
+                        <span class="text-xs text-slate-500">How to target specific countries or regions.</span>
+                    </div>
+
+                    <div class="space-y-3 text-xs text-slate-600 leading-relaxed">
+                        <p>
+                            To target a specific country or region, customize the badge label and target hash link:
+                        </p>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 font-mono text-xs text-slate-800 space-y-2 select-all">
+                            <p class="text-slate-500">// Example for Mozambique Developers</p>
+                            <p>[![Mozambique Ranking](https://img.shields.io/badge/Mozambique-Ranked_Developer-0f172a?style=flat&logo=github&logoColor=white)](https://github.com/iradoweck/commit-radar#country/mozambique)</p>
+                        </div>
+                        <p class="text-slate-500">
+                            <strong>Unranked Condition:</strong> If an account is not within the top indexed contributors, Shields.io safely renders an <em>Unranked</em> status badge rather than returning a 404 error.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Block 4: Calculation Logic Specification -->
+                <div class="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-4">
+                    <div class="pb-3 border-b border-slate-100">
+                        <span class="font-bold text-sm text-slate-900 block">4. Official Indexing & Ranking Formula</span>
+                        <span class="text-xs text-slate-500">Transparent pipeline rules implemented by our Go crawler engine.</span>
+                    </div>
+
+                    <div class="rounded-xl bg-slate-950 p-4 border border-slate-800 text-slate-200 font-mono text-xs overflow-x-auto leading-relaxed">
+                        <span class="text-slate-500">// Auditable pseudocode algorithm</span><br>
+                        <span class="text-cyan-400">githubUsers</span>.<span class="text-emerald-400">sort</span>(_.<span class="text-amber-300">followers</span>)<br>
+                        &nbsp;&nbsp;.<span class="text-emerald-400">filter</span>(_.<span class="text-amber-300">location</span> == <span class="text-pink-400">'[Country_Name]'</span>)<br>
+                        &nbsp;&nbsp;.<span class="text-emerald-400">take</span>(<span class="text-purple-400">1000</span>)<br>
+                        &nbsp;&nbsp;.<span class="text-emerald-400">sort</span>(_.<span class="text-amber-300">contributions</span>)<br>
+                        &nbsp;&nbsp;.<span class="text-emerald-400">take</span>(<span class="text-purple-400">256</span>)
+                    </div>
+
+                    <ul class="text-xs text-slate-600 list-disc list-inside space-y-1">
+                        <li>Only public contributions and commits are counted to respect private work.</li>
+                        <li>Minimum threshold of 2 followers is required to mitigate spam and bot accounts.</li>
+                        <li>Extracted safely through the official GitHub GraphQL API v4 without exceeding token quotas.</li>
+                    </ul>
+                </div>
+
+            </div>
         </section>
 
     </main>
@@ -325,9 +662,9 @@
         </div>
     </div>
 
-    <!-- MODAL 2: OPEN SOURCE TECHNOLOGIES CREDITS (NON-CLICKABLE ITEMS) -->
+    <!-- MODAL 2: OPEN SOURCE TECHNOLOGIES CREDITS (COMPACT 2-COLUMN GRID) -->
     <div id="creditsModal" class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-        <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-xl text-left space-y-4">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-2xl w-full p-6 shadow-xl text-left space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div class="flex items-center gap-2">
                     <span class="w-6 h-6 rounded-md bg-slate-100 text-slate-700 flex items-center justify-center text-xs font-mono">&lt;/&gt;</span>
@@ -340,77 +677,119 @@
                 Special gratitude to the foundational open-source technologies, languages, and libraries powering this project:
             </p>
 
-            <!-- Non-clickable tech list with Icon/Logo, Name and Version -->
-            <div class="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden bg-slate-50/50">
+            <!-- Non-clickable tech list in clean responsive 2-column grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[62vh] overflow-y-auto pr-1">
                 
                 <!-- Go -->
-                <div class="p-3 flex items-center justify-between select-none">
-                    <div class="flex items-center gap-3">
-                        <div class="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xs font-mono">
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
                             Go
                         </div>
-                        <div>
-                            <span class="font-semibold text-xs text-slate-900 block">Go (Golang)</span>
-                            <span class="text-[10px] text-slate-400">Core CLI & GraphQL data extraction</span>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">Go (Golang)</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Core CLI & GraphQL data extraction</span>
                         </div>
                     </div>
-                    <span class="font-mono text-xs text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">v1.22</span>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">v1.22</span>
                 </div>
 
                 <!-- GitHub GraphQL API -->
-                <div class="p-3 flex items-center justify-between select-none">
-                    <div class="flex items-center gap-3">
-                        <div class="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono text-xs">
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono text-xs shrink-0">
                             GH
                         </div>
-                        <div>
-                            <span class="font-semibold text-xs text-slate-900 block">GitHub GraphQL API</span>
-                            <span class="text-[10px] text-slate-400">Telemetry & contribution nodes data</span>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">GitHub GraphQL API</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Telemetry & contribution nodes</span>
                         </div>
                     </div>
-                    <span class="font-mono text-xs text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">v4</span>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">v4</span>
                 </div>
 
                 <!-- Tailwind CSS -->
-                <div class="p-3 flex items-center justify-between select-none">
-                    <div class="flex items-center gap-3">
-                        <div class="w-7 h-7 rounded-lg bg-cyan-100 text-cyan-700 flex items-center justify-center font-bold text-xs font-mono">
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-cyan-100 text-cyan-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
                             TW
                         </div>
-                        <div>
-                            <span class="font-semibold text-xs text-slate-900 block">Tailwind CSS</span>
-                            <span class="text-[10px] text-slate-400">Utility-first neutral design system</span>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">Tailwind CSS</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Utility-first neutral design system</span>
                         </div>
                     </div>
-                    <span class="font-mono text-xs text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">v3.4</span>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">v3.4</span>
                 </div>
 
                 <!-- Inter & JetBrains Mono -->
-                <div class="p-3 flex items-center justify-between select-none">
-                    <div class="flex items-center gap-3">
-                        <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs font-mono">
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
                             Aa
                         </div>
-                        <div>
-                            <span class="font-semibold text-xs text-slate-900 block">Inter & JetBrains Mono</span>
-                            <span class="text-[10px] text-slate-400">Open-source typography fonts</span>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">Inter & JetBrains Mono</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Open-source typography fonts</span>
                         </div>
                     </div>
-                    <span class="font-mono text-xs text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">Latest</span>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">Latest</span>
                 </div>
 
                 <!-- Python -->
-                <div class="p-3 flex items-center justify-between select-none">
-                    <div class="flex items-center gap-3">
-                        <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs font-mono">
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
                             Py
                         </div>
-                        <div>
-                            <span class="font-semibold text-xs text-slate-900 block">Python</span>
-                            <span class="text-[10px] text-slate-400">Automated batch & CI/CD scripting</span>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">Python</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Automated batch & CI/CD scripting</span>
                         </div>
                     </div>
-                    <span class="font-mono text-xs text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">v3.13</span>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">v3.13</span>
+                </div>
+
+                <!-- Shields.io -->
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
+                            Sh
+                        </div>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">Shields.io</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Dynamic SVG badge service</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">API</span>
+                </div>
+
+                <!-- GitHub Actions & CodeQL -->
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
+                            CI
+                        </div>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">GitHub Actions & CodeQL</span>
+                            <span class="text-[10px] text-slate-400 block truncate">DevSecOps security & CI/CD</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">v3</span>
+                </div>
+
+                <!-- Ko-fi Overlay Widget -->
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
+                            Kf
+                        </div>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">Ko-fi Overlay Widget</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Goal checkout & support widget</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">SDK</span>
                 </div>
 
             </div>
@@ -584,6 +963,7 @@
 
         function openCountryView(country) {
             document.getElementById('homeView').classList.add('hidden');
+            document.getElementById('docsView').classList.add('hidden');
             document.getElementById('countryView').classList.remove('hidden');
             
             document.getElementById('countryTitle').textContent = country.name;
@@ -594,15 +974,103 @@
 
             renderDevelopersTable(data.users);
             renderOrganizationsTable(data.organizations);
+            updateCountryAccordion(country, data);
             
             switchTab('devs');
             window.location.hash = `country/${country.id}`;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // Current active country reference
+        let currentActiveCountry = null;
+
+        function updateCountryAccordion(country, data) {
+            currentActiveCountry = country;
+            document.getElementById('accordionCountryName').textContent = country.name;
+            document.getElementById('pseudocodeLocation').textContent = `'${country.name}'`;
+
+            const encodedCountry = encodeURIComponent(country.name.replace(/\s+/g, '_'));
+            
+            // Shields.io Dynamic Badges
+            const userBadgeUrl = `https://img.shields.io/badge/${encodedCountry}-Ranked_Developer-0f172a?style=flat&logo=github&logoColor=white`;
+            const orgBadgeUrl = `https://img.shields.io/badge/${encodedCountry}-Ranked_Org-0f172a?style=flat&logo=github&logoColor=white`;
+
+            document.getElementById('countryUserBadgeImg').src = userBadgeUrl;
+            document.getElementById('countryOrgBadgeImg').src = orgBadgeUrl;
+
+            document.getElementById('countryUserBadgeInput').value = `[![${country.name} Ranking](${userBadgeUrl})](https://github.com/iradoweck/commit-radar#country/${country.id})`;
+            document.getElementById('countryOrgBadgeInput').value = `[![${country.name} Org Ranking](${orgBadgeUrl})](https://github.com/iradoweck/commit-radar#country/${country.id})`;
+        }
+
+        function toggleCountryAccordion() {
+            const body = document.getElementById('countryAccordionBody');
+            const icon = document.getElementById('accordionIcon');
+            if (body.classList.contains('hidden')) {
+                body.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                body.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        function copySnippet(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            input.select();
+            navigator.clipboard.writeText(input.value).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.classList.add('bg-emerald-600');
+                btn.classList.remove('bg-slate-900');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('bg-emerald-600');
+                    btn.classList.add('bg-slate-900');
+                }, 1800);
+            }).catch(() => {
+                input.select();
+                document.execCommand('copy');
+            });
+        }
+
+        function downloadGlobalJson() {
+            const globalData = {
+                project: "Most Active GitHub Users",
+                generated_at: new Date().toISOString(),
+                total_countries: countries.length,
+                countries: countries.map(c => ({
+                    id: c.id,
+                    name: c.name,
+                    code: c.code,
+                    users_url: `https://raw.githubusercontent.com/iradoweck/commit-radar/beta/data/countries/${c.id}.json`
+                }))
+            };
+            downloadJsonFile(globalData, 'most-active-github-users-global.json');
+        }
+
+        function downloadCurrentCountryJson() {
+            if (!currentActiveCountry) return;
+            const countryData = generateCountryData(currentActiveCountry);
+            downloadJsonFile(countryData, `github-users-${currentActiveCountry.id}.json`);
+        }
+
+        function downloadJsonFile(obj, filename) {
+            const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
         function showHomeView(e) {
             if (e) e.preventDefault();
             document.getElementById('countryView').classList.add('hidden');
+            document.getElementById('docsView').classList.add('hidden');
             document.getElementById('homeView').classList.remove('hidden');
             window.location.hash = '';
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -672,6 +1140,10 @@
 
         function handleHashRoute() {
             const hash = window.location.hash;
+            if (hash === '#documentation' || hash === '#docs') {
+                showDocsView();
+                return;
+            }
             if (hash.startsWith('#country/')) {
                 const countryId = hash.replace('#country/', '');
                 const target = countries.find(c => c.id === countryId);
@@ -704,6 +1176,20 @@
         function openAboutModal(e) {
             if (e) e.preventDefault();
             openModal('aboutModal');
+        }
+
+        function openDocsModal(e) {
+            if (e) e.preventDefault();
+            showDocsView();
+        }
+
+        function showDocsView(e) {
+            if (e) e.preventDefault();
+            document.getElementById('homeView').classList.add('hidden');
+            document.getElementById('countryView').classList.add('hidden');
+            document.getElementById('docsView').classList.remove('hidden');
+            window.location.hash = 'documentation';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function openCreditsModal() {
