@@ -31,7 +31,7 @@ func main() {
 	token := flag.String("token", LookupEnvOrString("GITHUB_TOKEN", ""), "Github auth token")
 	amount := flag.Int("amount", 256, "Amount of users to show")
 	considerNum := flag.Int("consider", 1000, "Amount of users to consider")
-	outputOpt := flag.String("output", "plain", "Output format: plain, csv")
+	outputOpt := flag.String("output", "plain", "Output format: plain, csv, yaml, json")
 	fileName := flag.String("file", "", "Output file (optional, defaults to stdout)")
 	presetName := flag.String("preset", "", "Preset (optional)")
 	listPresets := flag.Bool("list-presets", false, "List all available presets as CSV and exit immediately")
@@ -41,7 +41,7 @@ func main() {
 
 	if *listPresets {
 		fmt.Println("preset,title,definition_checksum")
-		for name, _ := range PRESETS {
+		for name := range PRESETS {
 			fmt.Printf("%v,\"%v\",%v\n", name, PresetTitle(name), PresetChecksum(name))
 		}
 		return
@@ -63,6 +63,8 @@ func main() {
 		format = output.YamlOutput
 	} else if *outputOpt == "csv" {
 		format = output.CsvOutput
+	} else if *outputOpt == "json" {
+		format = output.JsonOutput
 	} else {
 		log.Fatal("Unrecognized output format: ", *outputOpt)
 	}

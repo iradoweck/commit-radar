@@ -1,0 +1,55 @@
+name: Update Country Rankings (JSON)
+
+on:
+  schedule:
+    # Executa diariamente às 03:00 UTC sem esgotar a quota GraphQL
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    inputs:
+      preset:
+        description: 'Preset específico (ex: mozambique, brazil, angola) ou vazio para atualizar os principais'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  update-rankings:
+    name: Extract & Generate Country JSON
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Build CLI Engine
+        run: go build -o commit-radar .
+
+      - name: Generate Country JSON Datasets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p data/countries
+          if [ -n "${{ github.event.inputs.preset }}" ]; then
+            PRESETS="${{ github.event.inputs.preset }}"
+          else
+            PRESETS="mozambique angola brazil portugal cape-verde south-africa nigeria kenya rwanda"
+          fi
+
+          for preset in $PRESETS; do
+            echo "Extracting ranking for: $preset"
+            ./commit-radar --preset "$preset" --output json --file "data/countries/${preset}.json" || echo "Skipped $preset"
+          done
+
+      - name: Commit and Push Updated Datasets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/countries/*.json
+          git diff --staged --quiet || git commit -m "chore(data): update automated country rankings JSON"
+          git push

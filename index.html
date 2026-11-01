@@ -961,7 +961,22 @@
             renderCountries(filtered);
         }
 
-        function openCountryView(country) {
+        let currentActiveCountry = null;
+        let currentCountryData = null;
+
+        async function loadCountryData(country) {
+            try {
+                const res = await fetch(`data/countries/${country.id}.json`);
+                if (res.ok) {
+                    return await res.json();
+                }
+            } catch (e) {
+                // Fallback para dados demonstrativos locais caso o JSON ainda não tenha sido gerado pelo pipeline
+            }
+            return generateCountryData(country);
+        }
+
+        async function openCountryView(country) {
             document.getElementById('homeView').classList.add('hidden');
             document.getElementById('docsView').classList.add('hidden');
             document.getElementById('countryView').classList.remove('hidden');
@@ -969,7 +984,8 @@
             document.getElementById('countryTitle').textContent = country.name;
             document.getElementById('countryCodeBadge').textContent = country.code;
             
-            const data = generateCountryData(country);
+            const data = await loadCountryData(country);
+            currentCountryData = data;
             document.getElementById('countryGeneratedAt').textContent = `Updated: ${data.generated_at}`;
 
             renderDevelopersTable(data.users);
@@ -980,9 +996,6 @@
             window.location.hash = `country/${country.id}`;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        // Current active country reference
-        let currentActiveCountry = null;
 
         function updateCountryAccordion(country, data) {
             currentActiveCountry = country;
@@ -1051,7 +1064,7 @@
 
         function downloadCurrentCountryJson() {
             if (!currentActiveCountry) return;
-            const countryData = generateCountryData(currentActiveCountry);
+            const countryData = currentCountryData || generateCountryData(currentActiveCountry);
             downloadJsonFile(countryData, `github-users-${currentActiveCountry.id}.json`);
         }
 
@@ -1101,18 +1114,22 @@
             users.forEach(u => {
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-50/70 transition-colors';
+                const avatarImg = u.avatar_url 
+                    ? `<img src="${u.avatar_url}" alt="${u.login}" class="w-6 h-6 rounded-full border border-slate-200 object-cover">`
+                    : `<img src="https://github.com/${u.login}.png" onerror="this.style.display='none'" alt="${u.login}" class="w-6 h-6 rounded-full border border-slate-200 object-cover bg-slate-100">`;
                 tr.innerHTML = `
                     <td class="py-3 px-4 font-mono font-medium text-slate-400">#${u.rank}</td>
                     <td class="py-3 px-4">
-                        <div class="flex items-center gap-2">
-                            <span class="font-medium text-slate-900">${u.name}</span>
+                        <a href="https://github.com/${u.login}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 group">
+                            ${avatarImg}
+                            <span class="font-medium text-slate-900 group-hover:underline">${u.name}</span>
                             <span class="font-mono text-slate-400">@${u.login}</span>
-                        </div>
+                        </a>
                     </td>
-                    <td class="py-3 px-4 font-mono font-semibold text-slate-900">${u.contributions.toLocaleString()}</td>
-                    <td class="py-3 px-4 font-mono text-slate-600">${u.commits.toLocaleString()}</td>
-                    <td class="py-3 px-4 font-mono text-slate-600">${u.prs.toLocaleString()}</td>
-                    <td class="py-3 px-4 text-slate-500 font-mono text-[11px]">${u.company}</td>
+                    <td class="py-3 px-4 font-mono font-semibold text-slate-900">${(u.contributions || 0).toLocaleString()}</td>
+                    <td class="py-3 px-4 font-mono text-slate-600">${(u.commits || 0).toLocaleString()}</td>
+                    <td class="py-3 px-4 font-mono text-slate-600">${(u.prs || 0).toLocaleString()}</td>
+                    <td class="py-3 px-4 text-slate-500 font-mono text-[11px]">${u.company || '-'}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -1126,7 +1143,9 @@
                 tr.className = 'hover:bg-slate-50/70 transition-colors';
                 tr.innerHTML = `
                     <td class="py-3 px-4 font-mono font-medium text-slate-400">#${o.rank}</td>
-                    <td class="py-3 px-4 font-medium text-slate-900 font-mono">${o.name}</td>
+                    <td class="py-3 px-4 font-medium text-slate-900 font-mono">
+                        <a href="https://github.com/${o.name}" target="_blank" rel="noopener noreferrer" class="hover:underline">@${o.name}</a>
+                    </td>
                     <td class="py-3 px-4 font-mono text-slate-700 font-semibold">${o.members} developers</td>
                     <td class="py-3 px-4">
                         <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono bg-slate-100 text-slate-600">
