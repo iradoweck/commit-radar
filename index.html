@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Official Ko-fi Overlay Widget Script for Direct Donation Popup -->
+    <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -27,13 +29,29 @@
             from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Pulse glow for prominent Donate button */
+        @keyframes donateGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(236, 72, 153, 0); }
+        }
+
+        .donate-highlight {
+            animation: donateGlow 2.8s infinite;
+        }
+
+        /* Oculta apenas o botão flutuante redondo do Ko-fi, permitindo abrir o iframe sob demanda */
+        #kofi-widget-overlay, .floatingchat-container-wrap {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-white text-slate-900 selection:bg-slate-100 selection:text-slate-900">
 
     <!-- Global Neutral Header -->
     <header class="w-full border-b border-slate-200/80 bg-white sticky top-0 z-30">
-        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- Project Title / Brand -->
             <a href="#" onclick="showHomeView(event)" class="flex items-center gap-3 cursor-pointer group">
                 <div class="w-8 h-8 rounded-lg bg-slate-950 flex items-center justify-center text-white group-hover:bg-slate-800 transition">
                     <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="currentColor">
@@ -45,10 +63,45 @@
                 </span>
             </a>
 
-            <div class="flex items-center gap-4">
+            <!-- Header Actions: About, GitHub Repo Icon, Open PRs, Open Issues, Prominent Donate Button -->
+            <div class="flex items-center gap-3 sm:gap-4">
                 <a href="#about" onclick="openAboutModal(event)" class="text-xs font-medium text-slate-500 hover:text-slate-900 transition">
                     About
                 </a>
+
+                <!-- GitHub Repo Icon with Open PRs and Open Issues side-by-side -->
+                <div class="flex items-center gap-1.5 pl-2 border-l border-slate-200">
+                    <a href="https://github.com/iradoweck/commit-radar" target="_blank" rel="noopener noreferrer" title="View repository on GitHub" class="p-1.5 text-slate-600 hover:text-slate-950 transition rounded-lg hover:bg-slate-100">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                        </svg>
+                    </a>
+
+                    <!-- Open Pull Requests -->
+                    <a href="https://github.com/iradoweck/commit-radar/pulls" target="_blank" rel="noopener noreferrer" title="Open Pull Requests" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-50 border border-slate-200 text-[11px] font-mono text-slate-600 hover:border-slate-400 hover:text-slate-900 transition">
+                        <svg class="w-3 h-3 text-purple-600" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.5 5.396l2.323-2.323a.75.75 0 0 1 1.06 1.06l-2.853 2.854a.75.75 0 0 1-1.06 0L6.116 4.134a.75.75 0 1 1 1.06-1.06ZM11.5 8.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z"/>
+                        </svg>
+                        <span id="openPrsBadge">0</span>
+                    </a>
+
+                    <!-- Open Issues -->
+                    <a href="https://github.com/iradoweck/commit-radar/issues" target="_blank" rel="noopener noreferrer" title="Open Issues" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-50 border border-slate-200 text-[11px] font-mono text-slate-600 hover:border-slate-400 hover:text-slate-900 transition">
+                        <svg class="w-3 h-3 text-emerald-600" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/>
+                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM1.5 8a6.5 6.5 0 1 1 13 0 6.5 6.5 0 0 1-13 0Z"/>
+                        </svg>
+                        <span id="openIssuesBadge">0</span>
+                    </a>
+                </div>
+
+                <!-- Prominent Highlighted Donate Button (Opens Direct Ko-fi Value Modal) -->
+                <button onclick="triggerKofiDirect()" class="donate-highlight inline-flex items-center gap-2 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5 cursor-pointer">
+                    <svg class="w-4 h-4 fill-current text-white animate-pulse" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span>Donate</span>
+                </button>
             </div>
         </div>
     </header>
@@ -58,7 +111,6 @@
 
         <!-- VIEW 1: HOME (COUNTRY DIRECTORY HUB) -->
         <section id="homeView" class="fade-in space-y-8">
-            <!-- Hero Title -->
             <div class="text-center max-w-2xl mx-auto space-y-3 pt-4">
                 <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-950">
                     Most Active GitHub Users
@@ -109,8 +161,6 @@
 
         <!-- VIEW 2: COUNTRY RANKING VIEW (TABS: DEVS & ORGS) -->
         <section id="countryView" class="fade-in space-y-6 hidden">
-            
-            <!-- Breadcrumbs & Back Navigation -->
             <div class="flex items-center justify-between border-b border-slate-100 pb-4">
                 <button onclick="showHomeView(event)" class="inline-flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-950 transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -195,37 +245,233 @@
 
     </main>
 
-    <!-- Global Footer with Complete Heritage & Maintainership Attribution -->
-    <footer class="w-full border-t border-slate-100 py-6 px-6 text-center text-xs text-slate-500 bg-white space-y-2">
-        <p class="font-medium text-slate-700">
-            Most Active GitHub Users • Built by the community, for the community • Open Source
-        </p>
-        <p class="text-[11px] text-slate-400">
-            Redesigned & maintained by <a href="https://github.com/iradoweck" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-700 hover:text-slate-950 underline underline-offset-2 transition">iradoweck</a>. 
-            Heritage credits to <a href="https://github.com/ashkulz" target="_blank" rel="noopener noreferrer" class="text-slate-600 hover:text-slate-900 underline underline-offset-2 transition">ashkulz</a> and originally created by <a href="https://github.com/lauripiispanen" target="_blank" rel="noopener noreferrer" class="text-slate-600 hover:text-slate-900 underline underline-offset-2 transition">lauripiispanen</a>.
-        </p>
+    <!-- Global Single-Line Clean Footer -->
+    <footer class="w-full border-t border-slate-200/80 bg-white py-4 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            
+            <!-- Left Side: Brand Motto & Repositories Attributions in One Flow -->
+            <div class="flex items-center gap-2 flex-wrap justify-center md:justify-start">
+                <span class="font-semibold text-slate-900">Most Active GitHub Users</span>
+                <span class="text-slate-300">•</span>
+                <span>Built by the community, for the community</span>
+                <span class="text-slate-300">•</span>
+                <span class="text-slate-400 inline-flex items-center gap-1.5 flex-wrap">
+                    Redesigned by <a href="https://github.com/iradoweck/commit-radar" target="_blank" rel="noopener noreferrer" title="iradoweck/commit-radar" class="inline-flex items-center justify-center p-1 rounded-md text-slate-700 hover:text-slate-950 hover:bg-slate-100 transition"><svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a>, 
+                    credits to <a href="https://github.com/ashkulz/committers.top" target="_blank" rel="noopener noreferrer" title="ashkulz/committers.top" class="inline-flex items-center justify-center p-1 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition"><svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a> & <a href="https://github.com/lauripiispanen/most-active-github-users-counter" target="_blank" rel="noopener noreferrer" title="lauripiispanen/most-active-github-users-counter" class="inline-flex items-center justify-center p-1 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition"><svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a>
+                </span>
+            </div>
+
+            <!-- Right Side: Open Source Technologies Button & Support Circles -->
+            <div class="flex items-center gap-3 shrink-0">
+                <!-- Open Source Technologies Button -->
+                <button onclick="openCreditsModal()" class="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-600 hover:text-slate-950 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-lg transition shadow-2xs cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                    </svg>
+                    <span>Technologies</span>
+                </button>
+
+                <span class="text-slate-300">|</span>
+
+                <!-- Support Circles -->
+                <div class="flex items-center gap-2">
+                    <!-- GitHub Sponsors Circle -->
+                    <a href="https://github.com/sponsors/iradoweck" target="_blank" rel="noopener noreferrer" title="Sponsor on GitHub Sponsors" class="w-7 h-7 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-700 hover:text-pink-600 hover:border-pink-300 hover:bg-pink-50/50 shadow-2xs transition">
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </a>
+
+                    <!-- GitHub Profile Circle with Avatar Image -->
+                    <a href="https://github.com/iradoweck" target="_blank" rel="noopener noreferrer" title="View @iradoweck on GitHub" class="w-7 h-7 rounded-full border border-slate-300 overflow-hidden hover:border-slate-950 shadow-2xs transition shrink-0 block bg-slate-100">
+                        <img src="https://github.com/iradoweck.png" alt="iradoweck avatar" class="w-full h-full object-cover">
+                    </a>
+
+                    <!-- Ko-fi Direct Goal Donation Circle (Triggers Overlay Checkout) -->
+                    <button onclick="triggerKofiDirect()" title="Contribute directly to the Goal on Ko-fi" class="w-7 h-7 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-700 hover:text-amber-600 hover:border-amber-300 hover:bg-amber-50/50 shadow-2xs transition cursor-pointer">
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                            <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.683-2.566V15.7s2.518-.088 4.707-1.266c2.19-1.178 2.69-5.486 1.917-5.486zm-6.05 4.394c-.958.483-2.008.57-2.008.57V6.657s1.39-.17 2.502.135c1.112.306 1.769 1.488 1.82 2.443.05 1.493-.728 3.513-2.314 4.107z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
     </footer>
 
-    <!-- About Modal -->
+    <!-- MODAL 1: ABOUT MODAL -->
     <div id="aboutModal" class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
         <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 shadow-xl text-left space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <span class="font-bold text-slate-900 text-sm">About Most Active GitHub Users</span>
-                <button onclick="closeAboutModal()" class="text-slate-400 hover:text-slate-600 p-1 text-sm font-mono">✕</button>
+                <button onclick="closeModal('aboutModal')" class="text-slate-400 hover:text-slate-600 p-1 text-sm font-mono">✕</button>
             </div>
             <div class="text-xs text-slate-600 space-y-3 leading-relaxed">
                 <p>
                     <strong>Most Active GitHub Users</strong> is an initiative built by the developer community, for the developer community. It exists to celebrate open source contributions and highlight talented engineers worldwide.
                 </p>
                 <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg font-mono text-[11px] text-slate-700 space-y-1">
-                    <p>• Lead Maintainer & V3 Redesign: <a href="https://github.com/iradoweck" target="_blank" class="text-slate-900 underline font-semibold">@iradoweck</a></p>
+                    <p>• Lead Maintainer & V3 Redesign: <a href="https://github.com/iradoweck/commit-radar" target="_blank" class="text-slate-900 underline font-semibold">iradoweck/commit-radar</a></p>
                     <p>• Historical Roots: Created by @lauripiispanen, evolved by @ashkulz</p>
                     <p>• Philosophy: Open Source Software</p>
                     <p>• Data Source: Official GitHub GraphQL API</p>
                 </div>
             </div>
             <div class="pt-3 border-t border-slate-100 flex justify-end">
-                <button onclick="closeAboutModal()" class="px-4 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-black transition">
+                <button onclick="closeModal('aboutModal')" class="px-4 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-black transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: OPEN SOURCE TECHNOLOGIES CREDITS (NON-CLICKABLE ITEMS) -->
+    <div id="creditsModal" class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-xl text-left space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-md bg-slate-100 text-slate-700 flex items-center justify-center text-xs font-mono">&lt;/&gt;</span>
+                    <span class="font-bold text-slate-900 text-sm">Open Source Technologies</span>
+                </div>
+                <button onclick="closeModal('creditsModal')" class="text-slate-400 hover:text-slate-600 p-1 text-sm font-mono">✕</button>
+            </div>
+
+            <p class="text-xs text-slate-500 leading-relaxed">
+                Special gratitude to the foundational open-source technologies, languages, and libraries powering this project:
+            </p>
+
+            <!-- Non-clickable tech list with Icon/Logo, Name and Version -->
+            <div class="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden bg-slate-50/50">
+                
+                <!-- Go -->
+                <div class="p-3 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xs font-mono">
+                            Go
+                        </div>
+                        <div>
+                            <span class="font-semibold text-xs text-slate-900 block">Go (Golang)</span>
+                            <span class="text-[10px] text-slate-400">Core CLI & GraphQL data extraction</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-xs text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">v1.22</span>
+                </div>
+
+                <!-- GitHub GraphQL API -->
+                <div class="p-3 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono text-xs">
+                            GH
+                        </div>
+                        <div>
+                            <span class="font-semibold text-xs text-slate-900 block">GitHub GraphQL API</span>
+                            <span class="text-[10px] text-slate-400">Telemetry & contribution nodes data</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-xs text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">v4</span>
+                </div>
+
+                <!-- Tailwind CSS -->
+                <div class="p-3 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-cyan-100 text-cyan-700 flex items-center justify-center font-bold text-xs font-mono">
+                            TW
+                        </div>
+                        <div>
+                            <span class="font-semibold text-xs text-slate-900 block">Tailwind CSS</span>
+                            <span class="text-[10px] text-slate-400">Utility-first neutral design system</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-xs text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">v3.4</span>
+                </div>
+
+                <!-- Inter & JetBrains Mono -->
+                <div class="p-3 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs font-mono">
+                            Aa
+                        </div>
+                        <div>
+                            <span class="font-semibold text-xs text-slate-900 block">Inter & JetBrains Mono</span>
+                            <span class="text-[10px] text-slate-400">Open-source typography fonts</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-xs text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">Latest</span>
+                </div>
+
+                <!-- Python -->
+                <div class="p-3 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs font-mono">
+                            Py
+                        </div>
+                        <div>
+                            <span class="font-semibold text-xs text-slate-900 block">Python</span>
+                            <span class="text-[10px] text-slate-400">Automated batch & CI/CD scripting</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-xs text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">v3.13</span>
+                </div>
+
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 flex justify-end">
+                <button onclick="closeModal('creditsModal')" class="px-4 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-black transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: DONATION MODAL (PROJECT SUPPORT & DOMAIN GOAL) -->
+    <div id="donateModal" class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-xl text-left space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-md bg-pink-100 text-pink-700 flex items-center justify-center text-xs">
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-bold text-slate-900 text-sm block">Support the Project</span>
+                        <span class="text-[10px] text-slate-400">Custom Domain & Community Infrastructure Goal</span>
+                    </div>
+                </div>
+                <button onclick="closeModal('donateModal')" class="text-slate-400 hover:text-slate-600 p-1 text-sm font-mono">✕</button>
+            </div>
+
+            <div class="text-xs text-slate-600 space-y-3 leading-relaxed">
+                <p>
+                    Contributions go directly towards keeping this platform online, maintaining automated GraphQL indexers, and securing a dedicated domain for the community.
+                </p>
+
+                <!-- Project Goal Card -->
+                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-medium text-slate-900 text-xs">Custom Domain & Server Costs</span>
+                        <span class="font-mono text-[11px] text-pink-600 font-semibold">Active Goal</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500">
+                        Help fund our dedicated domain and high-bandwidth telemetry indexing infrastructure.
+                    </p>
+                </div>
+            </div>
+
+            <div class="space-y-2 pt-2">
+                <button onclick="openKofiDirectGoal()" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-xs transition cursor-pointer">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                        <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.683-2.566V15.7s2.518-.088 4.707-1.266c2.19-1.178 2.69-5.486 1.917-5.486zm-6.05 4.394c-.958.483-2.008.57-2.008.57V6.657s1.39-.17 2.502.135c1.112.306 1.769 1.488 1.82 2.443.05 1.493-.728 3.513-2.314 4.107z"/>
+                    </svg>
+                    <span>Contribute via Ko-fi Goal</span>
+                </button>
+                <a href="https://github.com/sponsors/iradoweck" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-medium py-2 px-4 rounded-xl transition">
+                    <span>GitHub Sponsors (Alternative)</span>
+                </a>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex justify-end">
+                <button onclick="closeModal('donateModal')" class="px-4 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-black transition">
                     Close
                 </button>
             </div>
@@ -437,28 +683,108 @@
             showHomeView();
         }
 
+        // Direct Donation trigger: Open project support modal
+        function triggerKofiDirect() {
+            openModal('donateModal');
+        }
+
+        function openKofiDirectGoal() {
+            closeModal('donateModal');
+            try {
+                if (window.kofiWidgetOverlay) {
+                    kofiWidgetOverlay.open();
+                } else {
+                    window.open('https://ko-fi.com/edmilsonmuacigarro/goal?g=0', '_blank');
+                }
+            } catch(e) {
+                window.open('https://ko-fi.com/edmilsonmuacigarro/goal?g=0', '_blank');
+            }
+        }
+
         function openAboutModal(e) {
             if (e) e.preventDefault();
-            const modal = document.getElementById('aboutModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            openModal('aboutModal');
         }
 
-        function closeAboutModal() {
-            const modal = document.getElementById('aboutModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+        function openCreditsModal() {
+            openModal('creditsModal');
         }
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        ['aboutModal', 'creditsModal', 'donateModal'].forEach(id => {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeModal(id);
+                    }
+                });
+            }
+        });
 
         window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeAboutModal();
+            if (e.key === 'Escape') {
+                ['aboutModal', 'creditsModal', 'donateModal'].forEach(closeModal);
+            }
         });
 
         window.addEventListener('hashchange', handleHashRoute);
 
+        // Fetch Live Repository PRs & Issues from GitHub API
+        async function fetchRepoLiveStats() {
+            try {
+                const res = await fetch('https://api.github.com/repos/iradoweck/commit-radar');
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('openIssuesBadge').textContent = data.open_issues_count || 0;
+                }
+                const pullsRes = await fetch('https://api.github.com/repos/iradoweck/commit-radar/pulls?state=open');
+                if (pullsRes.ok) {
+                    const pulls = await pullsRes.json();
+                    document.getElementById('openPrsBadge').textContent = pulls.length || 0;
+                }
+            } catch (err) {
+                document.getElementById('openIssuesBadge').textContent = '0';
+                document.getElementById('openPrsBadge').textContent = '0';
+            }
+        }
+
+        // Initialize Ko-fi Overlay Widget on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            try {
+                if (typeof kofiWidgetOverlay !== 'undefined') {
+                    kofiWidgetOverlay.draw('edmilsonmuacigarro', {
+                        'type': 'floating-chat',
+                        'floating-chat.donatebutton.text': 'Donate',
+                        'floating-chat.donatebutton.background-color': '#0f172a',
+                        'floating-chat.donatebutton.text-color': '#fff'
+                    });
+                    // Ocultamos o botão flutuante padrão do Ko-fi para usar o nosso botão de destaque personalizado
+                    const kofiDefaultBtn = document.getElementById('kofi-widget-overlay');
+                    if (kofiDefaultBtn) kofiDefaultBtn.style.display = 'none';
+                }
+            } catch(e) {}
+        });
+
         renderAlphabetBar();
         renderCountries(countries);
         handleHashRoute();
+        fetchRepoLiveStats();
     </script>
 </body>
 </html>
