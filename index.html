@@ -145,7 +145,7 @@
                 <!-- Generated via JS -->
             </div>
 
-            <!-- Countries Grid -->
+            <!-- Country Directory -->
             <div>
                 <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
                     <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">
@@ -156,8 +156,14 @@
                     </span>
                 </div>
 
-                <div id="countriesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                    <!-- Cards injected via JS -->
+                <!-- Continent filter pills -->
+                <div id="continentFilters" class="flex flex-wrap items-center gap-2 mb-6">
+                    <!-- Generated via JS -->
+                </div>
+
+                <!-- Sections grouped by continent (injected via JS) -->
+                <div id="countriesGrid" class="space-y-8">
+                    <!-- Sections injected via JS -->
                 </div>
             </div>
 
@@ -860,29 +866,44 @@
     <!-- Frontend Logic & State Management -->
     <script>
         const countries = [
-            { id: "angola", name: "Angola", code: "AO" },
-            { id: "argentina", name: "Argentina", code: "AR" },
-            { id: "australia", name: "Australia", code: "AU" },
-            { id: "brazil", name: "Brazil", code: "BR" },
-            { id: "canada", name: "Canada", code: "CA" },
-            { id: "cape-verde", name: "Cape Verde", code: "CV" },
-            { id: "finland", name: "Finland", code: "FI" },
-            { id: "france", name: "France", code: "FR" },
-            { id: "germany", name: "Germany", code: "DE" },
-            { id: "india", name: "India", code: "IN" },
-            { id: "japan", name: "Japan", code: "JP" },
-            { id: "kenya", name: "Kenya", code: "KE" },
-            { id: "mozambique", name: "Mozambique", code: "MZ" },
-            { id: "nigeria", name: "Nigeria", code: "NG" },
-            { id: "norway", name: "Norway", code: "NO" },
-            { id: "portugal", name: "Portugal", code: "PT" },
-            { id: "rwanda", name: "Rwanda", code: "RW" },
-            { id: "south-africa", name: "South Africa", code: "ZA" },
-            { id: "sweden", name: "Sweden", code: "SE" },
-            { id: "united-kingdom", name: "United Kingdom", code: "GB" },
-            { id: "united-states", name: "United States", code: "US" },
-            { id: "worldwide", name: "Worldwide", code: "GL" }
+            { id: "angola", name: "Angola", code: "AO", group: "africa" },
+            { id: "argentina", name: "Argentina", code: "AR", group: "south-america" },
+            { id: "australia", name: "Australia", code: "AU", group: "oceania" },
+            { id: "brazil", name: "Brazil", code: "BR", group: "south-america" },
+            { id: "canada", name: "Canada", code: "CA", group: "north-america" },
+            { id: "cape-verde", name: "Cape Verde", code: "CV", group: "africa" },
+            { id: "finland", name: "Finland", code: "FI", group: "europe" },
+            { id: "france", name: "France", code: "FR", group: "europe" },
+            { id: "germany", name: "Germany", code: "DE", group: "europe" },
+            { id: "india", name: "India", code: "IN", group: "asia" },
+            { id: "japan", name: "Japan", code: "JP", group: "asia" },
+            { id: "kenya", name: "Kenya", code: "KE", group: "africa" },
+            { id: "mozambique", name: "Mozambique", code: "MZ", group: "africa" },
+            { id: "nigeria", name: "Nigeria", code: "NG", group: "africa" },
+            { id: "norway", name: "Norway", code: "NO", group: "europe" },
+            { id: "portugal", name: "Portugal", code: "PT", group: "europe" },
+            { id: "rwanda", name: "Rwanda", code: "RW", group: "africa" },
+            { id: "south-africa", name: "South Africa", code: "ZA", group: "africa" },
+            { id: "sweden", name: "Sweden", code: "SE", group: "europe" },
+            { id: "united-kingdom", name: "United Kingdom", code: "GB", group: "europe" },
+            { id: "united-states", name: "United States", code: "US", group: "north-america" },
+            { id: "worldwide", name: "Worldwide", code: "GL", group: "global" }
         ].sort((a, b) => a.name.localeCompare(b.name));
+
+        // Ordem e metadados das secções da página inicial.
+        // O grupo "special" fica reservado para territórios e regiões fora da lista padrão de países.
+        const DIRECTORY_GROUPS = [
+            { key: 'global', label: 'Worldwide', hint: 'Global ranking across all regions' },
+            { key: 'africa', label: 'Africa' },
+            { key: 'asia', label: 'Asia' },
+            { key: 'europe', label: 'Europe' },
+            { key: 'north-america', label: 'North America' },
+            { key: 'south-america', label: 'South America' },
+            { key: 'oceania', label: 'Oceania' },
+            { key: 'special', label: 'Special Countries & Territories', hint: 'Territories, autonomous regions and other entities outside the standard country list' }
+        ];
+
+        let activeGroup = 'all';
 
         function generateCountryData(country) {
             return {
@@ -926,38 +947,146 @@
             });
         }
 
-        function renderCountries(list) {
-            const grid = document.getElementById('countriesGrid');
-            grid.innerHTML = '';
-            document.getElementById('countryCount').textContent = `${list.length} countries available`;
+        function countryCardHtml(c) {
+            return `
+                <div class="truncate">
+                    <span class="font-medium text-xs text-slate-900 group-hover:text-black block truncate">${c.name}</span>
+                    <span class="text-[10px] font-mono text-slate-400">${c.code}</span>
+                </div>
+                <svg class="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-900 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            `;
+        }
 
-            if (list.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-8 text-center text-xs text-slate-400">No matching countries found.</div>`;
-                return;
-            }
+        function buildCountryCard(c) {
+            const card = document.createElement('div');
+            card.className = 'group p-3 rounded-xl border border-slate-200/80 hover:border-slate-900 bg-white hover:shadow-xs transition cursor-pointer flex items-center justify-between';
+            card.onclick = () => openCountryView(c);
+            card.innerHTML = countryCardHtml(c);
+            return card;
+        }
 
-            list.forEach(c => {
-                const card = document.createElement('div');
-                card.className = 'group p-3 rounded-xl border border-slate-200/80 hover:border-slate-900 bg-white hover:shadow-xs transition cursor-pointer flex items-center justify-between';
-                card.onclick = () => openCountryView(c);
-                card.innerHTML = `
-                    <div class="truncate">
-                        <span class="font-medium text-xs text-slate-900 group-hover:text-black block truncate">${c.name}</span>
-                        <span class="text-[10px] font-mono text-slate-400">${c.code}</span>
+        // Cartão em destaque para o ranking global (Worldwide)
+        function buildWorldwideCard(c) {
+            const card = document.createElement('div');
+            card.className = 'group p-5 rounded-2xl bg-slate-950 hover:bg-black text-white cursor-pointer transition shadow-xs flex items-center justify-between gap-4';
+            card.onclick = () => openCountryView(c);
+            card.innerHTML = `
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
                     </div>
-                    <svg class="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-900 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                `;
-                grid.appendChild(card);
+                    <div>
+                        <span class="font-semibold text-sm block">${c.name}</span>
+                        <span class="text-xs text-slate-400">Global ranking across all regions</span>
+                    </div>
+                </div>
+                <svg class="w-4 h-4 text-slate-500 group-hover:text-white transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            `;
+            return card;
+        }
+
+        function buildSectionHeader(group, count) {
+            const header = document.createElement('div');
+            header.className = 'flex items-center gap-3 mb-3';
+            header.innerHTML = `
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-700">${group.label}</span>
+                <span class="text-[10px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">${count}</span>
+                <span class="flex-1 h-px bg-slate-100"></span>
+                ${group.hint ? `<span class="hidden md:inline text-[10px] text-slate-400">${group.hint}</span>` : ''}
+            `;
+            return header;
+        }
+
+        function renderContinentFilters() {
+            const wrap = document.getElementById('continentFilters');
+            wrap.innerHTML = '';
+
+            const pills = [{ key: 'all', label: 'All', count: countries.length }].concat(
+                DIRECTORY_GROUPS.map(g => ({
+                    key: g.key,
+                    label: g.key === 'special' ? 'Special' : g.label,
+                    count: countries.filter(c => c.group === g.key).length
+                }))
+            ).filter(p => p.key === 'all' || p.key === 'special' || p.count > 0);
+
+            pills.forEach(p => {
+                const btn = document.createElement('button');
+                const isActive = activeGroup === p.key;
+                btn.className = isActive
+                    ? 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-900 text-white transition cursor-pointer'
+                    : 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:border-slate-400 hover:text-slate-900 transition cursor-pointer';
+                btn.innerHTML = `<span>${p.label}</span><span class="font-mono text-[10px] ${isActive ? 'text-slate-300' : 'text-slate-400'}">${p.count}</span>`;
+                btn.onclick = () => {
+                    activeGroup = p.key;
+                    renderContinentFilters();
+                    filterCountries();
+                };
+                wrap.appendChild(btn);
             });
+        }
+
+        function renderCountries(list) {
+            const container = document.getElementById('countriesGrid');
+            container.innerHTML = '';
+
+            const hasSearch = document.getElementById('countrySearch').value.trim() !== '';
+            const countryTotal = list.filter(c => c.group !== 'global' && c.group !== 'special').length;
+            document.getElementById('countryCount').textContent = `${countryTotal} ${countryTotal === 1 ? 'country' : 'countries'} available`;
+
+            let rendered = 0;
+            DIRECTORY_GROUPS.forEach(group => {
+                if (activeGroup !== 'all' && activeGroup !== group.key) return;
+
+                const items = list.filter(c => c.group === group.key);
+                const isSpecialPlaceholder = group.key === 'special' && items.length === 0 && !hasSearch;
+
+                // Esconde secções vazias, exceto o espaço reservado para territórios especiais
+                if (items.length === 0 && !isSpecialPlaceholder) return;
+
+                const section = document.createElement('div');
+                section.appendChild(buildSectionHeader(group, items.length));
+
+                if (isSpecialPlaceholder) {
+                    const empty = document.createElement('div');
+                    empty.className = 'rounded-xl border border-dashed border-slate-200 py-6 px-4 text-center text-xs text-slate-400';
+                    empty.textContent = 'No special countries or territories listed yet.';
+                    section.appendChild(empty);
+                } else if (group.key === 'global') {
+                    const grid = document.createElement('div');
+                    grid.className = 'grid grid-cols-1 gap-3';
+                    items.forEach(c => grid.appendChild(buildWorldwideCard(c)));
+                    section.appendChild(grid);
+                } else {
+                    const grid = document.createElement('div');
+                    grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3';
+                    items.forEach(c => grid.appendChild(buildCountryCard(c)));
+                    section.appendChild(grid);
+                }
+
+                container.appendChild(section);
+                rendered += 1;
+            });
+
+            if (rendered === 0) {
+                container.innerHTML = `<div class="py-8 text-center text-xs text-slate-400">No matching countries found.</div>`;
+            }
         }
 
         function filterCountries() {
             const term = document.getElementById('countrySearch').value.toLowerCase().trim();
-            const filtered = countries.filter(c => 
-                c.name.toLowerCase().includes(term) || c.code.toLowerCase().includes(term)
-            );
+            const filtered = countries.filter(c => {
+                if (term.length === 1) {
+                    // Uma única letra vem da barra A-Z: filtra pela inicial do nome
+                    return c.name.toLowerCase().startsWith(term);
+                }
+                return c.name.toLowerCase().includes(term) || c.code.toLowerCase().includes(term);
+            });
             renderCountries(filtered);
         }
 
@@ -1287,6 +1416,7 @@
         });
 
         renderAlphabetBar();
+        renderContinentFilters();
         renderCountries(countries);
         handleHashRoute();
         fetchRepoLiveStats();
