@@ -2,12 +2,12 @@ name: Update Country Rankings (JSON)
 
 on:
   schedule:
-    # Executa diariamente às 03:00 UTC sem esgotar a quota GraphQL
-    - cron: '0 3 * * *'
+    # Executa diariamente às 23:00 UTC (01:00 AM no horário de Moçambique / CAT - UTC+2)
+    - cron: '0 23 * * *'
   workflow_dispatch:
     inputs:
       preset:
-        description: 'Preset específico (ex: mozambique, brazil, angola) ou vazio para atualizar os principais'
+        description: 'Preset específico ou vazio para atualizar todos os 34 do catálogo'
         required: false
         default: ''
 
@@ -38,7 +38,7 @@ jobs:
           if [ -n "${{ github.event.inputs.preset }}" ]; then
             PRESETS="${{ github.event.inputs.preset }}"
           else
-            PRESETS="mozambique angola brazil portugal cape-verde south-africa nigeria kenya rwanda"
+            PRESETS="worldwide mozambique angola nigeria south-africa kenya united-states canada mexico the-bahamas panama brazil argentina colombia venezuela uruguay netherlands portugal germany russia france china india japan south-korea saudi-arabia australia new-zealand papua-new-guinea hong-kong macau taiwan kosovo kurdistan"
           fi
 
           for preset in $PRESETS; do
