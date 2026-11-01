@@ -1409,15 +1409,22 @@
         // Fetch Live Repository PRs & Issues from GitHub API
         async function fetchRepoLiveStats() {
             try {
-                const res = await fetch('https://api.github.com/repos/iradoweck/commit-radar');
-                if (res.ok) {
-                    const data = await res.json();
-                    document.getElementById('openIssuesBadge').textContent = data.open_issues_count || 0;
-                }
+                // Fetch PRs count first
+                let openPrsCount = 0;
                 const pullsRes = await fetch('https://api.github.com/repos/iradoweck/commit-radar/pulls?state=open');
                 if (pullsRes.ok) {
                     const pulls = await pullsRes.json();
-                    document.getElementById('openPrsBadge').textContent = pulls.length || 0;
+                    openPrsCount = pulls.length || 0;
+                    document.getElementById('openPrsBadge').textContent = openPrsCount;
+                }
+
+                // GitHub API returns PRs + Issues in `open_issues_count`. Subtract PRs to get real issues count:
+                const res = await fetch('https://api.github.com/repos/iradoweck/commit-radar');
+                if (res.ok) {
+                    const data = await res.json();
+                    const totalCombined = data.open_issues_count || 0;
+                    const realIssuesCount = Math.max(0, totalCombined - openPrsCount);
+                    document.getElementById('openIssuesBadge').textContent = realIssuesCount;
                 }
             } catch (err) {
                 document.getElementById('openIssuesBadge').textContent = '0';
