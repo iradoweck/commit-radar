@@ -265,6 +265,7 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <div class="flex items-center gap-3">
+                        <img id="countryHeaderFlag" src="" alt="Flag" class="w-8 h-8 rounded-full shadow-2xs shrink-0 object-cover hidden">
                         <h2 id="countryTitle" class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-950">
                             Country Name
                         </h2>
@@ -867,54 +868,54 @@
     <script>
         const countries = [
             // Global Scope
-            { id: "worldwide", name: "Worldwide", code: "GL", group: "global" },
+            { id: "worldwide", name: "Worldwide", code: "GL", flag: "un", group: "global" },
 
             // África (5)
-            { id: "mozambique", name: "Mozambique", code: "MZ", group: "africa" },
-            { id: "angola", name: "Angola", code: "AO", group: "africa" },
-            { id: "nigeria", name: "Nigeria", code: "NG", group: "africa" },
-            { id: "south-africa", name: "South Africa", code: "ZA", group: "africa" },
-            { id: "kenya", name: "Kenya", code: "KE", group: "africa" },
+            { id: "mozambique", name: "Mozambique", code: "MZ", flag: "mz", group: "africa" },
+            { id: "angola", name: "Angola", code: "AO", flag: "ao", group: "africa" },
+            { id: "nigeria", name: "Nigeria", code: "NG", flag: "ng", group: "africa" },
+            { id: "south-africa", name: "South Africa", code: "ZA", flag: "za", group: "africa" },
+            { id: "kenya", name: "Kenya", code: "KE", flag: "ke", group: "africa" },
 
             // América do Norte & Caribe (5)
-            { id: "united-states", name: "United States", code: "US", group: "north-america" },
-            { id: "canada", name: "Canada", code: "CA", group: "north-america" },
-            { id: "mexico", name: "Mexico", code: "MX", group: "north-america" },
-            { id: "the-bahamas", name: "The Bahamas", code: "BS", group: "north-america" },
-            { id: "panama", name: "Panama", code: "PA", group: "north-america" },
+            { id: "united-states", name: "United States", code: "US", flag: "us", group: "north-america" },
+            { id: "canada", name: "Canada", code: "CA", flag: "ca", group: "north-america" },
+            { id: "mexico", name: "Mexico", code: "MX", flag: "mx", group: "north-america" },
+            { id: "the-bahamas", name: "The Bahamas", code: "BS", flag: "bs", group: "north-america" },
+            { id: "panama", name: "Panama", code: "PA", flag: "pa", group: "north-america" },
 
             // América do Sul (5)
-            { id: "brazil", name: "Brazil", code: "BR", group: "south-america" },
-            { id: "argentina", name: "Argentina", code: "AR", group: "south-america" },
-            { id: "colombia", name: "Colombia", code: "CO", group: "south-america" },
-            { id: "venezuela", name: "Venezuela", code: "VE", group: "south-america" },
-            { id: "uruguay", name: "Uruguay", code: "UY", group: "south-america" },
+            { id: "brazil", name: "Brazil", code: "BR", flag: "br", group: "south-america" },
+            { id: "argentina", name: "Argentina", code: "AR", flag: "ar", group: "south-america" },
+            { id: "colombia", name: "Colombia", code: "CO", flag: "co", group: "south-america" },
+            { id: "venezuela", name: "Venezuela", code: "VE", flag: "ve", group: "south-america" },
+            { id: "uruguay", name: "Uruguay", code: "UY", flag: "uy", group: "south-america" },
 
             // Europa (5)
-            { id: "netherlands", name: "Netherlands", code: "NL", group: "europe" },
-            { id: "portugal", name: "Portugal", code: "PT", group: "europe" },
-            { id: "germany", name: "Germany", code: "DE", group: "europe" },
-            { id: "russia", name: "Russia", code: "RU", group: "europe" },
-            { id: "france", name: "France", code: "FR", group: "europe" },
+            { id: "netherlands", name: "Netherlands", code: "NL", flag: "nl", group: "europe" },
+            { id: "portugal", name: "Portugal", code: "PT", flag: "pt", group: "europe" },
+            { id: "germany", name: "Germany", code: "DE", flag: "de", group: "europe" },
+            { id: "russia", name: "Russia", code: "RU", flag: "ru", group: "europe" },
+            { id: "france", name: "France", code: "FR", flag: "fr", group: "europe" },
 
             // Ásia (5)
-            { id: "china", name: "China", code: "CN", group: "asia" },
-            { id: "india", name: "India", code: "IN", group: "asia" },
-            { id: "japan", name: "Japan", code: "JP", group: "asia" },
-            { id: "south-korea", name: "Republic of Korea", code: "KR", group: "asia" },
-            { id: "saudi-arabia", name: "Saudi Arabia", code: "SA", group: "asia" },
+            { id: "china", name: "China", code: "CN", flag: "cn", group: "asia" },
+            { id: "india", name: "India", code: "IN", flag: "in", group: "asia" },
+            { id: "japan", name: "Japan", code: "JP", flag: "jp", group: "asia" },
+            { id: "south-korea", name: "Republic of Korea", code: "KR", flag: "kr", group: "asia" },
+            { id: "saudi-arabia", name: "Saudi Arabia", code: "SA", flag: "sa", group: "asia" },
 
             // Oceânia (3)
-            { id: "australia", name: "Australia", code: "AU", group: "oceania" },
-            { id: "new-zealand", name: "New Zealand", code: "NZ", group: "oceania" },
-            { id: "papua-new-guinea", name: "Papua New Guinea", code: "PG", group: "oceania" },
+            { id: "australia", name: "Australia", code: "AU", flag: "au", group: "oceania" },
+            { id: "new-zealand", name: "New Zealand", code: "NZ", flag: "nz", group: "oceania" },
+            { id: "papua-new-guinea", name: "Papua New Guinea", code: "PG", flag: "pg", group: "oceania" },
 
             // Países & Territórios Especiais (5)
-            { id: "hong-kong", name: "Hong Kong", code: "HK", group: "special" },
-            { id: "macau", name: "Macau", code: "MO", group: "special" },
-            { id: "taiwan", name: "Taiwan", code: "TW", group: "special" },
-            { id: "kosovo", name: "Kosovo", code: "XK", group: "special" },
-            { id: "kurdistan", name: "Kurdistan", code: "KRD", group: "special" }
+            { id: "hong-kong", name: "Hong Kong", code: "HK", flag: "hk", group: "special" },
+            { id: "macau", name: "Macau", code: "MO", flag: "mo", group: "special" },
+            { id: "taiwan", name: "Taiwan", code: "TW", flag: "tw", group: "special" },
+            { id: "kosovo", name: "Kosovo", code: "XK", flag: "xk", group: "special" },
+            { id: "kurdistan", name: "Kurdistan", code: "KRD", flag: "iq-kr", group: "special" }
         ].sort((a, b) => a.name.localeCompare(b.name));
 
         // Ordem e metadados das secções da página inicial.
@@ -974,13 +975,29 @@
             });
         }
 
+        function getFlagUrl(c) {
+            if (!c.flag) return null;
+            if (c.flag.includes('/')) {
+                return `https://hatscripts.github.io/circle-flags/flags/${c.flag}.svg`;
+            }
+            return `https://hatscripts.github.io/circle-flags/flags/${c.flag}.svg`;
+        }
+
         function countryCardHtml(c) {
+            const flagUrl = getFlagUrl(c);
+            const flagImg = flagUrl 
+                ? `<img src="${flagUrl}" alt="${c.name} Flag" class="w-6 h-6 rounded-full shrink-0 shadow-2xs object-cover" loading="lazy">`
+                : '';
+
             return `
-                <div class="truncate">
-                    <span class="font-medium text-xs text-slate-900 group-hover:text-black block truncate">${c.name}</span>
-                    <span class="text-[10px] font-mono text-slate-400">${c.code}</span>
+                <div class="flex items-center gap-2.5 truncate min-w-0">
+                    ${flagImg}
+                    <div class="truncate">
+                        <span class="font-medium text-xs text-slate-900 group-hover:text-black block truncate">${c.name}</span>
+                        <span class="text-[10px] font-mono text-slate-400">${c.code}</span>
+                    </div>
                 </div>
-                <svg class="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-900 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-900 transition shrink-0 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
             `;
@@ -988,7 +1005,7 @@
 
         function buildCountryCard(c) {
             const card = document.createElement('div');
-            card.className = 'group p-3 rounded-xl border border-slate-200/80 hover:border-slate-900 bg-white hover:shadow-xs transition cursor-pointer flex items-center justify-between';
+            card.className = 'group p-3 rounded-xl border border-slate-200/80 hover:border-slate-900 bg-white hover:shadow-xs transition cursor-pointer flex items-center justify-between gap-2';
             card.onclick = () => openCountryView(c);
             card.innerHTML = countryCardHtml(c);
             return card;
@@ -999,12 +1016,11 @@
             const card = document.createElement('div');
             card.className = 'group p-5 rounded-2xl bg-slate-950 hover:bg-black text-white cursor-pointer transition shadow-xs flex items-center justify-between gap-4';
             card.onclick = () => openCountryView(c);
+            const flagUrl = getFlagUrl(c);
             card.innerHTML = `
                 <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
+                    <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shrink-0 border border-white/20 bg-white/10 shadow-inner">
+                        <img src="${flagUrl}" alt="Worldwide Flag" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://hatscripts.github.io/circle-flags/flags/un.svg';">
                     </div>
                     <div>
                         <span class="font-semibold text-sm block">${c.name}</span>
@@ -1139,6 +1155,16 @@
             
             document.getElementById('countryTitle').textContent = country.name;
             document.getElementById('countryCodeBadge').textContent = country.code;
+
+            const flagUrl = getFlagUrl(country);
+            const flagEl = document.getElementById('countryHeaderFlag');
+            if (flagUrl) {
+                flagEl.src = flagUrl;
+                flagEl.alt = `${country.name} Flag`;
+                flagEl.classList.remove('hidden');
+            } else {
+                flagEl.classList.add('hidden');
+            }
             
             const data = await loadCountryData(country);
             currentCountryData = data;
