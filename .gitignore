@@ -8,3 +8,7 @@ _data/locations/*.yml
 # Local environment / IDE
 .DS_Store
 Thumbs.db
+
+# Workflows antigos...
+/museum-code/ashkulz-v2-upstream/.github
+/museum-code/laureles-museum/.github
