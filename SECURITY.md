@@ -10,10 +10,10 @@
 
 ## Reporting a Vulnerability
 
-We take the security of **Commit Radar** seriously. If you believe you have found a security vulnerability in this project:
+We take the security of **Commit Rank** seriously. If you believe you have found a security vulnerability in this project:
 
 1. **Do not** report security vulnerabilities through public GitHub issues or discussions.
-2. Please report the issue privately through [GitHub Private Vulnerability Reporting](https://github.com/iradoweck/commit-radar/security/advisories/new) or send an email to **security@zedecks.com**.
+2. Please report the issue privately through [GitHub Private Vulnerability Reporting](https://github.com/iradoweck/commit-rank/security/advisories/new) or send an email to **security@zedecks.com**.
 3. Please include detailed steps to reproduce the vulnerability, including any relevant code snippets or payloads.
 
 ### What to Expect:

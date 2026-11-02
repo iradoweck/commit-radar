@@ -624,13 +624,21 @@ var PRESETS = map[string]QueryPreset{
 }
 
 func Preset(name string) QueryPreset {
-	return PRESETS[name]
+	if p, ok := PRESETS[name]; ok {
+		return p
+	}
+	withSpaces := strings.ReplaceAll(name, "-", " ")
+	if p, ok := PRESETS[withSpaces]; ok {
+		return p
+	}
+	return QueryPreset{}
 }
 
 func PresetTitle(name string) string {
 	title := Preset(name).title
 	if title == "" {
-		title = strings.Title(name)
+		withSpaces := strings.ReplaceAll(name, "-", " ")
+		title = strings.Title(withSpaces)
 	}
 	return title
 }
