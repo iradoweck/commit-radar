@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Most Active GitHub Users • Coming Soon</title>
+    <title>Most Active GitHub Users</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Official Ko-fi Overlay Widget Script for Direct Donation Popup -->
+    <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -19,251 +21,1465 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Subtle typing animations */
-        @keyframes typingBody {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-2px); }
-        }
-
-        @keyframes pawLeft {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
-        }
-
-        @keyframes pawRight {
-            0%, 100% { transform: translateY(-3px); }
-            50% { transform: translateY(0); }
-        }
-
-        @keyframes cursorBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        .coder-body {
-            animation: typingBody 1.2s ease-in-out infinite;
-        }
-
-        .coder-paw-l {
-            animation: pawLeft 0.28s ease-in-out infinite;
-        }
-
-        .coder-paw-r {
-            animation: pawRight 0.3s ease-in-out infinite;
-        }
-
-        .term-cursor {
-            animation: cursorBlink 0.9s infinite;
-        }
-
-        .log-line {
-            animation: fadeIn 0.4s ease-out;
+        .fade-in {
+            animation: fadeIn 0.25s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
+            from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Pulse glow for prominent Donate button */
+        @keyframes donateGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(236, 72, 153, 0); }
+        }
+
+        .donate-highlight {
+            animation: donateGlow 2.8s infinite;
+        }
+
+        /* Oculta apenas o botão flutuante redondo do Ko-fi, permitindo abrir o iframe sob demanda */
+        #kofi-widget-overlay, .floatingchat-container-wrap {
+            display: none !important;
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-white text-slate-900 selection:bg-slate-100 selection:text-slate-900">
 
-    <!-- Clean & Neutral Global Header -->
-    <header class="w-full border-b border-slate-100 py-4 px-6 sm:px-12 bg-white sticky top-0 z-30">
-        <div class="max-w-4xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-7 h-7 rounded-lg bg-slate-950 flex items-center justify-center text-white">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+    <!-- Global Neutral Header -->
+    <header class="w-full border-b border-slate-200/80 bg-white sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- Project Title / Brand -->
+            <a href="#" onclick="showHomeView(event)" class="flex items-center gap-3 cursor-pointer group">
+                <div class="w-8 h-8 rounded-lg bg-slate-950 flex items-center justify-center text-white group-hover:bg-slate-800 transition">
+                    <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="currentColor">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
                     </svg>
                 </div>
-                <span class="font-semibold text-slate-900 text-sm tracking-tight">
+                <span class="font-semibold text-slate-900 tracking-tight text-sm">
                     Most Active GitHub Users
                 </span>
-            </div>
+            </a>
 
-            <!-- Navigation: Tag & About trigger -->
-            <div class="flex items-center gap-4">
-                <a href="#about" onclick="openAboutModal()" class="text-xs font-medium text-slate-500 hover:text-slate-900 transition">
+            <!-- Header Actions: About, Docs (Badges), GitHub Repo Icon, Open PRs, Open Issues, Prominent Donate Button -->
+            <div class="flex items-center gap-3 sm:gap-4">
+                <a href="#about" onclick="openAboutModal(event)" class="text-xs font-medium text-slate-500 hover:text-slate-900 transition">
                     About
                 </a>
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-50 border border-slate-200 text-xs font-mono text-slate-600">
-                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                    <span>v3.0.0-rc</span>
-                </span>
+                <a href="#docs" onclick="openDocsModal(event)" class="text-xs font-medium text-slate-500 hover:text-slate-900 transition flex items-center gap-1">
+                    <span>Docs</span>
+                    <span class="text-[9px] font-mono text-purple-700 bg-purple-50 border border-purple-200 px-1 py-0.2 rounded">Badges</span>
+                </a>
+
+                <!-- GitHub Repo Icon with Open PRs and Open Issues side-by-side -->
+                <div class="flex items-center gap-1.5 pl-2 border-l border-slate-200">
+                    <a href="https://github.com/iradoweck/commit-rank" target="_blank" rel="noopener noreferrer" title="View repository on GitHub" class="p-1.5 text-slate-600 hover:text-slate-950 transition rounded-lg hover:bg-slate-100">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                        </svg>
+                    </a>
+
+                    <!-- Open Pull Requests -->
+                    <a href="https://github.com/iradoweck/commit-rank/pulls" target="_blank" rel="noopener noreferrer" title="Open Pull Requests" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-50 border border-slate-200 text-[11px] font-mono text-slate-600 hover:border-slate-400 hover:text-slate-900 transition">
+                        <svg class="w-3 h-3 text-purple-600" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.5 5.396l2.323-2.323a.75.75 0 0 1 1.06 1.06l-2.853 2.854a.75.75 0 0 1-1.06 0L6.116 4.134a.75.75 0 1 1 1.06-1.06ZM11.5 8.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z"/>
+                        </svg>
+                        <span id="openPrsBadge">0</span>
+                    </a>
+
+                    <!-- Open Issues -->
+                    <a href="https://github.com/iradoweck/commit-rank/issues" target="_blank" rel="noopener noreferrer" title="Open Issues" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-50 border border-slate-200 text-[11px] font-mono text-slate-600 hover:border-slate-400 hover:text-slate-900 transition">
+                        <svg class="w-3 h-3 text-emerald-600" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/>
+                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM1.5 8a6.5 6.5 0 1 1 13 0 6.5 6.5 0 0 1-13 0Z"/>
+                        </svg>
+                        <span id="openIssuesBadge">0</span>
+                    </a>
+                </div>
+
+                <!-- Prominent Highlighted Donate Button (Opens Direct Ko-fi Value Modal) -->
+                <button onclick="triggerKofiDirect()" class="donate-highlight inline-flex items-center gap-2 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5 cursor-pointer">
+                    <svg class="w-4 h-4 fill-current text-white animate-pulse" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span>Donate</span>
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Center Hero Section: Octocat Coding + Coming Soon -->
-    <main class="flex-1 flex flex-col items-center justify-center px-6 py-12 max-w-xl mx-auto w-full text-center">
-        
-        <!-- Status Tag Badge -->
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-medium mb-6">
-            <span class="w-1.5 h-1.5 rounded-full bg-slate-900"></span>
-            <span>Coming Soon</span>
-        </div>
+    <!-- Main Container -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-6 py-8">
 
-        <!-- Central Coding Octocat Illustration -->
-        <div class="relative w-64 h-56 mx-auto mb-6 flex flex-col items-center justify-center">
-            
-            <div class="coder-body flex flex-col items-center">
-                <!-- Octocat Head -->
-                <svg class="w-24 h-24 text-slate-900 drop-shadow-sm z-10" viewBox="0 0 24 24" fill="currentColor">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-                </svg>
+        <!-- VIEW 1: HOME (COUNTRY DIRECTORY HUB) -->
+        <section id="homeView" class="fade-in space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-3 pt-4">
+                <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-950">
+                    Most Active GitHub Users
+                </h1>
+                <p class="text-sm sm:text-base text-slate-500 font-normal leading-relaxed">
+                    Explore developers and engineering organizations ranked by open-source contributions. Select a country below to view the rankings.
+                </p>
+            </div>
 
-                <!-- Typing Paws -->
-                <div class="flex justify-between w-20 -mt-2 z-20 px-3">
-                    <span class="coder-paw-l w-3 h-4 bg-slate-900 rounded-full"></span>
-                    <span class="coder-paw-r w-3 h-4 bg-slate-900 rounded-full"></span>
+            <!-- Instant Search Bar -->
+            <div class="max-w-xl mx-auto relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+                <input 
+                    type="text" 
+                    id="countrySearch" 
+                    placeholder="Search country by name or code (e.g. Mozambique, Brazil, Angola, UK)..."
+                    class="w-full pl-10 pr-4 py-2.5 text-sm bg-white border border-slate-200 rounded-xl outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition shadow-xs"
+                    oninput="filterCountries()"
+                >
+            </div>
+
+            <!-- A-Z Alphabet Quick Bar -->
+            <div id="alphabetBar" class="flex flex-wrap items-center justify-center gap-1 text-xs font-mono text-slate-500 max-w-2xl mx-auto py-1">
+                <!-- Generated via JS -->
+            </div>
+
+            <!-- Country Directory -->
+            <div>
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        Country Directory
+                    </span>
+                    <span id="countryCount" class="text-xs font-mono text-slate-400">
+                        Available presets
+                    </span>
                 </div>
 
-                <!-- Minimalist Laptop -->
-                <div class="relative -mt-2 z-10 flex flex-col items-center">
-                    <div class="w-32 h-18 bg-slate-950 rounded-t-lg border border-slate-700 p-2 flex flex-col justify-between shadow-md">
-                        <div class="flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
-                            <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
-                            <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
+                <!-- Continent filter pills -->
+                <div id="continentFilters" class="flex flex-wrap items-center gap-2 mb-6">
+                    <!-- Generated via JS -->
+                </div>
+
+                <!-- Sections grouped by continent (injected via JS) -->
+                <div id="countriesGrid" class="space-y-8">
+                    <!-- Sections injected via JS -->
+                </div>
+            </div>
+
+            <!-- Home Section: Developers & Open Data Card -->
+            <div class="mt-12 p-6 rounded-2xl border border-slate-200/80 bg-slate-50/60 shadow-xs space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="font-bold text-slate-900 text-sm">Developers & Open Data</span>
                         </div>
-                        <div class="font-mono text-[9px] text-slate-300 text-left leading-tight py-1">
-                            <p class="text-emerald-400 font-semibold">$ go run main.go</p>
-                            <p class="text-slate-400">crawling... <span class="term-cursor text-slate-100">_</span></p>
+                        <p class="text-xs text-slate-500 mt-0.5">
+                            Machine-readable data archives and embeddable dynamic badges for your GitHub profiles.
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-2 shrink-0">
+                        <!-- Combined Global JSON Download Button -->
+                        <button onclick="downloadGlobalJson()" class="inline-flex items-center gap-2 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-950 px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition shadow-2xs cursor-pointer">
+                            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                            </svg>
+                            <span>Download Global JSON</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Global Badges Integration Section -->
+                <div class="space-y-4">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-900 block">Embed Badges in your GitHub README</span>
+                        <p class="text-[11px] text-slate-500">
+                            Display your verified ranking status using Shields.io dynamic badges directly on your profile.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Badge 1: User Badge -->
+                        <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2.5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-medium text-slate-700">Developer Profile Badge</span>
+                                <img src="https://img.shields.io/badge/Most_Active_GitHub_Users-Top_Contributor-0f172a?style=flat&logo=github&logoColor=white" alt="Developer Badge Preview" class="h-5">
+                            </div>
+                            <div class="relative">
+                                <input 
+                                    type="text" 
+                                    readonly 
+                                    value="[![Most Active GitHub Users](https://img.shields.io/badge/Most_Active_GitHub_Users-Top_Contributor-0f172a?style=flat&logo=github&logoColor=white)](https://github.com/iradoweck/commit-rank)" 
+                                    id="homeDevBadgeInput"
+                                    class="w-full text-[11px] font-mono bg-slate-50 border border-slate-200 rounded-lg pl-2.5 pr-16 py-1.5 text-slate-600 outline-none select-all"
+                                >
+                                <button onclick="copySnippet('homeDevBadgeInput', this)" class="absolute right-1 top-1 bottom-1 px-2.5 bg-slate-900 hover:bg-black text-white text-[10px] font-medium rounded-md transition cursor-pointer">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Badge 2: Org Badge -->
+                        <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2.5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-medium text-slate-700">Organization Badge</span>
+                                <img src="https://img.shields.io/badge/Most_Active_GitHub_Orgs-Ranked-0f172a?style=flat&logo=github&logoColor=white" alt="Organization Badge Preview" class="h-5">
+                            </div>
+                            <div class="relative">
+                                <input 
+                                    type="text" 
+                                    readonly 
+                                    value="[![Most Active GitHub Orgs](https://img.shields.io/badge/Most_Active_GitHub_Orgs-Ranked-0f172a?style=flat&logo=github&logoColor=white)](https://github.com/iradoweck/commit-rank)" 
+                                    id="homeOrgBadgeInput"
+                                    class="w-full text-[11px] font-mono bg-slate-50 border border-slate-200 rounded-lg pl-2.5 pr-16 py-1.5 text-slate-600 outline-none select-all"
+                                >
+                                <button onclick="copySnippet('homeOrgBadgeInput', this)" class="absolute right-1 top-1 bottom-1 px-2.5 bg-slate-900 hover:bg-black text-white text-[10px] font-medium rounded-md transition cursor-pointer">
+                                    Copy
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="w-40 h-2 bg-slate-200 rounded-b shadow-sm border-t border-slate-300"></div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- VIEW 2: COUNTRY RANKING VIEW (TABS: DEVS & ORGS) -->
+        <section id="countryView" class="fade-in space-y-6 hidden">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <button onclick="showHomeView(event)" class="inline-flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-950 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span>Back to all countries</span>
+                </button>
+
+                <div class="flex items-center gap-2 text-xs font-mono text-slate-400">
+                    <span id="countryGeneratedAt">updated recently</span>
                 </div>
             </div>
 
-            <!-- Floor Shadow -->
-            <div class="w-32 h-2.5 bg-slate-200/60 rounded-full blur-[1px] mt-2"></div>
-        </div>
+            <!-- Country Header Details -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <img id="countryHeaderFlag" src="" alt="Flag" class="w-8 h-8 rounded-full shadow-2xs shrink-0 object-cover hidden">
+                        <h2 id="countryTitle" class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-950">
+                            Country Name
+                        </h2>
+                        <span id="countryCodeBadge" class="text-xs font-mono uppercase bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">
+                            CODE
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-1">
+                        Ranked contributions, commits, pull requests, and verified organizations.
+                    </p>
+                </div>
 
-        <!-- Main Heading -->
-        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-950 mb-3">
-            Most Active GitHub Users
-        </h1>
-
-        <!-- Context & Value Proposition -->
-        <p class="text-sm sm:text-base text-slate-500 font-normal leading-relaxed mb-6 max-w-md mx-auto">
-            A real-time global telemetry platform tracking open-source commits, pull requests, and contributions worldwide.
-        </p>
-
-        <!-- Live Terminal Stream Box -->
-        <div class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-left font-mono text-xs shadow-xs">
-            <div class="flex items-center justify-between text-[11px] text-slate-400 border-b border-slate-200/70 pb-2 mb-2.5">
-                <span>repository telemetry</span>
-                <span class="flex items-center gap-1 text-emerald-600 font-semibold">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                    indexing
-                </span>
+                <!-- Tabs: Developers vs Organizations -->
+                <div class="inline-flex p-1 bg-slate-100 rounded-xl text-xs font-medium border border-slate-200/60">
+                    <button id="tabDevsBtn" onclick="switchTab('devs')" class="px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition">
+                        Developers Ranking
+                    </button>
+                    <button id="tabOrgsBtn" onclick="switchTab('orgs')" class="px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition">
+                        Organizations Ranking
+                    </button>
+                </div>
             </div>
-            
-            <div id="terminalStream" class="space-y-1.5 text-slate-600 text-[11px]">
-                <!-- Injected via JavaScript -->
-            </div>
-        </div>
 
-        <!-- About Button Trigger -->
-        <div class="mt-6">
-            <button onclick="openAboutModal()" class="text-xs text-slate-400 hover:text-slate-800 transition underline underline-offset-4">
-                Learn more about this project
-            </button>
-        </div>
+            <!-- TAB CONTENT 1: DEVELOPERS TABLE -->
+            <div id="devsTabContent" class="space-y-4">
+                <div class="border border-slate-200 rounded-xl overflow-hidden shadow-xs">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-medium font-mono">
+                            <tr>
+                                <th class="py-3 px-4 w-14">#</th>
+                                <th class="py-3 px-4">Developer</th>
+                                <th class="py-3 px-4">Total Contributions</th>
+                                <th class="py-3 px-4">Commits</th>
+                                <th class="py-3 px-4">Pull Requests</th>
+                                <th class="py-3 px-4">Company / Organizations</th>
+                            </tr>
+                        </thead>
+                        <tbody id="devsTableBody" class="divide-y divide-slate-100 bg-white">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT 2: ORGANIZATIONS TABLE -->
+            <div id="orgsTabContent" class="space-y-4 hidden">
+                <div class="border border-slate-200 rounded-xl overflow-hidden shadow-xs">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-medium font-mono">
+                            <tr>
+                                <th class="py-3 px-4 w-16">#</th>
+                                <th class="py-3 px-4">Organization / Company</th>
+                                <th class="py-3 px-4">Associated Developers</th>
+                                <th class="py-3 px-4">Impact Ratio</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orgsTableBody" class="divide-y divide-slate-100 bg-white">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Country Bottom Accordion: Developer Badges, Data Download & Calculation Logic -->
+            <div class="mt-8 border border-slate-200/90 rounded-2xl bg-white shadow-xs overflow-hidden">
+                <!-- Accordion Header Button -->
+                <button 
+                    onclick="toggleCountryAccordion()" 
+                    class="w-full px-6 py-4 flex items-center justify-between text-left bg-slate-50/70 hover:bg-slate-100/70 transition cursor-pointer"
+                >
+                    <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center text-xs font-mono">
+                            &lt;/&gt;
+                        </div>
+                        <div>
+                            <span class="font-bold text-xs sm:text-sm text-slate-900 block">
+                                Developer Badges, Data Download & Calculation Logic
+                            </span>
+                            <span class="text-[11px] text-slate-500">
+                                Official formula, live Shield badges and machine-readable data for <span id="accordionCountryName" class="font-medium text-slate-700">this country</span>.
+                            </span>
+                        </div>
+                    </div>
+                    <svg id="accordionIcon" class="w-4 h-4 text-slate-400 transform transition-transform duration-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+
+                <!-- Accordion Expandable Body -->
+                <div id="countryAccordionBody" class="hidden divide-y divide-slate-100 border-t border-slate-200/80">
+                    
+                    <!-- Section 1: Dynamic Shields.io Badges -->
+                    <div class="p-6 space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div>
+                                <span class="font-semibold text-xs text-slate-900 block">Regional Profile Badges</span>
+                                <span class="text-[11px] text-slate-500">Add official ranking verification badges to your personal or organization GitHub README.</span>
+                            </div>
+                            <span class="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">
+                                Live Shields.io Format
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- User Regional Badge -->
+                            <div class="p-4 rounded-xl border border-slate-200/90 bg-slate-50/50 space-y-2.5">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-medium text-slate-700">Developer Badge</span>
+                                    <img id="countryUserBadgeImg" src="" alt="Regional User Badge" class="h-5">
+                                </div>
+                                <div class="relative">
+                                    <input 
+                                        type="text" 
+                                        readonly 
+                                        id="countryUserBadgeInput"
+                                        class="w-full text-[11px] font-mono bg-white border border-slate-200 rounded-lg pl-2.5 pr-16 py-1.5 text-slate-600 outline-none select-all"
+                                    >
+                                    <button onclick="copySnippet('countryUserBadgeInput', this)" class="absolute right-1 top-1 bottom-1 px-2.5 bg-slate-900 hover:bg-black text-white text-[10px] font-medium rounded-md transition cursor-pointer">
+                                        Copy
+                                    </button>
+                                </div>
+                                <p class="text-[10px] text-slate-400">If unranked, users automatically display an unranked status badge.</p>
+                            </div>
+
+                            <!-- Org Regional Badge -->
+                            <div class="p-4 rounded-xl border border-slate-200/90 bg-slate-50/50 space-y-2.5">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-medium text-slate-700">Organization Badge</span>
+                                    <img id="countryOrgBadgeImg" src="" alt="Regional Org Badge" class="h-5">
+                                </div>
+                                <div class="relative">
+                                    <input 
+                                        type="text" 
+                                        readonly 
+                                        id="countryOrgBadgeInput"
+                                        class="w-full text-[11px] font-mono bg-white border border-slate-200 rounded-lg pl-2.5 pr-16 py-1.5 text-slate-600 outline-none select-all"
+                                    >
+                                    <button onclick="copySnippet('countryOrgBadgeInput', this)" class="absolute right-1 top-1 bottom-1 px-2.5 bg-slate-900 hover:bg-black text-white text-[10px] font-medium rounded-md transition cursor-pointer">
+                                        Copy
+                                    </button>
+                                </div>
+                                <p class="text-[10px] text-slate-400">Embed inside company or lab repositories on GitHub.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Transparent Pseudocode Algorithm -->
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="font-semibold text-xs text-slate-900 block">Calculation Logic & Filter Criteria</span>
+                                <span class="text-[11px] text-slate-500">Auditable pipeline extracting public commits and contributions over the past year.</span>
+                            </div>
+                            <span class="text-[10px] font-mono text-slate-400">GraphQL Pipeline</span>
+                        </div>
+
+                        <!-- Pseudocode code block -->
+                        <div class="rounded-xl bg-slate-950 p-4 border border-slate-800 text-slate-200 font-mono text-xs overflow-x-auto shadow-inner leading-relaxed">
+                            <span class="text-slate-500">// Pseudocode algorithm implemented in Go</span><br>
+                            <span class="text-cyan-400">githubUsers</span>.<span class="text-emerald-400">sort</span>(_.<span class="text-amber-300">followers</span>)<br>
+                            &nbsp;&nbsp;.<span class="text-emerald-400">filter</span>(_.<span class="text-amber-300">location</span> == <span id="pseudocodeLocation" class="text-pink-400">'Mozambique'</span>)<br>
+                            &nbsp;&nbsp;.<span class="text-emerald-400">take</span>(<span class="text-purple-400">1000</span>)<br>
+                            &nbsp;&nbsp;.<span class="text-emerald-400">sort</span>(_.<span class="text-amber-300">contributions</span>)<br>
+                            &nbsp;&nbsp;.<span class="text-emerald-400">take</span>(<span class="text-purple-400">256</span>)
+                        </div>
+                        <p class="text-[11px] text-slate-500">
+                            Includes all public commits. Users must meet a threshold of at least <strong>2 followers</strong> to be indexed in regional leaderboards.
+                        </p>
+                    </div>
+
+                    <!-- Section 3: Machine-Readable Country JSON Download -->
+                    <div class="p-6 bg-slate-50/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <span class="font-semibold text-xs text-slate-900 block">Raw Country Dataset</span>
+                            <span class="text-[11px] text-slate-500">Export the complete ranking in machine-readable JSON format for analysis or research.</span>
+                        </div>
+                        <button onclick="downloadCurrentCountryJson()" class="inline-flex items-center gap-2 bg-slate-900 hover:bg-black text-white px-3.5 py-1.5 rounded-lg text-xs font-medium font-mono transition shadow-2xs shrink-0 cursor-pointer">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                            </svg>
+                            <span>Download Country JSON</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- VIEW 3: DEDICATED DOCUMENTATION PAGE (#documentation) -->
+        <section id="docsView" class="fade-in space-y-8 hidden">
+            <!-- Header Nav -->
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <button onclick="showHomeView(event)" class="inline-flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-950 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span>Back to Directory</span>
+                </button>
+
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 text-purple-700 border border-purple-200">
+                        Docs & Integration Guide
+                    </span>
+                </div>
+            </div>
+
+            <!-- Page Title -->
+            <div class="space-y-2">
+                <h1 class="text-3xl font-bold tracking-tight text-slate-950">
+                    Badges & Integration Documentation
+                </h1>
+                <p class="text-sm text-slate-500 max-w-2xl leading-relaxed">
+                    A comprehensive guide to embedding verified ranking status badges, consuming machine-readable JSON datasets, and understanding telemetry extraction filters.
+                </p>
+            </div>
+
+            <!-- Cards Container -->
+            <div class="space-y-6">
+
+                <!-- Block 1: Developer Badges -->
+                <div class="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+                        <div>
+                            <span class="font-bold text-sm text-slate-900 block">1. Individual Developer Badges</span>
+                            <span class="text-xs text-slate-500">Showcase your verified open-source contributions ranking on your personal GitHub README.</span>
+                        </div>
+                        <img src="https://img.shields.io/badge/Most_Active_GitHub_Users-Top_Contributor-0f172a?style=flat&logo=github&logoColor=white" alt="Developer Badge Preview" class="h-5">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold text-slate-700 block">Markdown Code (Profile README):</label>
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                readonly 
+                                value="[![Most Active GitHub Users](https://img.shields.io/badge/Most_Active_GitHub_Users-Top_Contributor-0f172a?style=flat&logo=github&logoColor=white)](https://github.com/iradoweck/commit-rank)" 
+                                id="docDevBadgeInput"
+                                class="w-full text-xs font-mono bg-slate-50 border border-slate-200 rounded-xl pl-3 pr-20 py-2.5 text-slate-700 outline-none select-all"
+                            >
+                            <button onclick="copySnippet('docDevBadgeInput', this)" class="absolute right-1.5 top-1.5 bottom-1.5 px-3 bg-slate-900 hover:bg-black text-white text-xs font-medium rounded-lg transition cursor-pointer">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Block 2: Organization Badges -->
+                <div class="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+                        <div>
+                            <span class="font-bold text-sm text-slate-900 block">2. Organization & Lab Badges</span>
+                            <span class="text-xs text-slate-500">For engineering companies, universities, and open source collectives.</span>
+                        </div>
+                        <img src="https://img.shields.io/badge/Most_Active_GitHub_Orgs-Ranked-0f172a?style=flat&logo=github&logoColor=white" alt="Organization Badge Preview" class="h-5">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold text-slate-700 block">Markdown Code (Repository README):</label>
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                readonly 
+                                value="[![Most Active GitHub Orgs](https://img.shields.io/badge/Most_Active_GitHub_Orgs-Ranked-0f172a?style=flat&logo=github&logoColor=white)](https://github.com/iradoweck/commit-rank)" 
+                                id="docOrgBadgeInput"
+                                class="w-full text-xs font-mono bg-slate-50 border border-slate-200 rounded-xl pl-3 pr-20 py-2.5 text-slate-700 outline-none select-all"
+                            >
+                            <button onclick="copySnippet('docOrgBadgeInput', this)" class="absolute right-1.5 top-1.5 bottom-1.5 px-3 bg-slate-900 hover:bg-black text-white text-xs font-medium rounded-lg transition cursor-pointer">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Block 3: Localized Regional Badges & Unranked Fallback -->
+                <div class="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-4">
+                    <div class="pb-3 border-b border-slate-100">
+                        <span class="font-bold text-sm text-slate-900 block">3. Regional Dynamic Parameters & Unranked Fallbacks</span>
+                        <span class="text-xs text-slate-500">How to target specific countries or regions.</span>
+                    </div>
+
+                    <div class="space-y-3 text-xs text-slate-600 leading-relaxed">
+                        <p>
+                            To target a specific country or region, customize the badge label and target hash link:
+                        </p>
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 font-mono text-xs text-slate-800 space-y-2 select-all">
+                            <p class="text-slate-500">// Example for Mozambique Developers</p>
+                            <p>[![Mozambique Ranking](https://img.shields.io/badge/Mozambique-Ranked_Developer-0f172a?style=flat&logo=github&logoColor=white)](https://github.com/iradoweck/commit-rank#country/mozambique)</p>
+                        </div>
+                        <p class="text-slate-500">
+                            <strong>Unranked Condition:</strong> If an account is not within the top indexed contributors, Shields.io safely renders an <em>Unranked</em> status badge rather than returning a 404 error.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Block 4: Calculation Logic Specification -->
+                <div class="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-4">
+                    <div class="pb-3 border-b border-slate-100">
+                        <span class="font-bold text-sm text-slate-900 block">4. Official Indexing & Ranking Formula</span>
+                        <span class="text-xs text-slate-500">Transparent pipeline rules implemented by our Go crawler engine.</span>
+                    </div>
+
+                    <div class="rounded-xl bg-slate-950 p-4 border border-slate-800 text-slate-200 font-mono text-xs overflow-x-auto leading-relaxed">
+                        <span class="text-slate-500">// Auditable pseudocode algorithm</span><br>
+                        <span class="text-cyan-400">githubUsers</span>.<span class="text-emerald-400">sort</span>(_.<span class="text-amber-300">followers</span>)<br>
+                        &nbsp;&nbsp;.<span class="text-emerald-400">filter</span>(_.<span class="text-amber-300">location</span> == <span class="text-pink-400">'[Country_Name]'</span>)<br>
+                        &nbsp;&nbsp;.<span class="text-emerald-400">take</span>(<span class="text-purple-400">1000</span>)<br>
+                        &nbsp;&nbsp;.<span class="text-emerald-400">sort</span>(_.<span class="text-amber-300">contributions</span>)<br>
+                        &nbsp;&nbsp;.<span class="text-emerald-400">take</span>(<span class="text-purple-400">256</span>)
+                    </div>
+
+                    <ul class="text-xs text-slate-600 list-disc list-inside space-y-1">
+                        <li>Only public contributions and commits are counted to respect private work.</li>
+                        <li>Minimum threshold of 2 followers is required to mitigate spam and bot accounts.</li>
+                        <li>Extracted safely through the official GitHub GraphQL API v4 without exceeding token quotas.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
 
     </main>
 
-    <!-- Global Footer -->
-    <footer class="w-full border-t border-slate-100 py-4 px-6 text-center text-xs text-slate-400 bg-white">
-        <p>Most Active GitHub Users • Global Open Source Ranking Platform</p>
+    <!-- Global Single-Line Clean Footer -->
+    <footer class="w-full border-t border-slate-200/80 bg-white py-4 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            
+            <!-- Left Side: Brand Motto & Repositories Attributions in One Flow -->
+            <div class="flex items-center gap-2 flex-wrap justify-center md:justify-start">
+                <span class="font-semibold text-slate-900">Most Active GitHub Users</span>
+                <span class="text-slate-300">•</span>
+                <span>Built by the community, for the community</span>
+                <span class="text-slate-300">•</span>
+                <span class="text-slate-400 inline-flex items-center gap-1.5 flex-wrap">
+                    Redesigned by <a href="https://github.com/iradoweck/commit-rank" target="_blank" rel="noopener noreferrer" title="iradoweck/commit-rank" class="inline-flex items-center justify-center p-1 rounded-md text-slate-700 hover:text-slate-950 hover:bg-slate-100 transition"><svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a>, 
+                    credits to <a href="https://github.com/ashkulz/committers.top" target="_blank" rel="noopener noreferrer" title="ashkulz/committers.top" class="inline-flex items-center justify-center p-1 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition"><svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a> & <a href="https://github.com/lauripiispanen/most-active-github-users-counter" target="_blank" rel="noopener noreferrer" title="lauripiispanen/most-active-github-users-counter" class="inline-flex items-center justify-center p-1 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition"><svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a>
+                </span>
+            </div>
+
+            <!-- Right Side: Open Source Technologies Button & Support Circles -->
+            <div class="flex items-center gap-3 shrink-0">
+                <!-- Open Source Technologies Button -->
+                <button onclick="openCreditsModal()" class="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-600 hover:text-slate-950 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-lg transition shadow-2xs cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                    </svg>
+                    <span>Technologies</span>
+                </button>
+
+                <span class="text-slate-300">|</span>
+
+                <!-- Support Circles -->
+                <div class="flex items-center gap-2">
+                    <!-- GitHub Sponsors Circle -->
+                    <a href="https://github.com/sponsors/iradoweck" target="_blank" rel="noopener noreferrer" title="Sponsor on GitHub Sponsors" class="w-7 h-7 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-700 hover:text-pink-600 hover:border-pink-300 hover:bg-pink-50/50 shadow-2xs transition">
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </a>
+
+                    <!-- GitHub Profile Circle with Avatar Image -->
+                    <a href="https://github.com/iradoweck" target="_blank" rel="noopener noreferrer" title="View @iradoweck on GitHub" class="w-7 h-7 rounded-full border border-slate-300 overflow-hidden hover:border-slate-950 shadow-2xs transition shrink-0 block bg-slate-100">
+                        <img src="https://github.com/iradoweck.png" alt="iradoweck avatar" class="w-full h-full object-cover">
+                    </a>
+
+                    <!-- Ko-fi Direct Goal Donation Circle (Triggers Overlay Checkout) -->
+                    <button onclick="triggerKofiDirect()" title="Contribute directly to the Goal on Ko-fi" class="w-7 h-7 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-700 hover:text-amber-600 hover:border-amber-300 hover:bg-amber-50/50 shadow-2xs transition cursor-pointer">
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                            <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.683-2.566V15.7s2.518-.088 4.707-1.266c2.19-1.178 2.69-5.486 1.917-5.486zm-6.05 4.394c-.958.483-2.008.57-2.008.57V6.657s1.39-.17 2.502.135c1.112.306 1.769 1.488 1.82 2.443.05 1.493-.728 3.513-2.314 4.107z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
     </footer>
 
-    <!-- About Modal (Neutral & Informative) -->
+    <!-- MODAL 1: ABOUT MODAL -->
     <div id="aboutModal" class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
         <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 shadow-xl text-left space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div class="flex items-center gap-2">
-                    <span class="font-bold text-slate-900 text-sm">About Most Active GitHub Users</span>
-                </div>
-                <button onclick="closeAboutModal()" class="text-slate-400 hover:text-slate-600 p-1 text-sm font-mono">
-                    ✕
-                </button>
+                <span class="font-bold text-slate-900 text-sm">About Most Active GitHub Users</span>
+                <button onclick="closeModal('aboutModal')" class="text-slate-400 hover:text-slate-600 p-1 text-sm font-mono">✕</button>
             </div>
-
             <div class="text-xs text-slate-600 space-y-3 leading-relaxed">
                 <p>
-                    <strong>Most Active GitHub Users</strong> is an independent open-source ranking system and live radar dedicated to highlighting active developers, engineers, and maintainers across various regions.
+                    <strong>Most Active GitHub Users</strong> is an initiative built by the developer community, for the developer community. It exists to celebrate open source contributions and highlight talented engineers worldwide.
                 </p>
-                <p>
-                    Built on top of the <strong>GitHub GraphQL API v4</strong>, the engine overcomes traditional search limitations by indexing developers through structured queries, calculating real-world commit volumes, pull requests, and organizational contributions.
-                </p>
-                <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg font-mono text-[11px] text-slate-700">
-                    <p>• Engine: Go (Golang) compiled binary</p>
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg font-mono text-[11px] text-slate-700 space-y-1">
+                    <p>• Lead Maintainer & V3 Redesign: <a href="https://github.com/iradoweck/commit-rank" target="_blank" class="text-slate-900 underline font-semibold">iradoweck/commit-rank</a></p>
+                    <p>• Historical Roots: Created by @lauripiispanen, evolved by @ashkulz</p>
+                    <p>• Philosophy: Open Source Software</p>
                     <p>• Data Source: Official GitHub GraphQL API</p>
-                    <p>• Coverage: Mozambique (Primary Rollout) ➔ Global</p>
                 </div>
             </div>
-
             <div class="pt-3 border-t border-slate-100 flex justify-end">
-                <button onclick="closeAboutModal()" class="px-4 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-black transition">
+                <button onclick="closeModal('aboutModal')" class="px-4 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-black transition">
                     Close
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Live Log Simulation Script -->
+    <!-- MODAL 2: OPEN SOURCE TECHNOLOGIES CREDITS (COMPACT 2-COLUMN GRID) -->
+    <div id="creditsModal" class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-2xl w-full p-6 shadow-xl text-left space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-md bg-slate-100 text-slate-700 flex items-center justify-center text-xs font-mono">&lt;/&gt;</span>
+                    <span class="font-bold text-slate-900 text-sm">Open Source Technologies</span>
+                </div>
+                <button onclick="closeModal('creditsModal')" class="text-slate-400 hover:text-slate-600 p-1 text-sm font-mono">✕</button>
+            </div>
+
+            <p class="text-xs text-slate-500 leading-relaxed">
+                Special gratitude to the foundational open-source technologies, languages, and libraries powering this project:
+            </p>
+
+            <!-- Non-clickable tech list in clean responsive 2-column grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[62vh] overflow-y-auto pr-1">
+                
+                <!-- Go -->
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
+                            Go
+                        </div>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">Go (Golang)</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Core CLI & GraphQL data extraction</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">v1.22</span>
+                </div>
+
+                <!-- GitHub GraphQL API -->
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center font-mono text-xs shrink-0">
+                            GH
+                        </div>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">GitHub GraphQL API</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Telemetry & contribution nodes</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">v4</span>
+                </div>
+
+                <!-- Tailwind CSS -->
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-cyan-100 text-cyan-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
+                            TW
+                        </div>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">Tailwind CSS</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Utility-first neutral design system</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">v3.4</span>
+                </div>
+
+                <!-- Inter & JetBrains Mono -->
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
+                            Aa
+                        </div>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">Inter & JetBrains Mono</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Open-source typography fonts</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">Latest</span>
+                </div>
+
+                <!-- Python -->
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
+                            Py
+                        </div>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">Python</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Automated batch & CI/CD scripting</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">v3.13</span>
+                </div>
+
+                <!-- Shields.io -->
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
+                            Sh
+                        </div>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">Shields.io</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Dynamic SVG badge service</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">API</span>
+                </div>
+
+                <!-- GitHub Actions & CodeQL -->
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
+                            CI
+                        </div>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">GitHub Actions & CodeQL</span>
+                            <span class="text-[10px] text-slate-400 block truncate">DevSecOps security & CI/CD</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">v3</span>
+                </div>
+
+                <!-- Ko-fi Overlay Widget -->
+                <div class="p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/60 flex items-center justify-between select-none">
+                    <div class="flex items-center gap-2.5 truncate">
+                        <div class="w-7 h-7 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs font-mono shrink-0">
+                            Kf
+                        </div>
+                        <div class="truncate">
+                            <span class="font-semibold text-xs text-slate-900 block truncate">Ko-fi Overlay Widget</span>
+                            <span class="text-[10px] text-slate-400 block truncate">Goal checkout & support widget</span>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 shrink-0 ml-2">SDK</span>
+                </div>
+
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 flex justify-end">
+                <button onclick="closeModal('creditsModal')" class="px-4 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-black transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: DONATION MODAL (PROJECT SUPPORT & DOMAIN GOAL) -->
+    <div id="donateModal" class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-xl text-left space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-md bg-pink-100 text-pink-700 flex items-center justify-center text-xs">
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-bold text-slate-900 text-sm block">Support the Project</span>
+                        <span class="text-[10px] text-slate-400">Custom Domain & Community Infrastructure Goal</span>
+                    </div>
+                </div>
+                <button onclick="closeModal('donateModal')" class="text-slate-400 hover:text-slate-600 p-1 text-sm font-mono">✕</button>
+            </div>
+
+            <div class="text-xs text-slate-600 space-y-3 leading-relaxed">
+                <p>
+                    Contributions go directly towards keeping this platform online, maintaining automated GraphQL indexers, and securing a dedicated domain for the community.
+                </p>
+
+                <!-- Project Goal Card -->
+                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-medium text-slate-900 text-xs">Custom Domain & Server Costs</span>
+                        <span class="font-mono text-[11px] text-pink-600 font-semibold">Active Goal</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500">
+                        Help fund our dedicated domain and high-bandwidth telemetry indexing infrastructure.
+                    </p>
+                </div>
+            </div>
+
+            <div class="space-y-2 pt-2">
+                <button onclick="openKofiDirectGoal()" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-xs transition cursor-pointer">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                        <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.683-2.566V15.7s2.518-.088 4.707-1.266c2.19-1.178 2.69-5.486 1.917-5.486zm-6.05 4.394c-.958.483-2.008.57-2.008.57V6.657s1.39-.17 2.502.135c1.112.306 1.769 1.488 1.82 2.443.05 1.493-.728 3.513-2.314 4.107z"/>
+                    </svg>
+                    <span>Contribute via Ko-fi Goal</span>
+                </button>
+                <a href="https://github.com/sponsors/iradoweck" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-medium py-2 px-4 rounded-xl transition">
+                    <span>GitHub Sponsors (Alternative)</span>
+                </a>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex justify-end">
+                <button onclick="closeModal('donateModal')" class="px-4 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-black transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Frontend Logic & State Management -->
     <script>
-        const tasks = [
-            "fetching GraphQL nodes from GitHub API v4...",
-            "indexing global active developers...",
-            "computing commit volume and pull request ratios...",
-            "aggregating engineering organizations and teams...",
-            "validating preset definition checksums (SHA-256)...",
-            "optimizing telemetry pipeline in Go..."
+        const countries = [
+            // Global Scope
+            { id: "worldwide", name: "Worldwide", code: "GL", flag: "un", group: "global" },
+
+            // África (5)
+            { id: "mozambique", name: "Mozambique", code: "MZ", flag: "mz", group: "africa" },
+            { id: "angola", name: "Angola", code: "AO", flag: "ao", group: "africa" },
+            { id: "nigeria", name: "Nigeria", code: "NG", flag: "ng", group: "africa" },
+            { id: "south-africa", name: "South Africa", code: "ZA", flag: "za", group: "africa" },
+            { id: "kenya", name: "Kenya", code: "KE", flag: "ke", group: "africa" },
+
+            // América do Norte & Caribe (5)
+            { id: "united-states", name: "United States", code: "US", flag: "us", group: "north-america" },
+            { id: "canada", name: "Canada", code: "CA", flag: "ca", group: "north-america" },
+            { id: "mexico", name: "Mexico", code: "MX", flag: "mx", group: "north-america" },
+            { id: "the-bahamas", name: "The Bahamas", code: "BS", flag: "bs", group: "north-america" },
+            { id: "panama", name: "Panama", code: "PA", flag: "pa", group: "north-america" },
+
+            // América do Sul (5)
+            { id: "brazil", name: "Brazil", code: "BR", flag: "br", group: "south-america" },
+            { id: "argentina", name: "Argentina", code: "AR", flag: "ar", group: "south-america" },
+            { id: "colombia", name: "Colombia", code: "CO", flag: "co", group: "south-america" },
+            { id: "venezuela", name: "Venezuela", code: "VE", flag: "ve", group: "south-america" },
+            { id: "uruguay", name: "Uruguay", code: "UY", flag: "uy", group: "south-america" },
+
+            // Europa (5)
+            { id: "netherlands", name: "Netherlands", code: "NL", flag: "nl", group: "europe" },
+            { id: "portugal", name: "Portugal", code: "PT", flag: "pt", group: "europe" },
+            { id: "germany", name: "Germany", code: "DE", flag: "de", group: "europe" },
+            { id: "russia", name: "Russia", code: "RU", flag: "ru", group: "europe" },
+            { id: "france", name: "France", code: "FR", flag: "fr", group: "europe" },
+
+            // Ásia (5)
+            { id: "china", name: "China", code: "CN", flag: "cn", group: "asia" },
+            { id: "india", name: "India", code: "IN", flag: "in", group: "asia" },
+            { id: "japan", name: "Japan", code: "JP", flag: "jp", group: "asia" },
+            { id: "south-korea", name: "Republic of Korea", code: "KR", flag: "kr", group: "asia" },
+            { id: "saudi-arabia", name: "Saudi Arabia", code: "SA", flag: "sa", group: "asia" },
+
+            // Oceânia (3)
+            { id: "australia", name: "Australia", code: "AU", flag: "au", group: "oceania" },
+            { id: "new-zealand", name: "New Zealand", code: "NZ", flag: "nz", group: "oceania" },
+            { id: "papua-new-guinea", name: "Papua New Guinea", code: "PG", flag: "pg", group: "oceania" },
+
+            // Países & Territórios Especiais (5)
+            { id: "hong-kong", name: "Hong Kong", code: "HK", flag: "hk", group: "special" },
+            { id: "macau", name: "Macau", code: "MO", flag: "mo", group: "special" },
+            { id: "taiwan", name: "Taiwan", code: "TW", flag: "tw", group: "special" },
+            { id: "kosovo", name: "Kosovo", code: "XK", flag: "xk", group: "special" },
+            { id: "kurdistan", name: "Kurdistan", code: "KRD", flag: "iq-kr", group: "special" }
+        ].sort((a, b) => a.name.localeCompare(b.name));
+
+        // Ordem e metadados das secções da página inicial.
+        // O grupo "special" fica reservado para territórios e regiões fora da lista padrão de países.
+        const DIRECTORY_GROUPS = [
+            { key: 'global', label: 'Worldwide', hint: 'Global ranking across all regions' },
+            { key: 'africa', label: 'Africa' },
+            { key: 'asia', label: 'Asia' },
+            { key: 'europe', label: 'Europe' },
+            { key: 'north-america', label: 'North America' },
+            { key: 'south-america', label: 'South America' },
+            { key: 'oceania', label: 'Oceania' },
+            { key: 'special', label: 'Special Countries & Territories', hint: 'Territories, autonomous regions and other entities outside the standard country list' }
         ];
 
-        let index = 0;
+        let activeGroup = 'all';
 
-        function addLog() {
-            const container = document.getElementById('terminalStream');
-            const p = document.createElement('p');
-            p.className = 'log-line flex items-center justify-between';
-            p.innerHTML = `
-                <span class="truncate">> ${tasks[index % tasks.length]}</span>
-                <span class="text-slate-400 shrink-0 font-mono text-[10px] ml-2">ok</span>
+        function generateCountryData(country) {
+            return {
+                country: country.name,
+                country_code: country.code,
+                generated_at: new Date().toISOString().split('T')[0],
+                total_users: 256,
+                users: [
+                    { rank: 1, name: "Lead Architect", login: "lead_dev", contributions: 2420, commits: 1890, prs: 142, company: "@core-lab" },
+                    { rank: 2, name: "Staff Engineer", login: "staff_eng", contributions: 1980, commits: 1450, prs: 98, company: "@opensource" },
+                    { rank: 3, name: "Senior Developer", login: "sr_dev", contributions: 1640, commits: 1210, prs: 74, company: "Freelance" },
+                    { rank: 4, name: "Core Contributor", login: "core_contributor", contributions: 1320, commits: 980, prs: 52, company: "@community" },
+                    { rank: 5, name: "Software Engineer", login: "soft_eng", contributions: 1040, commits: 810, prs: 41, company: "-" },
+                    { rank: 6, name: "Backend Specialist", login: "backend_dev", contributions: 890, commits: 690, prs: 33, company: "@cloud-tech" },
+                    { rank: 7, name: "Frontend Crafter", login: "ui_craft", contributions: 760, commits: 540, prs: 26, company: "@design-systems" },
+                    { rank: 8, name: "Fullstack Builder", login: "fullstack_builder", contributions: 650, commits: 480, prs: 19, company: "-" }
+                ],
+                organizations: [
+                    { rank: 1, name: "core-lab", members: 14, impact: "High" },
+                    { rank: 2, name: "opensource", members: 9, impact: "High" },
+                    { rank: 3, name: "community", members: 6, impact: "Medium" },
+                    { rank: 4, name: "cloud-tech", members: 4, impact: "Medium" },
+                    { rank: 5, name: "design-systems", members: 3, impact: "Normal" }
+                ]
+            };
+        }
+
+        function renderAlphabetBar() {
+            const letters = [...new Set(countries.map(c => c.name[0].toUpperCase()))].sort();
+            const bar = document.getElementById('alphabetBar');
+            bar.innerHTML = '<span class="text-slate-400 mr-1">A-Z:</span>';
+            letters.forEach(letter => {
+                const btn = document.createElement('button');
+                btn.className = 'px-1.5 py-0.5 rounded hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition';
+                btn.textContent = letter;
+                btn.onclick = () => {
+                    document.getElementById('countrySearch').value = letter;
+                    filterCountries();
+                };
+                bar.appendChild(btn);
+            });
+        }
+
+        function getFlagUrl(c) {
+            if (!c.flag) return null;
+            if (c.flag.includes('/')) {
+                return `https://hatscripts.github.io/circle-flags/flags/${c.flag}.svg`;
+            }
+            return `https://hatscripts.github.io/circle-flags/flags/${c.flag}.svg`;
+        }
+
+        function countryCardHtml(c) {
+            const flagUrl = getFlagUrl(c);
+            const flagImg = flagUrl 
+                ? `<img src="${flagUrl}" alt="${c.name} Flag" class="w-6 h-6 rounded-full shrink-0 shadow-2xs object-cover" loading="lazy">`
+                : '';
+
+            return `
+                <div class="flex items-center gap-2.5 truncate min-w-0">
+                    ${flagImg}
+                    <div class="truncate">
+                        <span class="font-medium text-xs text-slate-900 group-hover:text-black block truncate">${c.name}</span>
+                        <span class="text-[10px] font-mono text-slate-400">${c.code}</span>
+                    </div>
+                </div>
+                <svg class="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-900 transition shrink-0 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
             `;
-            container.appendChild(p);
-            index++;
+        }
 
-            if (container.children.length > 3) {
-                container.removeChild(container.firstChild);
+        function buildCountryCard(c) {
+            const card = document.createElement('div');
+            card.className = 'group p-3 rounded-xl border border-slate-200/80 hover:border-slate-900 bg-white hover:shadow-xs transition cursor-pointer flex items-center justify-between gap-2';
+            card.onclick = () => openCountryView(c);
+            card.innerHTML = countryCardHtml(c);
+            return card;
+        }
+
+        // Cartão em destaque para o ranking global (Worldwide)
+        function buildWorldwideCard(c) {
+            const card = document.createElement('div');
+            card.className = 'group p-5 rounded-2xl bg-slate-950 hover:bg-black text-white cursor-pointer transition shadow-xs flex items-center justify-between gap-4';
+            card.onclick = () => openCountryView(c);
+            const flagUrl = getFlagUrl(c);
+            card.innerHTML = `
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shrink-0 border border-white/20 bg-white/10 shadow-inner">
+                        <img src="${flagUrl}" alt="Worldwide Flag" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://hatscripts.github.io/circle-flags/flags/un.svg';">
+                    </div>
+                    <div>
+                        <span class="font-semibold text-sm block">${c.name}</span>
+                        <span class="text-xs text-slate-400">Global ranking across all regions</span>
+                    </div>
+                </div>
+                <svg class="w-4 h-4 text-slate-500 group-hover:text-white transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            `;
+            return card;
+        }
+
+        function buildSectionHeader(group, count) {
+            const header = document.createElement('div');
+            header.className = 'flex items-center gap-3 mb-3';
+            header.innerHTML = `
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-700">${group.label}</span>
+                <span class="text-[10px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">${count}</span>
+                <span class="flex-1 h-px bg-slate-100"></span>
+                ${group.hint ? `<span class="hidden md:inline text-[10px] text-slate-400">${group.hint}</span>` : ''}
+            `;
+            return header;
+        }
+
+        function renderContinentFilters() {
+            const wrap = document.getElementById('continentFilters');
+            wrap.innerHTML = '';
+
+            const pills = [{ key: 'all', label: 'All', count: countries.length }].concat(
+                DIRECTORY_GROUPS.map(g => ({
+                    key: g.key,
+                    label: g.key === 'special' ? 'Special' : g.label,
+                    count: countries.filter(c => c.group === g.key).length
+                }))
+            ).filter(p => p.key === 'all' || p.key === 'special' || p.count > 0);
+
+            pills.forEach(p => {
+                const btn = document.createElement('button');
+                const isActive = activeGroup === p.key;
+                btn.className = isActive
+                    ? 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-900 text-white transition cursor-pointer'
+                    : 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:border-slate-400 hover:text-slate-900 transition cursor-pointer';
+                btn.innerHTML = `<span>${p.label}</span><span class="font-mono text-[10px] ${isActive ? 'text-slate-300' : 'text-slate-400'}">${p.count}</span>`;
+                btn.onclick = () => {
+                    activeGroup = p.key;
+                    renderContinentFilters();
+                    filterCountries();
+                };
+                wrap.appendChild(btn);
+            });
+        }
+
+        function renderCountries(list) {
+            const container = document.getElementById('countriesGrid');
+            container.innerHTML = '';
+
+            const hasSearch = document.getElementById('countrySearch').value.trim() !== '';
+            const countryTotal = list.filter(c => c.group !== 'global' && c.group !== 'special').length;
+            document.getElementById('countryCount').textContent = `${countryTotal} ${countryTotal === 1 ? 'country' : 'countries'} available`;
+
+            let rendered = 0;
+            DIRECTORY_GROUPS.forEach(group => {
+                if (activeGroup !== 'all' && activeGroup !== group.key) return;
+
+                const items = list.filter(c => c.group === group.key);
+                const isSpecialPlaceholder = group.key === 'special' && items.length === 0 && !hasSearch;
+
+                // Esconde secções vazias, exceto o espaço reservado para territórios especiais
+                if (items.length === 0 && !isSpecialPlaceholder) return;
+
+                const section = document.createElement('div');
+                section.appendChild(buildSectionHeader(group, items.length));
+
+                if (isSpecialPlaceholder) {
+                    const empty = document.createElement('div');
+                    empty.className = 'rounded-xl border border-dashed border-slate-200 py-6 px-4 text-center text-xs text-slate-400';
+                    empty.textContent = 'No special countries or territories listed yet.';
+                    section.appendChild(empty);
+                } else if (group.key === 'global') {
+                    const grid = document.createElement('div');
+                    grid.className = 'grid grid-cols-1 gap-3';
+                    items.forEach(c => grid.appendChild(buildWorldwideCard(c)));
+                    section.appendChild(grid);
+                } else {
+                    const grid = document.createElement('div');
+                    grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3';
+                    items.forEach(c => grid.appendChild(buildCountryCard(c)));
+                    section.appendChild(grid);
+                }
+
+                container.appendChild(section);
+                rendered += 1;
+            });
+
+            if (rendered === 0) {
+                container.innerHTML = `<div class="py-8 text-center text-xs text-slate-400">No matching countries found.</div>`;
             }
         }
 
-        function openAboutModal() {
-            const modal = document.getElementById('aboutModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+        function filterCountries() {
+            const term = document.getElementById('countrySearch').value.toLowerCase().trim();
+            const filtered = countries.filter(c => {
+                if (term.length === 1) {
+                    // Uma única letra vem da barra A-Z: filtra pela inicial do nome
+                    return c.name.toLowerCase().startsWith(term);
+                }
+                return c.name.toLowerCase().includes(term) || c.code.toLowerCase().includes(term);
+            });
+            renderCountries(filtered);
         }
 
-        function closeAboutModal() {
-            const modal = document.getElementById('aboutModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+        let currentActiveCountry = null;
+        let currentCountryData = null;
+
+        async function loadCountryData(country) {
+            try {
+                const res = await fetch(`data/countries/${country.id}.json`);
+                if (res.ok) {
+                    return await res.json();
+                }
+            } catch (e) {
+                // Fallback para dados demonstrativos locais caso o JSON ainda não tenha sido gerado pelo pipeline
+            }
+            return generateCountryData(country);
         }
 
-        // Close on escape key
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeAboutModal();
+        async function openCountryView(country) {
+            document.getElementById('homeView').classList.add('hidden');
+            document.getElementById('docsView').classList.add('hidden');
+            document.getElementById('countryView').classList.remove('hidden');
+            
+            document.getElementById('countryTitle').textContent = country.name;
+            document.getElementById('countryCodeBadge').textContent = country.code;
+
+            const flagUrl = getFlagUrl(country);
+            const flagEl = document.getElementById('countryHeaderFlag');
+            if (flagUrl) {
+                flagEl.src = flagUrl;
+                flagEl.alt = `${country.name} Flag`;
+                flagEl.classList.remove('hidden');
+            } else {
+                flagEl.classList.add('hidden');
+            }
+            
+            const data = await loadCountryData(country);
+            currentCountryData = data;
+            document.getElementById('countryGeneratedAt').textContent = `Updated: ${data.generated_at}`;
+
+            renderDevelopersTable(data.users);
+            renderOrganizationsTable(data.organizations);
+            updateCountryAccordion(country, data);
+            
+            switchTab('devs');
+            window.location.hash = `country/${country.id}`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateCountryAccordion(country, data) {
+            currentActiveCountry = country;
+            document.getElementById('accordionCountryName').textContent = country.name;
+            document.getElementById('pseudocodeLocation').textContent = `'${country.name}'`;
+
+            const encodedCountry = encodeURIComponent(country.name.replace(/\s+/g, '_'));
+            
+            // Shields.io Dynamic Badges
+            const userBadgeUrl = `https://img.shields.io/badge/${encodedCountry}-Ranked_Developer-0f172a?style=flat&logo=github&logoColor=white`;
+            const orgBadgeUrl = `https://img.shields.io/badge/${encodedCountry}-Ranked_Org-0f172a?style=flat&logo=github&logoColor=white`;
+
+            document.getElementById('countryUserBadgeImg').src = userBadgeUrl;
+            document.getElementById('countryOrgBadgeImg').src = orgBadgeUrl;
+
+            document.getElementById('countryUserBadgeInput').value = `[![${country.name} Ranking](${userBadgeUrl})](https://github.com/iradoweck/commit-rank#country/${country.id})`;
+            document.getElementById('countryOrgBadgeInput').value = `[![${country.name} Org Ranking](${orgBadgeUrl})](https://github.com/iradoweck/commit-rank#country/${country.id})`;
+        }
+
+        function toggleCountryAccordion() {
+            const body = document.getElementById('countryAccordionBody');
+            const icon = document.getElementById('accordionIcon');
+            if (body.classList.contains('hidden')) {
+                body.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                body.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        function copySnippet(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            input.select();
+            navigator.clipboard.writeText(input.value).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.classList.add('bg-emerald-600');
+                btn.classList.remove('bg-slate-900');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('bg-emerald-600');
+                    btn.classList.add('bg-slate-900');
+                }, 1800);
+            }).catch(() => {
+                input.select();
+                document.execCommand('copy');
+            });
+        }
+
+        function downloadGlobalJson() {
+            const globalData = {
+                project: "Most Active GitHub Users",
+                generated_at: new Date().toISOString(),
+                total_countries: countries.length,
+                countries: countries.map(c => ({
+                    id: c.id,
+                    name: c.name,
+                    code: c.code,
+                    users_url: `https://raw.githubusercontent.com/iradoweck/commit-rank/beta/data/countries/${c.id}.json`
+                }))
+            };
+            downloadJsonFile(globalData, 'most-active-github-users-global.json');
+        }
+
+        function downloadCurrentCountryJson() {
+            if (!currentActiveCountry) return;
+            const countryData = currentCountryData || generateCountryData(currentActiveCountry);
+            downloadJsonFile(countryData, `github-users-${currentActiveCountry.id}.json`);
+        }
+
+        function downloadJsonFile(obj, filename) {
+            const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function showHomeView(e) {
+            if (e) e.preventDefault();
+            document.getElementById('countryView').classList.add('hidden');
+            document.getElementById('docsView').classList.add('hidden');
+            document.getElementById('homeView').classList.remove('hidden');
+            window.location.hash = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchTab(tab) {
+            const devsBtn = document.getElementById('tabDevsBtn');
+            const orgsBtn = document.getElementById('tabOrgsBtn');
+            const devsContent = document.getElementById('devsTabContent');
+            const orgsContent = document.getElementById('orgsTabContent');
+
+            if (tab === 'devs') {
+                devsBtn.className = 'px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition';
+                orgsBtn.className = 'px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition';
+                devsContent.classList.remove('hidden');
+                orgsContent.classList.add('hidden');
+            } else {
+                orgsBtn.className = 'px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition';
+                devsBtn.className = 'px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition';
+                orgsContent.classList.remove('hidden');
+                devsContent.classList.add('hidden');
+            }
+        }
+
+        function renderDevelopersTable(users) {
+            const tbody = document.getElementById('devsTableBody');
+            tbody.innerHTML = '';
+            users.forEach(u => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50/70 transition-colors';
+                const avatarImg = u.avatar_url 
+                    ? `<img src="${u.avatar_url}" alt="${u.login}" class="w-6 h-6 rounded-full border border-slate-200 object-cover">`
+                    : `<img src="https://github.com/${u.login}.png" onerror="this.style.display='none'" alt="${u.login}" class="w-6 h-6 rounded-full border border-slate-200 object-cover bg-slate-100">`;
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-mono font-medium text-slate-400">#${u.rank}</td>
+                    <td class="py-3 px-4">
+                        <a href="https://github.com/${u.login}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 group">
+                            ${avatarImg}
+                            <span class="font-medium text-slate-900 group-hover:underline">${u.name}</span>
+                            <span class="font-mono text-slate-400">@${u.login}</span>
+                        </a>
+                    </td>
+                    <td class="py-3 px-4 font-mono font-semibold text-slate-900">${(u.contributions || 0).toLocaleString()}</td>
+                    <td class="py-3 px-4 font-mono text-slate-600">${(u.commits || 0).toLocaleString()}</td>
+                    <td class="py-3 px-4 font-mono text-slate-600">${(u.prs || 0).toLocaleString()}</td>
+                    <td class="py-3 px-4 text-slate-500 font-mono text-[11px]">${u.company || '-'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderOrganizationsTable(orgs) {
+            const tbody = document.getElementById('orgsTableBody');
+            tbody.innerHTML = '';
+            orgs.forEach(o => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50/70 transition-colors';
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-mono font-medium text-slate-400">#${o.rank}</td>
+                    <td class="py-3 px-4 font-medium text-slate-900 font-mono">
+                        <a href="https://github.com/${o.name}" target="_blank" rel="noopener noreferrer" class="hover:underline">@${o.name}</a>
+                    </td>
+                    <td class="py-3 px-4 font-mono text-slate-700 font-semibold">${o.members} developers</td>
+                    <td class="py-3 px-4">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono bg-slate-100 text-slate-600">
+                            ${o.impact}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function handleHashRoute() {
+            const hash = window.location.hash;
+            if (hash === '#documentation' || hash === '#docs') {
+                showDocsView();
+                return;
+            }
+            if (hash.startsWith('#country/')) {
+                const countryId = hash.replace('#country/', '');
+                const target = countries.find(c => c.id === countryId);
+                if (target) {
+                    openCountryView(target);
+                    return;
+                }
+            }
+            showHomeView();
+        }
+
+        // Direct Donation trigger: Open project support modal
+        function triggerKofiDirect() {
+            openModal('donateModal');
+        }
+
+        function openKofiDirectGoal() {
+            closeModal('donateModal');
+            try {
+                if (window.kofiWidgetOverlay) {
+                    kofiWidgetOverlay.open();
+                } else {
+                    window.open('https://ko-fi.com/edmilsonmuacigarro/goal?g=0', '_blank');
+                }
+            } catch(e) {
+                window.open('https://ko-fi.com/edmilsonmuacigarro/goal?g=0', '_blank');
+            }
+        }
+
+        function openAboutModal(e) {
+            if (e) e.preventDefault();
+            openModal('aboutModal');
+        }
+
+        function openDocsModal(e) {
+            if (e) e.preventDefault();
+            showDocsView();
+        }
+
+        function showDocsView(e) {
+            if (e) e.preventDefault();
+            document.getElementById('homeView').classList.add('hidden');
+            document.getElementById('countryView').classList.add('hidden');
+            document.getElementById('docsView').classList.remove('hidden');
+            window.location.hash = 'documentation';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openCreditsModal() {
+            openModal('creditsModal');
+        }
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        ['aboutModal', 'creditsModal', 'donateModal'].forEach(id => {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeModal(id);
+                    }
+                });
+            }
         });
 
-        // Initialize logs
-        addLog();
-        addLog();
-        addLog();
-        setInterval(addLog, 2800);
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                ['aboutModal', 'creditsModal', 'donateModal'].forEach(closeModal);
+            }
+        });
+
+        window.addEventListener('hashchange', handleHashRoute);
+
+        // Fetch Live Repository PRs & Issues from GitHub API
+        async function fetchRepoLiveStats() {
+            try {
+                // Fetch PRs count first
+                let openPrsCount = 0;
+                const pullsRes = await fetch('https://api.github.com/repos/iradoweck/commit-rank/pulls?state=open');
+                if (pullsRes.ok) {
+                    const pulls = await pullsRes.json();
+                    openPrsCount = pulls.length || 0;
+                    document.getElementById('openPrsBadge').textContent = openPrsCount;
+                }
+
+                // GitHub API returns PRs + Issues in `open_issues_count`. Subtract PRs to get real issues count:
+                const res = await fetch('https://api.github.com/repos/iradoweck/commit-rank');
+                if (res.ok) {
+                    const data = await res.json();
+                    const totalCombined = data.open_issues_count || 0;
+                    const realIssuesCount = Math.max(0, totalCombined - openPrsCount);
+                    document.getElementById('openIssuesBadge').textContent = realIssuesCount;
+                }
+            } catch (err) {
+                document.getElementById('openIssuesBadge').textContent = '0';
+                document.getElementById('openPrsBadge').textContent = '0';
+            }
+        }
+
+        // Initialize Ko-fi Overlay Widget on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            try {
+                if (typeof kofiWidgetOverlay !== 'undefined') {
+                    kofiWidgetOverlay.draw('edmilsonmuacigarro', {
+                        'type': 'floating-chat',
+                        'floating-chat.donatebutton.text': 'Donate',
+                        'floating-chat.donatebutton.background-color': '#0f172a',
+                        'floating-chat.donatebutton.text-color': '#fff'
+                    });
+                    // Ocultamos o botão flutuante padrão do Ko-fi para usar o nosso botão de destaque personalizado
+                    const kofiDefaultBtn = document.getElementById('kofi-widget-overlay');
+                    if (kofiDefaultBtn) kofiDefaultBtn.style.display = 'none';
+                }
+            } catch(e) {}
+        });
+
+        renderAlphabetBar();
+        renderContinentFilters();
+        renderCountries(countries);
+        handleHashRoute();
+        fetchRepoLiveStats();
     </script>
 </body>
 </html>

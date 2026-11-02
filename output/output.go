@@ -2,6 +2,7 @@ package output
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"io"
 	"math"
@@ -16,6 +17,98 @@ import (
 )
 
 type Format func(results github.GithubSearchResults, writer io.Writer, options top.Options) error
+
+type JsonUser struct {
+	Rank          int      `json:"rank"`
+	Name          string   `json:"name"`
+	Login         string   `json:"login"`
+	AvatarURL     string   `json:"avatar_url"`
+	Contributions int      `json:"contributions"`
+	Commits       int      `json:"commits"`
+	PullRequests  int      `json:"prs"`
+	Company       string   `json:"company"`
+	Organizations []string `json:"organizations"`
+}
+
+type JsonOrganization struct {
+	Rank    int    `json:"rank"`
+	Name    string `json:"name"`
+	Members int    `json:"members"`
+	Impact  string `json:"impact"`
+}
+
+type JsonCountryPayload struct {
+	Country             string             `json:"country"`
+	GeneratedAt         string             `json:"generated_at"`
+	MinFollowers        int                `json:"min_followers_required"`
+	TotalUsers          int                `json:"total_users"`
+	DefinitionChecksum  string             `json:"definition_checksum,omitempty"`
+	Users               []JsonUser         `json:"users"`
+	Organizations       []JsonOrganization `json:"organizations"`
+}
+
+func JsonOutput(results github.GithubSearchResults, writer io.Writer, options top.Options) error {
+	users := GithubUserList(results.Users)
+	topPublic := users.TopPublic(options.Amount)
+
+	jsonUsers := make([]JsonUser, 0, len(topPublic))
+	for i, u := range topPublic {
+		displayName := u.Name
+		if strings.TrimSpace(displayName) == "" {
+			displayName = u.Login
+		}
+		companyDisplay := strings.TrimSpace(u.Company)
+		if companyDisplay == "" && len(u.Organizations) > 0 {
+			companyDisplay = "@" + u.Organizations[0]
+		}
+		if companyDisplay == "" {
+			companyDisplay = "-"
+		}
+
+		jsonUsers = append(jsonUsers, JsonUser{
+			Rank:          i + 1,
+			Name:          displayName,
+			Login:         u.Login,
+			AvatarURL:     u.AvatarURL,
+			Contributions: u.PublicContributionCount,
+			Commits:       u.CommitsCount,
+			PullRequests:  u.PullRequestsCount,
+			Company:       companyDisplay,
+			Organizations: u.Organizations,
+		})
+	}
+
+	topOrgs := topPublic.TopOrgs(25)
+	jsonOrgs := make([]JsonOrganization, 0, len(topOrgs))
+	for i, org := range topOrgs {
+		impact := "Normal"
+		if org.MemberCount >= 8 {
+			impact = "High"
+		} else if org.MemberCount >= 4 {
+			impact = "Medium"
+		}
+		jsonOrgs = append(jsonOrgs, JsonOrganization{
+			Rank:    i + 1,
+			Name:    org.Name,
+			Members: org.MemberCount,
+			Impact:  impact,
+		})
+	}
+
+	payload := JsonCountryPayload{
+		Country:            options.PresetTitle,
+		GeneratedAt:        time.Now().UTC().Format("2006-01-02"),
+		MinFollowers:       results.MinimumFollowerCount,
+		TotalUsers:         results.TotalUserCount,
+		DefinitionChecksum: options.PresetChecksum,
+		Users:              jsonUsers,
+		Organizations:      jsonOrgs,
+	}
+
+	encoder := json.NewEncoder(writer)
+	encoder.SetIndent("", "  ")
+	return encoder.Encode(payload)
+}
 
 func PlainOutput(results github.GithubSearchResults, writer io.Writer, options top.Options) error {
 	users := GithubUserList(results.Users)

@@ -1,0 +1,49 @@
+# ==============================================================================
+# .geminiignore - FINOPS & TOKEN CONTEXT OPTIMIZATION (commit-rank)
+# ==============================================================================
+
+# 1. HISTORICAL ARCHIVES (Preserved for credits, ignored in active context)
+museum-code/
+
+# 2. OPERATING SYSTEM & IDEs
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+
+# 3. BUILD ARTIFACTS & BINARIES
+*.exe
+*.dll
+*.so
+*.dylib
+*.bin
+bin/
+dist/
+build/
+out/
+
+# 4. LARGE GENERATED DATA & OUTPUTS
+*.csv
+_data/locations/*.yml
+rank_only/*.json
+
+# 5. LOGS & TEMPORARY FILES
+*.log
+*.tmp
+*.bak
+*.swp
+
+# 6. ASSETS & MEDIA (Prevents unnecessary multimodal token consumption)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.ico
+*.pdf
+*.zip
+*.tar.gz

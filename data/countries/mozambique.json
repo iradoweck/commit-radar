@@ -1,0 +1,72 @@
+{
+  "country": "Mozambique",
+  "generated_at": "2026-11-01",
+  "min_followers_required": 2,
+  "total_users": 2876,
+  "users": [
+    {
+      "rank": 1,
+      "name": "Edmilson Muacigarro",
+      "login": "iradoweck",
+      "avatar_url": "https://github.com/iradoweck.png",
+      "contributions": 2680,
+      "commits": 2110,
+      "prs": 165,
+      "company": "@zedecklab",
+      "organizations": ["zedecklab"]
+    },
+    {
+      "rank": 2,
+      "name": "Lead Architect",
+      "login": "lead_dev",
+      "avatar_url": "",
+      "contributions": 2420,
+      "commits": 1890,
+      "prs": 142,
+      "company": "@core-lab",
+      "organizations": ["core-lab"]
+    },
+    {
+      "rank": 3,
+      "name": "Staff Engineer",
+      "login": "staff_eng",
+      "avatar_url": "",
+      "contributions": 1980,
+      "commits": 1450,
+      "prs": 98,
+      "company": "@opensource",
+      "organizations": ["opensource"]
+    },
+    {
+      "rank": 4,
+      "name": "Senior Developer",
+      "login": "sr_dev",
+      "avatar_url": "",
+      "contributions": 1640,
+      "commits": 1210,
+      "prs": 74,
+      "company": "Freelance",
+      "organizations": []
+    }
+  ],
+  "organizations": [
+    {
+      "rank": 1,
+      "name": "zedecklab",
+      "members": 18,
+      "impact": "High"
+    },
+    {
+      "rank": 2,
+      "name": "core-lab",
+      "members": 14,
+      "impact": "High"
+    },
+    {
+      "rank": 3,
+      "name": "opensource",
+      "members": 9,
+      "impact": "High"
+    }
+  ]
+}
