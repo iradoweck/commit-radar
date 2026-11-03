@@ -80,6 +80,51 @@
             animation: subtleBeacon 2s ease-in-out infinite;
         }
 
+        /* Animação de fluxo contínuo de commits/dados pela árvore Git */
+        @keyframes treeDataFlowForward {
+            0% {
+                stroke-dashoffset: 48;
+            }
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes treeDataFlowBackward {
+            0% {
+                stroke-dashoffset: 0;
+            }
+            100% {
+                stroke-dashoffset: 48;
+            }
+        }
+
+        @keyframes nodeSparkle {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.4);
+                opacity: 1;
+            }
+        }
+
+        .flow-line-main {
+            stroke-dasharray: 4 6;
+            animation: treeDataFlowForward 2.4s linear infinite;
+        }
+
+        .flow-line-branch {
+            stroke-dasharray: 3 5;
+            animation: treeDataFlowBackward 3s linear infinite;
+        }
+
+        .flow-node-spark {
+            animation: nodeSparkle 2s ease-in-out infinite;
+            transform-origin: center;
+        }
+
         /* Oculta qualquer botão/iframe flutuante injetado pelo Ko-fi */
         #kofi-widget-overlay, .floatingchat-container-wrap, .floating-chat-kofi-popup-iframe, [id^="kofi-"] {
             display: none !important;
@@ -163,27 +208,65 @@
                     Most Active GitHub Users
                 </h1>
                 
-                <!-- Minimal Animated Logos: Git & GitHub -->
-                <div class="inline-flex items-center justify-center gap-2 p-1.5 bg-slate-50/90 border border-slate-200/80 rounded-2xl shadow-xs">
-                    <!-- Git Logo (Animated) -->
-                    <div class="group relative flex items-center justify-center w-10 h-10 rounded-xl bg-white border border-slate-200/80 shadow-2xs hover:border-orange-300 transition-colors cursor-pointer" title="Git Commits Ranking">
-                        <div class="absolute inset-0 rounded-xl bg-orange-500/10 anim-beacon"></div>
-                        <svg class="w-5 h-5 text-[#F05032] shrink-0 anim-git-icon relative z-10 drop-shadow-xs" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M23.546 10.93L13.067.452a1.5 1.5 0 0 0-2.126 0L8.808 2.585l3.528 3.529a1.782 1.782 0 0 1 2.25 2.261l3.393 3.393a1.777 1.777 0 0 1 1.781 1.002 1.788 1.788 0 0 1-.413 1.956 1.787 1.787 0 0 1-1.956.413 1.787 1.787 0 0 1-1.002-1.78l-3.268-3.27a1.784 1.784 0 0 1-.95.27 1.786 1.786 0 0 1-1.488-.813L7.147 13.91a1.784 1.784 0 0 1 .28 1.01 1.789 1.789 0 0 1-3.053 1.265 1.789 1.789 0 0 1 0-2.53 1.789 1.789 0 0 1 2.215-.224l3.376-3.376a1.785 1.785 0 0 1-.27-.952 1.788 1.788 0 0 1 .812-1.489L7.042 4.148.454 10.736a1.5 1.5 0 0 0 0 2.125l10.48 10.478a1.5 1.5 0 0 0 2.125 0l10.487-10.283a1.503 1.503 0 0 0 0-2.126"/>
-                        </svg>
-                        <span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
-                    </div>
+                <!-- Interactive Animated Git-to-GitHub Branching Tree Structure -->
+                <div class="inline-flex items-center justify-center p-2 sm:p-2.5 bg-slate-50/90 border border-slate-200/90 rounded-3xl shadow-xs max-w-full">
+                    <div class="flex items-center gap-2 sm:gap-4 relative select-none">
+                        
+                        <!-- 1. Git Source Node (Commits Origin) -->
+                        <div class="group relative flex items-center justify-center w-11 h-11 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-orange-400 transition transform hover:scale-105 cursor-pointer shrink-0" title="Git Commits Pipeline">
+                            <div class="absolute inset-0 rounded-2xl bg-orange-500/10 anim-beacon"></div>
+                            <svg class="w-5.5 h-5.5 text-[#F05032] shrink-0 anim-git-icon relative z-10 drop-shadow-xs" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.546 10.93L13.067.452a1.5 1.5 0 0 0-2.126 0L8.808 2.585l3.528 3.529a1.782 1.782 0 0 1 2.25 2.261l3.393 3.393a1.777 1.777 0 0 1 1.781 1.002 1.788 1.788 0 0 1-.413 1.956 1.787 1.787 0 0 1-1.956.413 1.787 1.787 0 0 1-1.002-1.78l-3.268-3.27a1.784 1.784 0 0 1-.95.27 1.786 1.786 0 0 1-1.488-.813L7.147 13.91a1.784 1.784 0 0 1 .28 1.01 1.789 1.789 0 0 1-3.053 1.265 1.789 1.789 0 0 1 0-2.53 1.789 1.789 0 0 1 2.215-.224l3.376-3.376a1.785 1.785 0 0 1-.27-.952 1.788 1.788 0 0 1 .812-1.489L7.042 4.148.454 10.736a1.5 1.5 0 0 0 0 2.125l10.48 10.478a1.5 1.5 0 0 0 2.125 0l10.487-10.283a1.503 1.503 0 0 0 0-2.126"/>
+                            </svg>
+                            <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-orange-500 animate-ping"></span>
+                        </div>
 
-                    <!-- Divider indicator -->
-                    <span class="text-xs font-mono font-bold text-slate-300 select-none px-0.5">&amp;</span>
+                        <!-- 2. Bidirectional Branching Tree Pipeline (SVG Vector Graph with pulsing commit nodes) -->
+                        <div class="w-24 sm:w-36 h-12 flex items-center justify-center relative shrink-0">
+                            <svg class="w-full h-full overflow-visible" viewBox="0 0 120 40" fill="none">
+                                <defs>
+                                    <linearGradient id="gitFlowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#F05032"/>
+                                        <stop offset="50%" stop-color="#8b5cf6"/>
+                                        <stop offset="100%" stop-color="#0f172a"/>
+                                    </linearGradient>
+                                    <linearGradient id="branchFlowGrad" x1="100%" y1="0%" x2="0%" y2="0%">
+                                        <stop offset="0%" stop-color="#10b981"/>
+                                        <stop offset="50%" stop-color="#0ea5e9"/>
+                                        <stop offset="100%" stop-color="#F05032"/>
+                                    </linearGradient>
+                                </defs>
 
-                    <!-- GitHub Logo (Animated) -->
-                    <div class="group relative flex items-center justify-center w-10 h-10 rounded-xl bg-white border border-slate-200/80 shadow-2xs hover:border-slate-400 transition-colors cursor-pointer" title="GitHub Contributions Ranking">
-                        <div class="absolute inset-0 rounded-xl bg-slate-900/10 anim-beacon"></div>
-                        <svg class="w-5 h-5 text-slate-950 shrink-0 anim-github-icon relative z-10 drop-shadow-xs" viewBox="0 0 24 24" fill="currentColor">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-                        </svg>
-                        <span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                                <!-- Main trunk (Git -> GitHub data flow) -->
+                                <path d="M 5 20 H 115" stroke="url(#gitFlowGrad)" stroke-width="2.2" stroke-linecap="round" class="flow-line-main"/>
+
+                                <!-- Upper branch (feature branch / push flow) -->
+                                <path d="M 20 20 C 35 6, 85 6, 100 20" stroke="url(#branchFlowGrad)" stroke-width="1.8" stroke-linecap="round" class="flow-line-branch"/>
+
+                                <!-- Lower branch (sync / pull request merge flow) -->
+                                <path d="M 100 20 C 85 34, 35 34, 20 20" stroke="url(#gitFlowGrad)" stroke-width="1.8" stroke-linecap="round" class="flow-line-main"/>
+
+                                <!-- Animated Commit Nodes on the Tree -->
+                                <!-- Origin commit node -->
+                                <circle cx="20" cy="20" r="3.2" fill="#F05032" stroke="#ffffff" stroke-width="1.5" class="flow-node-spark"/>
+                                <!-- Feature branch commit node (upper) -->
+                                <circle cx="60" cy="11.5" r="2.8" fill="#8b5cf6" stroke="#ffffff" stroke-width="1.2" class="flow-node-spark" style="animation-delay: 0.4s;"/>
+                                <!-- Merge commit node (lower) -->
+                                <circle cx="60" cy="28.5" r="2.8" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.2" class="flow-node-spark" style="animation-delay: 0.8s;"/>
+                                <!-- Sync destination node -->
+                                <circle cx="100" cy="20" r="3.2" fill="#10b981" stroke="#ffffff" stroke-width="1.5" class="flow-node-spark" style="animation-delay: 1.2s;"/>
+                            </svg>
+                        </div>
+
+                        <!-- 3. GitHub Destination & Aggregation Node (Community Ecosystem) -->
+                        <div class="group relative flex items-center justify-center w-11 h-11 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-slate-500 transition transform hover:scale-105 cursor-pointer shrink-0" title="GitHub PRs & Community Telemetry">
+                            <div class="absolute inset-0 rounded-2xl bg-slate-900/10 anim-beacon"></div>
+                            <svg class="w-5.5 h-5.5 text-slate-950 shrink-0 anim-github-icon relative z-10 drop-shadow-xs" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                            </svg>
+                            <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                        </div>
+
                     </div>
                 </div>
 
