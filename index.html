@@ -1394,16 +1394,19 @@
             const searchInput = document.getElementById('tableSearchInput');
             const sortGroup = document.getElementById('metricSortGroup');
 
+            const activeTabClass = 'inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 sm:py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition cursor-pointer select-none';
+            const inactiveTabClass = 'inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 sm:py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition cursor-pointer select-none';
+
             if (tab === 'devs') {
-                devsBtn.className = 'px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition cursor-pointer';
-                orgsBtn.className = 'px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition cursor-pointer';
+                devsBtn.className = activeTabClass;
+                orgsBtn.className = inactiveTabClass;
                 devsContent.classList.remove('hidden');
                 orgsContent.classList.add('hidden');
                 if (sortGroup) sortGroup.classList.remove('hidden');
                 if (searchInput) searchInput.placeholder = 'Search developer by name, @login, or company...';
             } else {
-                orgsBtn.className = 'px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition cursor-pointer';
-                devsBtn.className = 'px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition cursor-pointer';
+                orgsBtn.className = activeTabClass;
+                devsBtn.className = inactiveTabClass;
                 orgsContent.classList.remove('hidden');
                 devsContent.classList.add('hidden');
                 if (sortGroup) sortGroup.classList.add('hidden');
@@ -1501,20 +1504,40 @@
             const thCommits = document.getElementById('thCommitsArrow');
             const thContribs = document.getElementById('thContributionsArrow');
 
-            const activeClass = 'px-3 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition cursor-pointer flex items-center gap-1.5';
-            const inactiveClass = 'px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition cursor-pointer';
+            const activeClass = 'justify-center px-2.5 sm:px-3 py-1.5 rounded-lg bg-white shadow-xs text-slate-950 font-semibold transition cursor-pointer flex items-center gap-1.5 select-none';
+            const inactiveClass = 'justify-center px-2.5 sm:px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-950 transition cursor-pointer flex items-center gap-1.5 select-none';
 
             if (btnAll) {
                 btnAll.className = currentDevsSort === 'all' ? activeClass : inactiveClass;
-                btnAll.innerHTML = currentDevsSort === 'all' ? '<span class="w-2 h-2 rounded-full bg-emerald-500"></span><span>All (Total)</span>' : 'All (Total)';
+                btnAll.innerHTML = `
+                    <svg class="w-3.5 h-3.5 ${currentDevsSort === 'all' ? 'text-emerald-500' : 'text-slate-400'} shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/>
+                    </svg>
+                    <span>All (Total)</span>
+                `;
             }
             if (btnCommits) {
                 btnCommits.className = currentDevsSort === 'commits' ? activeClass : inactiveClass;
-                btnCommits.innerHTML = currentDevsSort === 'commits' ? '<span class="w-2 h-2 rounded-full bg-cyan-500"></span><span>Commits</span>' : 'Commits';
+                btnCommits.innerHTML = `
+                    <svg class="w-3.5 h-3.5 ${currentDevsSort === 'commits' ? 'text-cyan-600' : 'text-slate-400'} shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"/>
+                        <line x1="1.05" y1="12" x2="7" y2="12"/>
+                        <line x1="17.01" y1="12" x2="22.96" y2="12"/>
+                    </svg>
+                    <span>Commits</span>
+                `;
             }
             if (btnContribs) {
                 btnContribs.className = currentDevsSort === 'contributions' ? activeClass : inactiveClass;
-                btnContribs.innerHTML = currentDevsSort === 'contributions' ? '<span class="w-2 h-2 rounded-full bg-indigo-500"></span><span>Contributions</span>' : 'Contributions';
+                btnContribs.innerHTML = `
+                    <svg class="w-3.5 h-3.5 ${currentDevsSort === 'contributions' ? 'text-indigo-600' : 'text-slate-400'} shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="18" r="3"/>
+                        <circle cx="6" cy="6" r="3"/>
+                        <path d="M13 6h3a2 2 0 0 1 2 2v7"/>
+                        <line x1="6" y1="9" x2="6" y2="21"/>
+                    </svg>
+                    <span>Contributions</span>
+                `;
             }
 
             if (thAll) thAll.textContent = currentDevsSort === 'all' ? '▼' : '';
