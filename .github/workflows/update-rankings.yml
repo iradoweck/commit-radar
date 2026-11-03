@@ -38,7 +38,7 @@ jobs:
           if [ -n "${{ github.event.inputs.preset }}" ]; then
             PRESETS="${{ github.event.inputs.preset }}"
           else
-            PRESETS="worldwide mozambique angola nigeria south-africa kenya united-states canada mexico the-bahamas panama brazil argentina colombia venezuela uruguay netherlands portugal germany russia france china india japan south-korea saudi-arabia australia new-zealand papua-new-guinea hong-kong macau taiwan kosovo kurdistan"
+            PRESETS="mozambique"
           fi
 
           for preset in $PRESETS; do
