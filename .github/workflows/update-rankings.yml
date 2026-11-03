@@ -38,7 +38,8 @@ jobs:
           if [ -n "${{ github.event.inputs.preset }}" ]; then
             PRESETS="${{ github.event.inputs.preset }}"
           else
-            PRESETS="mozambique"
+            # Africa Catalog: Mozambique, Angola, Nigeria, South Africa, Kenya
+            PRESETS="mozambique angola nigeria south-africa kenya"
           fi
 
           for preset in $PRESETS; do
