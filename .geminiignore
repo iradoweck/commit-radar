@@ -2,8 +2,9 @@
 # .geminiignore - FINOPS & TOKEN CONTEXT OPTIMIZATION (commit-rank)
 # ==============================================================================
 
-# 1. HISTORICAL ARCHIVES (Preserved for credits, ignored in active context)
-museum-code/
+# 1. LOCAL DOCUMENTATION & PLANNING
+docs/
+*-plan.md
 
 # 2. OPERATING SYSTEM & IDEs
 .DS_Store

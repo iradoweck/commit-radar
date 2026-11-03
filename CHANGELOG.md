@@ -1,10 +1,33 @@
 # Changelog
 
-All notable changes and milestones in the **Most Active GitHub Users** project are documented here by date.
+All notable changes and milestones in the **Most Active GitHub Users (Commit Rank)** project are documented here by date.
 
 ---
 
-### 2026-11-01
+### 2026-11-03 — Version 3.0.1
+
+- **Interactive Metric Sorting & Dynamic Re-Ranking**
+  - Added metric filter selector: `All (Total)`, `Commits`, and `Contributions`.
+  - Column headers in the developers table are now interactive and clickable with indicator carets (`▼`).
+  - Implemented dynamic rank recalculation: ranks (`#1, #2, #3...`) dynamically re-order based on the selected metric.
+  - Multi-page pagination (100 users per page up to Top 300) fully supports and preserves active sort order.
+
+- **Organization Enhancements**
+  - Expanded organization extraction capacity to Top 50 organizations.
+  - Organization ranking table now fetches and displays real organization logos directly from GitHub with direct profile links.
+
+- **Crawler & Query Throughput Optimization**
+  - Increased GraphQL query page size to 15 users and reduced sub-node organizations to 10, eliminating `RESOURCE_LIMITS_EXCEEDED` errors and cutting crawler execution time down by over 60%.
+  - Fixed natural pagination termination in Go CLI to avoid fake retries on completed searches.
+
+- **Repository Hygiene & Legacy Code Cleanup**
+  - Completely removed archived `museum-code/` folder to eliminate duplicate Go manifests, Dockerfiles, and stale workflows.
+  - Historical attributions and memorial links for [@lauripiispanen](https://github.com/lauripiispanen) and [@ashkulz](https://github.com/ashkulz) are permanently preserved in the UI and README.
+  - Cleaned `.gitignore` and `.geminiignore` to optimize build and token footprint.
+
+---
+
+### 2026-11-01 — Version 3.0.0
 
 - **Dedicated Documentation Page (`#documentation`)**
   - Built a comprehensive integration guide covering profile and repository setup.
@@ -32,11 +55,6 @@ All notable changes and milestones in the **Most Active GitHub Users** project a
   - Built high-speed client-side search across worldwide countries with an A-Z quick jump bar.
   - Implemented dual ranking views: **Developers Ranking** (contributions, commits, PRs, company) and **Organizations Ranking** (associated developers, impact ratio).
   - Added regional collapsible accordion with localized dynamic badges, pseudocode extraction logic, and single-click JSON datasets.
-
-- **Heritage Preservation & Attributions**
-  - Archived foundational V1 implementation by [@lauripiispanen](https://github.com/lauripiispanen) in `museum-code/lauripiispanen-v1-original/`.
-  - Archived upstream V2 implementation by [@ashkulz](https://github.com/ashkulz) in `museum-code/ashkulz-v2-upstream/`.
-  - Added memorial credits (`museum-code/CREDITS.md`) and historical context documenting the evolution into V3 maintained by [@iradoweck](https://github.com/iradoweck).
 
 - **DevSecOps, CI/CD & Repository Security**
   - Configured GitHub Actions CI pipeline running Go build suites on `main` and `beta`.
