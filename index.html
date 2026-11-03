@@ -278,14 +278,30 @@
                     </p>
                 </div>
 
-                <!-- Tabs: Developers vs Organizations -->
-                <div class="inline-flex p-1 bg-slate-100 rounded-xl text-xs font-medium border border-slate-200/60">
-                    <button id="tabDevsBtn" onclick="switchTab('devs')" class="px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition">
-                        Developers Ranking
-                    </button>
-                    <button id="tabOrgsBtn" onclick="switchTab('orgs')" class="px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition">
-                        Organizations Ranking
-                    </button>
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <!-- Metric Sort Filter (All vs Commits vs Contributions) -->
+                    <div id="metricSortGroup" class="inline-flex p-1 bg-slate-100 rounded-xl text-xs font-medium border border-slate-200/60">
+                        <button id="sortAllBtn" onclick="setDevsSortMetric('all')" class="px-3 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition cursor-pointer flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                            <span>All (Total)</span>
+                        </button>
+                        <button id="sortCommitsBtn" onclick="setDevsSortMetric('commits')" class="px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition cursor-pointer">
+                            Commits
+                        </button>
+                        <button id="sortContributionsBtn" onclick="setDevsSortMetric('contributions')" class="px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition cursor-pointer">
+                            Contributions
+                        </button>
+                    </div>
+
+                    <!-- Tabs: Developers vs Organizations -->
+                    <div class="inline-flex p-1 bg-slate-100 rounded-xl text-xs font-medium border border-slate-200/60">
+                        <button id="tabDevsBtn" onclick="switchTab('devs')" class="px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition cursor-pointer">
+                            Developers
+                        </button>
+                        <button id="tabOrgsBtn" onclick="switchTab('orgs')" class="px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition cursor-pointer">
+                            Organizations
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -297,9 +313,24 @@
                             <tr>
                                 <th class="py-3 px-4 w-14">#</th>
                                 <th class="py-3 px-4">Developer</th>
-                                <th class="py-3 px-4">Commits</th>
-                                <th class="py-3 px-4">Contributions</th>
-                                <th class="py-3 px-4">All (Total)</th>
+                                <th class="py-3 px-4 cursor-pointer hover:text-slate-900 transition select-none" onclick="setDevsSortMetric('commits')">
+                                    <div class="flex items-center gap-1">
+                                        <span>Commits</span>
+                                        <span id="thCommitsArrow" class="text-[10px] text-slate-400"></span>
+                                    </div>
+                                </th>
+                                <th class="py-3 px-4 cursor-pointer hover:text-slate-900 transition select-none" onclick="setDevsSortMetric('contributions')">
+                                    <div class="flex items-center gap-1">
+                                        <span>Contributions</span>
+                                        <span id="thContributionsArrow" class="text-[10px] text-slate-400"></span>
+                                    </div>
+                                </th>
+                                <th class="py-3 px-4 cursor-pointer hover:text-slate-900 transition select-none text-emerald-700 bg-emerald-50/30" onclick="setDevsSortMetric('all')">
+                                    <div class="flex items-center gap-1">
+                                        <span>All (Total)</span>
+                                        <span id="thAllArrow" class="text-[10px] text-emerald-600">▼</span>
+                                    </div>
+                                </th>
                                 <th class="py-3 px-4">Company / Organizations</th>
                             </tr>
                         </thead>
@@ -1185,7 +1216,10 @@
             currentCountryData = data;
             document.getElementById('countryGeneratedAt').textContent = `Updated: ${data.generated_at}`;
 
-            renderDevelopersTable(data.users);
+            currentRawDevs = data.users || [];
+            currentDevsSort = 'all';
+            updateSortMetricUI();
+            applyDevsSorting(1);
             renderOrganizationsTable(data.organizations);
             updateCountryAccordion(country, data);
             
@@ -1305,9 +1339,84 @@
             }
         }
 
+        let currentRawDevs = [];
         let currentDevsList = [];
         let currentDevsPage = 1;
+        let currentDevsSort = 'all'; // 'all' | 'commits' | 'contributions'
         const DEVS_PER_PAGE = 100;
+
+        function setDevsSortMetric(metric) {
+            currentDevsSort = metric;
+            updateSortMetricUI();
+            applyDevsSorting(1);
+        }
+
+        function updateSortMetricUI() {
+            const btnAll = document.getElementById('sortAllBtn');
+            const btnCommits = document.getElementById('sortCommitsBtn');
+            const btnContribs = document.getElementById('sortContributionsBtn');
+
+            const thAll = document.getElementById('thAllArrow');
+            const thCommits = document.getElementById('thCommitsArrow');
+            const thContribs = document.getElementById('thContributionsArrow');
+
+            const activeClass = 'px-3 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition cursor-pointer flex items-center gap-1.5';
+            const inactiveClass = 'px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition cursor-pointer';
+
+            if (btnAll) {
+                btnAll.className = currentDevsSort === 'all' ? activeClass : inactiveClass;
+                btnAll.innerHTML = currentDevsSort === 'all' ? '<span class="w-2 h-2 rounded-full bg-emerald-500"></span><span>All (Total)</span>' : 'All (Total)';
+            }
+            if (btnCommits) {
+                btnCommits.className = currentDevsSort === 'commits' ? activeClass : inactiveClass;
+                btnCommits.innerHTML = currentDevsSort === 'commits' ? '<span class="w-2 h-2 rounded-full bg-cyan-500"></span><span>Commits</span>' : 'Commits';
+            }
+            if (btnContribs) {
+                btnContribs.className = currentDevsSort === 'contributions' ? activeClass : inactiveClass;
+                btnContribs.innerHTML = currentDevsSort === 'contributions' ? '<span class="w-2 h-2 rounded-full bg-indigo-500"></span><span>Contributions</span>' : 'Contributions';
+            }
+
+            if (thAll) thAll.textContent = currentDevsSort === 'all' ? '▼' : '';
+            if (thCommits) thCommits.textContent = currentDevsSort === 'commits' ? '▼' : '';
+            if (thContribs) thContribs.textContent = currentDevsSort === 'contributions' ? '▼' : '';
+        }
+
+        function applyDevsSorting(targetPage = 1) {
+            if (!currentRawDevs || currentRawDevs.length === 0) {
+                renderDevelopersTable([], 1);
+                return;
+            }
+
+            // Clone array before sorting
+            const sorted = [...currentRawDevs].sort((a, b) => {
+                const aCommits = a.commits || 0;
+                const bCommits = b.commits || 0;
+                const aContribs = a.contributions || 0;
+                const bContribs = b.contributions || 0;
+
+                if (currentDevsSort === 'commits') {
+                    if (bCommits !== aCommits) return bCommits - aCommits;
+                    return (bCommits + bContribs) - (aCommits + aContribs);
+                } else if (currentDevsSort === 'contributions') {
+                    if (bContribs !== aContribs) return bContribs - aContribs;
+                    return (bCommits + bContribs) - (aCommits + aContribs);
+                } else {
+                    // 'all'
+                    const totalA = aCommits + aContribs;
+                    const totalB = bCommits + bContribs;
+                    if (totalB !== totalA) return totalB - totalA;
+                    return bCommits - aCommits;
+                }
+            });
+
+            // Reatribui o Rank dinamicamente baseado no novo topo!
+            const ranked = sorted.map((u, index) => ({
+                ...u,
+                dynamicRank: index + 1
+            }));
+
+            renderDevelopersTable(ranked, targetPage);
+        }
 
         function renderDevelopersTable(users, page = 1) {
             currentDevsList = users || [];
@@ -1355,7 +1464,7 @@
                 const totalAll = commits + contributions;
 
                 tr.innerHTML = `
-                    <td class="py-3 px-4 font-mono font-medium text-slate-400">#${u.rank}</td>
+                    <td class="py-3 px-4 font-mono font-medium text-slate-400">#${u.dynamicRank || u.rank}</td>
                     <td class="py-3 px-4">
                         <a href="https://github.com/${u.login}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 group">
                             ${avatarImg}
