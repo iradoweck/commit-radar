@@ -305,6 +305,38 @@
                 </div>
             </div>
 
+            <!-- In-Table Search Bar (Developer or Organization with real-time rank preservation) -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50/80 p-3 rounded-xl border border-slate-200/80">
+                <div class="relative flex-1 max-w-md">
+                    <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35"/>
+                    </svg>
+                    <input 
+                        type="text" 
+                        id="tableSearchInput" 
+                        oninput="handleTableSearch()" 
+                        placeholder="Search developer by name, @login, or company..." 
+                        class="w-full pl-9 pr-8 py-1.5 text-xs bg-white border border-slate-200 rounded-lg placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900 transition"
+                    >
+                    <button 
+                        id="clearTableSearchBtn" 
+                        onclick="clearTableSearch()" 
+                        class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition"
+                    >
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+                <div id="tableSearchResultsStats" class="text-xs font-mono text-slate-500 flex items-center gap-1.5">
+                    <span id="tableSearchMatchesBadge" class="hidden px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200 font-semibold">
+                        Found
+                    </span>
+                    <span id="tableSearchMatchesCount"></span>
+                </div>
+            </div>
+
             <!-- TAB CONTENT 1: DEVELOPERS TABLE -->
             <div id="devsTabContent" class="space-y-4">
                 <div class="border border-slate-200 rounded-xl overflow-hidden shadow-xs">
@@ -1217,10 +1249,16 @@
             document.getElementById('countryGeneratedAt').textContent = `Updated: ${data.generated_at}`;
 
             currentRawDevs = data.users || [];
+            currentRawOrgs = data.organizations || [];
             currentDevsSort = 'all';
+            currentTableSearchQuery = '';
+            const searchInput = document.getElementById('tableSearchInput');
+            if (searchInput) searchInput.value = '';
+            const clearBtn = document.getElementById('clearTableSearchBtn');
+            if (clearBtn) clearBtn.classList.add('hidden');
+
             updateSortMetricUI();
             applyDevsSorting(1);
-            renderOrganizationsTable(data.organizations);
             updateCountryAccordion(country, data);
             
             switchTab('devs');
@@ -1321,29 +1359,98 @@
         }
 
         function switchTab(tab) {
+            currentActiveTab = tab;
             const devsBtn = document.getElementById('tabDevsBtn');
             const orgsBtn = document.getElementById('tabOrgsBtn');
             const devsContent = document.getElementById('devsTabContent');
             const orgsContent = document.getElementById('orgsTabContent');
+            const searchInput = document.getElementById('tableSearchInput');
+            const sortGroup = document.getElementById('metricSortGroup');
 
             if (tab === 'devs') {
-                devsBtn.className = 'px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition';
-                orgsBtn.className = 'px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition';
+                devsBtn.className = 'px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition cursor-pointer';
+                orgsBtn.className = 'px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition cursor-pointer';
                 devsContent.classList.remove('hidden');
                 orgsContent.classList.add('hidden');
+                if (sortGroup) sortGroup.classList.remove('hidden');
+                if (searchInput) searchInput.placeholder = 'Search developer by name, @login, or company...';
             } else {
-                orgsBtn.className = 'px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition';
-                devsBtn.className = 'px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition';
+                orgsBtn.className = 'px-4 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 font-semibold transition cursor-pointer';
+                devsBtn.className = 'px-4 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition cursor-pointer';
                 orgsContent.classList.remove('hidden');
                 devsContent.classList.add('hidden');
+                if (sortGroup) sortGroup.classList.add('hidden');
+                if (searchInput) searchInput.placeholder = 'Search organization by name (@org)...';
             }
+
+            executeActiveTableFilter(1);
         }
 
         let currentRawDevs = [];
+        let currentRankedDevs = [];
         let currentDevsList = [];
         let currentDevsPage = 1;
         let currentDevsSort = 'all'; // 'all' | 'commits' | 'contributions'
+        let currentActiveTab = 'devs'; // 'devs' | 'orgs'
+        let currentRawOrgs = [];
+        let currentTableSearchQuery = '';
         const DEVS_PER_PAGE = 100;
+
+        function getRankBadgeSvg(rank) {
+            if (rank === 1) {
+                // Ouro / 1st Place Trophy Badge
+                return `
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-amber-100/90 text-amber-900 border border-amber-300 font-bold font-mono text-[11px] shadow-2xs">
+                        <svg class="w-3.5 h-3.5 text-amber-600 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l2.4 4.8 5.3.8-3.8 3.7.9 5.3L12 16.1l-4.8 2.5.9-5.3L4.3 7.6l5.3-.8L12 2z"/>
+                        </svg>
+                        <span>#1</span>
+                    </span>
+                `;
+            } else if (rank === 2) {
+                // Prata / 2nd Place Medal Badge
+                return `
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-200 text-slate-800 border border-slate-300 font-bold font-mono text-[11px] shadow-2xs">
+                        <svg class="w-3.5 h-3.5 text-slate-500 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="8"/>
+                        </svg>
+                        <span>#2</span>
+                    </span>
+                `;
+            } else if (rank === 3) {
+                // Bronze / 3rd Place Medal Badge
+                return `
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-orange-100/90 text-orange-900 border border-orange-300 font-bold font-mono text-[11px] shadow-2xs">
+                        <svg class="w-3.5 h-3.5 text-orange-600 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="8"/>
+                        </svg>
+                        <span>#3</span>
+                    </span>
+                `;
+            } else if (rank === 4) {
+                // Top 4 Elite Laurel
+                return `
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-purple-50 text-purple-800 border border-purple-200 font-semibold font-mono text-[11px]">
+                        <svg class="w-3 h-3 text-purple-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span>#4</span>
+                    </span>
+                `;
+            } else if (rank === 5) {
+                // Top 5 Elite Laurel
+                return `
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-800 border border-blue-200 font-semibold font-mono text-[11px]">
+                        <svg class="w-3 h-3 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span>#5</span>
+                    </span>
+                `;
+            }
+            // Standard Rank
+            return `<span class="font-mono font-medium text-slate-400">#${rank}</span>`;
+        }
 
         function setDevsSortMetric(metric) {
             currentDevsSort = metric;
@@ -1383,6 +1490,7 @@
 
         function applyDevsSorting(targetPage = 1) {
             if (!currentRawDevs || currentRawDevs.length === 0) {
+                currentRankedDevs = [];
                 renderDevelopersTable([], 1);
                 return;
             }
@@ -1410,12 +1518,70 @@
             });
 
             // Reatribui o Rank dinamicamente baseado no novo topo!
-            const ranked = sorted.map((u, index) => ({
+            currentRankedDevs = sorted.map((u, index) => ({
                 ...u,
                 dynamicRank: index + 1
             }));
 
-            renderDevelopersTable(ranked, targetPage);
+            executeActiveTableFilter(targetPage);
+        }
+
+        function handleTableSearch() {
+            const input = document.getElementById('tableSearchInput');
+            const clearBtn = document.getElementById('clearTableSearchBtn');
+            currentTableSearchQuery = (input ? input.value : '').toLowerCase().trim();
+
+            if (clearBtn) {
+                if (currentTableSearchQuery.length > 0) {
+                    clearBtn.classList.remove('hidden');
+                } else {
+                    clearBtn.classList.add('hidden');
+                }
+            }
+
+            executeActiveTableFilter(1);
+        }
+
+        function clearTableSearch() {
+            const input = document.getElementById('tableSearchInput');
+            if (input) input.value = '';
+            handleTableSearch();
+        }
+
+        function executeActiveTableFilter(page = 1) {
+            const q = currentTableSearchQuery;
+            const badge = document.getElementById('tableSearchMatchesBadge');
+            const countEl = document.getElementById('tableSearchMatchesCount');
+
+            if (currentActiveTab === 'devs') {
+                let filtered = currentRankedDevs;
+                if (q.length > 0) {
+                    filtered = currentRankedDevs.filter(u => 
+                        (u.name && u.name.toLowerCase().includes(q)) ||
+                        (u.login && u.login.toLowerCase().includes(q)) ||
+                        (u.company && u.company.toLowerCase().includes(q))
+                    );
+                    if (badge) badge.classList.remove('hidden');
+                    if (countEl) countEl.textContent = `${filtered.length} matched dev${filtered.length === 1 ? '' : 's'} (Rank preserved)`;
+                } else {
+                    if (badge) badge.classList.add('hidden');
+                    if (countEl) countEl.textContent = `${currentRankedDevs.length} developers`;
+                }
+                renderDevelopersTable(filtered, page);
+            } else {
+                let filtered = currentRawOrgs;
+                if (q.length > 0) {
+                    filtered = currentRawOrgs.filter(o => 
+                        o.name && o.name.toLowerCase().includes(q)
+                    );
+                    if (badge) badge.classList.remove('hidden');
+                    if (countEl) countEl.textContent = `${filtered.length} matched org${filtered.length === 1 ? '' : 's'} (Rank preserved)`;
+                } else {
+                    if (badge) badge.classList.add('hidden');
+                    if (countEl) countEl.textContent = `${currentRawOrgs.length} organizations`;
+                }
+                renderOrganizationsTable(filtered);
+            }
         }
 
         function renderDevelopersTable(users, page = 1) {
@@ -1464,7 +1630,7 @@
                 const totalAll = commits + contributions;
 
                 tr.innerHTML = `
-                    <td class="py-3 px-4 font-mono font-medium text-slate-400">#${u.dynamicRank || u.rank}</td>
+                    <td class="py-3 px-4 select-none">${getRankBadgeSvg(u.dynamicRank || u.rank)}</td>
                     <td class="py-3 px-4">
                         <a href="https://github.com/${u.login}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 group">
                             ${avatarImg}
@@ -1550,7 +1716,7 @@
                 const orgAvatar = `<img src="https://github.com/${o.name}.png" onerror="this.onerror=null;this.src='https://github.com/github.png';" alt="${o.name}" class="w-6 h-6 rounded-md border border-slate-200 object-cover bg-slate-100 shrink-0">`;
                 
                 tr.innerHTML = `
-                    <td class="py-3 px-4 font-mono font-medium text-slate-400">#${o.rank}</td>
+                    <td class="py-3 px-4 select-none">${getRankBadgeSvg(o.rank)}</td>
                     <td class="py-3 px-4">
                         <a href="https://github.com/${o.name}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 group">
                             ${orgAvatar}
