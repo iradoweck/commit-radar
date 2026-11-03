@@ -342,7 +342,30 @@ var PRESETS = map[string]QueryPreset{
 	},
 	"mozambique": QueryPreset{
 		title:   "Mozambique",
-		include: []string{"mozambique", "maputo", "matola", "nampula", "beira", "sofala", "chimoio", "tete", "quelimane"},
+		include: []string{
+			// Nomes do País e abreviações oficiais / coloquiais
+			"mozambique", "moçambique", "moz", "mz", "moç",
+			// Cidade de Maputo & Província de Maputo
+			"maputo", "matola", "boane", "marracuene", "namaacha", "manhiça", "ressano+garcia",
+			// Gaza
+			"gaza", "xai-xai", "chókwè", "chokwe", "bilene", "mandlakazi",
+			// Inhambane
+			"inhambane", "maxixe", "vilankulo", "vilanculos", "morrumbene", "massinga",
+			// Sofala
+			"sofala", "beira", "dondo", "nhamatanda", "búzi", "buzi",
+			// Manica
+			"manica", "chimoio", "gondola", "catandica",
+			// Tete
+			"tete", "moatize", "songo", "cahora+bassa",
+			// Zambézia
+			"zambezia", "zambézia", "quelimane", "mocuba", "milange", "gurué", "gurue",
+			// Nampula
+			"nampula", "nacala", "angoche", "ilha+de+moçambique", "monapo",
+			// Cabo Delgado
+			"cabo+delgado", "pemba", "montepuez", "palma", "mocímboa+da+praia",
+			// Niassa
+			"niassa", "lichinga", "cuamba", "metangula",
+		},
 	},
 	"ivory coast": QueryPreset{
 		title:   "Ivory Coast",
