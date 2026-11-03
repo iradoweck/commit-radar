@@ -8,8 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Official Ko-fi Overlay Widget Script for Direct Donation Popup -->
-    <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
+
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -40,9 +39,12 @@
             animation: donateGlow 2.8s infinite;
         }
 
-        /* Oculta apenas o botão flutuante redondo do Ko-fi, permitindo abrir o iframe sob demanda */
-        #kofi-widget-overlay, .floatingchat-container-wrap {
+        /* Oculta qualquer botão/iframe flutuante injetado pelo Ko-fi */
+        #kofi-widget-overlay, .floatingchat-container-wrap, .floating-chat-kofi-popup-iframe, [id^="kofi-"] {
             display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
         }
     </style>
 </head>
@@ -1839,15 +1841,7 @@
 
         function openKofiDirectGoal() {
             closeModal('donateModal');
-            try {
-                if (window.kofiWidgetOverlay) {
-                    kofiWidgetOverlay.open();
-                } else {
-                    window.open('https://ko-fi.com/edmilsonmuacigarro/goal?g=0', '_blank');
-                }
-            } catch(e) {
-                window.open('https://ko-fi.com/edmilsonmuacigarro/goal?g=0', '_blank');
-            }
+            window.open('https://ko-fi.com/edmilsonmuacigarro/goal?g=0', '_blank');
         }
 
         function openAboutModal(e) {
@@ -1934,22 +1928,7 @@
             }
         }
 
-        // Initialize Ko-fi Overlay Widget on Load
-        window.addEventListener('DOMContentLoaded', () => {
-            try {
-                if (typeof kofiWidgetOverlay !== 'undefined') {
-                    kofiWidgetOverlay.draw('edmilsonmuacigarro', {
-                        'type': 'floating-chat',
-                        'floating-chat.donatebutton.text': 'Donate',
-                        'floating-chat.donatebutton.background-color': '#0f172a',
-                        'floating-chat.donatebutton.text-color': '#fff'
-                    });
-                    // Ocultamos o botão flutuante padrão do Ko-fi para usar o nosso botão de destaque personalizado
-                    const kofiDefaultBtn = document.getElementById('kofi-widget-overlay');
-                    if (kofiDefaultBtn) kofiDefaultBtn.style.display = 'none';
-                }
-            } catch(e) {}
-        });
+
 
         renderAlphabetBar();
         renderContinentFilters();
