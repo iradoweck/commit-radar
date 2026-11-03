@@ -297,9 +297,9 @@
                             <tr>
                                 <th class="py-3 px-4 w-14">#</th>
                                 <th class="py-3 px-4">Developer</th>
-                                <th class="py-3 px-4">Total Contributions</th>
                                 <th class="py-3 px-4">Commits</th>
-                                <th class="py-3 px-4">Pull Requests</th>
+                                <th class="py-3 px-4">Contributions</th>
+                                <th class="py-3 px-4">All (Total)</th>
                                 <th class="py-3 px-4">Company / Organizations</th>
                             </tr>
                         </thead>
@@ -307,6 +307,13 @@
                             <!-- Injected via JS -->
                         </tbody>
                     </table>
+                </div>
+                <!-- Pagination Controls -->
+                <div id="devsPagination" class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+                    <span id="devsPageInfo" class="text-xs text-slate-500 font-mono">Showing 1-100 of 300</span>
+                    <div id="devsPageButtons" class="flex items-center gap-1.5">
+                        <!-- Buttons via JS -->
+                    </div>
                 </div>
             </div>
 
@@ -317,7 +324,7 @@
                         <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-medium font-mono">
                             <tr>
                                 <th class="py-3 px-4 w-16">#</th>
-                                <th class="py-3 px-4">Organization / Company</th>
+                                <th class="py-3 px-4">Organization & Profile</th>
                                 <th class="py-3 px-4">Associated Developers</th>
                                 <th class="py-3 px-4">Impact Ratio</th>
                             </tr>
@@ -1143,9 +1150,17 @@
                     return await res.json();
                 }
             } catch (e) {
-                // Fallback para dados demonstrativos locais caso o JSON ainda não tenha sido gerado pelo pipeline
+                // Erro ou arquivo ainda não gerado
             }
-            return generateCountryData(country);
+            return {
+                country: country.name,
+                country_code: country.code,
+                generated_at: "In Progress (GitHub Actions)",
+                total_users: 0,
+                users: [],
+                organizations: [],
+                isPending: true
+            };
         }
 
         async function openCountryView(country) {
@@ -1290,47 +1305,156 @@
             }
         }
 
-        function renderDevelopersTable(users) {
+        let currentDevsList = [];
+        let currentDevsPage = 1;
+        const DEVS_PER_PAGE = 100;
+
+        function renderDevelopersTable(users, page = 1) {
+            currentDevsList = users || [];
+            currentDevsPage = page;
             const tbody = document.getElementById('devsTableBody');
+            const paginationEl = document.getElementById('devsPagination');
             tbody.innerHTML = '';
-            users.forEach(u => {
+
+            if (currentDevsList.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="py-12 text-center text-slate-500">
+                            <div class="max-w-md mx-auto space-y-3">
+                                <div class="w-10 h-10 mx-auto rounded-full bg-slate-100 text-slate-400 flex items-center justify-center font-mono text-sm">∅</div>
+                                <div class="font-semibold text-slate-800 text-sm">No developer datasets indexed yet</div>
+                                <p class="text-xs text-slate-400">Rankings for this region are currently queued in our daily crawler pipeline.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                if (paginationEl) paginationEl.classList.add('hidden');
+                return;
+            }
+
+            if (paginationEl) paginationEl.classList.remove('hidden');
+
+            const total = currentDevsList.length;
+            const totalPages = Math.ceil(total / DEVS_PER_PAGE);
+            if (currentDevsPage > totalPages) currentDevsPage = totalPages;
+            if (currentDevsPage < 1) currentDevsPage = 1;
+
+            const startIndex = (currentDevsPage - 1) * DEVS_PER_PAGE;
+            const endIndex = Math.min(startIndex + DEVS_PER_PAGE, total);
+            const pageUsers = currentDevsList.slice(startIndex, endIndex);
+
+            pageUsers.forEach(u => {
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-50/70 transition-colors';
                 const avatarImg = u.avatar_url 
                     ? `<img src="${u.avatar_url}" alt="${u.login}" class="w-6 h-6 rounded-full border border-slate-200 object-cover">`
                     : `<img src="https://github.com/${u.login}.png" onerror="this.style.display='none'" alt="${u.login}" class="w-6 h-6 rounded-full border border-slate-200 object-cover bg-slate-100">`;
+
+                const commits = u.commits || 0;
+                const contributions = u.contributions || 0;
+                const totalAll = commits + contributions;
+
                 tr.innerHTML = `
                     <td class="py-3 px-4 font-mono font-medium text-slate-400">#${u.rank}</td>
                     <td class="py-3 px-4">
                         <a href="https://github.com/${u.login}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 group">
                             ${avatarImg}
-                            <span class="font-medium text-slate-900 group-hover:underline">${u.name}</span>
-                            <span class="font-mono text-slate-400">@${u.login}</span>
+                            <div class="truncate">
+                                <span class="font-medium text-slate-900 group-hover:underline block truncate">${u.name}</span>
+                                <span class="font-mono text-slate-400 text-[10px] block truncate">@${u.login}</span>
+                            </div>
                         </a>
                     </td>
-                    <td class="py-3 px-4 font-mono font-semibold text-slate-900">${(u.contributions || 0).toLocaleString()}</td>
-                    <td class="py-3 px-4 font-mono text-slate-600">${(u.commits || 0).toLocaleString()}</td>
-                    <td class="py-3 px-4 font-mono text-slate-600">${(u.prs || 0).toLocaleString()}</td>
-                    <td class="py-3 px-4 text-slate-500 font-mono text-[11px]">${u.company || '-'}</td>
+                    <td class="py-3 px-4 font-mono font-semibold text-slate-900">${commits.toLocaleString()}</td>
+                    <td class="py-3 px-4 font-mono text-slate-700">${contributions.toLocaleString()}</td>
+                    <td class="py-3 px-4 font-mono font-bold text-emerald-600 bg-emerald-50/40">${totalAll.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-slate-500 font-mono text-[11px] truncate max-w-[200px]" title="${u.company || '-'}">${u.company || '-'}</td>
                 `;
                 tbody.appendChild(tr);
             });
+
+            // Update Pagination UI
+            const pageInfo = document.getElementById('devsPageInfo');
+            if (pageInfo) {
+                pageInfo.textContent = `Showing ${startIndex + 1}-${endIndex} of ${total} developers`;
+            }
+
+            const buttonsWrap = document.getElementById('devsPageButtons');
+            if (buttonsWrap) {
+                buttonsWrap.innerHTML = '';
+
+                // Prev Button
+                const prevBtn = document.createElement('button');
+                prevBtn.disabled = currentDevsPage <= 1;
+                prevBtn.className = `px-2.5 py-1 text-xs font-medium rounded-lg border transition cursor-pointer ${
+                    currentDevsPage <= 1 ? 'border-slate-100 text-slate-300 cursor-not-allowed' : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                }`;
+                prevBtn.textContent = 'Previous';
+                prevBtn.onclick = () => renderDevelopersTable(currentDevsList, currentDevsPage - 1);
+                buttonsWrap.appendChild(prevBtn);
+
+                // Page numbers
+                for (let i = 1; i <= totalPages; i++) {
+                    const numBtn = document.createElement('button');
+                    const isCur = i === currentDevsPage;
+                    numBtn.className = `w-7 h-7 text-xs font-mono rounded-lg transition cursor-pointer ${
+                        isCur ? 'bg-slate-900 text-white font-semibold' : 'border border-slate-200 text-slate-600 hover:bg-slate-50'
+                    }`;
+                    numBtn.textContent = i;
+                    numBtn.onclick = () => renderDevelopersTable(currentDevsList, i);
+                    buttonsWrap.appendChild(numBtn);
+                }
+
+                // Next Button
+                const nextBtn = document.createElement('button');
+                nextBtn.disabled = currentDevsPage >= totalPages;
+                nextBtn.className = `px-2.5 py-1 text-xs font-medium rounded-lg border transition cursor-pointer ${
+                    currentDevsPage >= totalPages ? 'border-slate-100 text-slate-300 cursor-not-allowed' : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                }`;
+                nextBtn.textContent = 'Next';
+                nextBtn.onclick = () => renderDevelopersTable(currentDevsList, currentDevsPage + 1);
+                buttonsWrap.appendChild(nextBtn);
+            }
         }
 
         function renderOrganizationsTable(orgs) {
             const tbody = document.getElementById('orgsTableBody');
             tbody.innerHTML = '';
+
+            if (!orgs || orgs.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="py-12 text-center text-slate-500">
+                            <div class="max-w-md mx-auto space-y-2">
+                                <div class="font-semibold text-slate-800 text-sm">No organizations indexed</div>
+                                <p class="text-xs text-slate-400">Public organizations associated with active developers will appear here.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
             orgs.forEach(o => {
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-50/70 transition-colors';
+                const orgAvatar = `<img src="https://github.com/${o.name}.png" onerror="this.onerror=null;this.src='https://github.com/github.png';" alt="${o.name}" class="w-6 h-6 rounded-md border border-slate-200 object-cover bg-slate-100 shrink-0">`;
+                
                 tr.innerHTML = `
                     <td class="py-3 px-4 font-mono font-medium text-slate-400">#${o.rank}</td>
-                    <td class="py-3 px-4 font-medium text-slate-900 font-mono">
-                        <a href="https://github.com/${o.name}" target="_blank" rel="noopener noreferrer" class="hover:underline">@${o.name}</a>
-                    </td>
-                    <td class="py-3 px-4 font-mono text-slate-700 font-semibold">${o.members} developers</td>
                     <td class="py-3 px-4">
-                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono bg-slate-100 text-slate-600">
+                        <a href="https://github.com/${o.name}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 group">
+                            ${orgAvatar}
+                            <span class="font-medium text-slate-900 group-hover:underline font-mono">@${o.name}</span>
+                        </a>
+                    </td>
+                    <td class="py-3 px-4 font-mono text-slate-700 font-semibold">${o.members} developer${o.members > 1 ? 's' : ''}</td>
+                    <td class="py-3 px-4">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono ${
+                            o.impact === 'High' ? 'bg-purple-50 text-purple-700 border border-purple-200 font-semibold' :
+                            o.impact === 'Medium' ? 'bg-indigo-50 text-indigo-700 border border-indigo-200' :
+                            'bg-slate-100 text-slate-600'
+                        }">
                             ${o.impact}
                         </span>
                     </td>

@@ -158,15 +158,9 @@ Pages:
 				}
 			}
 			dataNode, ok := rootNode["data"].(map[string]interface{})
-			if !ok {
-				retryCount++
-				if retryCount < maxRetryCount {
-					log.Println("Error accessing data element")
-					time.Sleep(10 * time.Second)
-					continue Pages
-				} else {
-					log.Fatalln("Too many errors received. Quitting.")
-				}
+			if !ok || dataNode == nil || dataNode["search"] == nil {
+				// Fim natural dos resultados de busca
+				break Pages
 			}
 
 			searchNode := dataNode["search"].(map[string]interface{})

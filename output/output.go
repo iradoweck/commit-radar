@@ -78,7 +78,7 @@ func JsonOutput(results github.GithubSearchResults, writer io.Writer, options to
 		})
 	}
 
-	topOrgs := topPublic.TopOrgs(25)
+	topOrgs := topPublic.TopOrgs(50)
 	jsonOrgs := make([]JsonOrganization, 0, len(topOrgs))
 	for i, org := range topOrgs {
 		impact := "Normal"
