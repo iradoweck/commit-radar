@@ -41,6 +41,45 @@
             animation: donateGlow 2.8s infinite;
         }
 
+        /* Animações elegantes dos Pilares Git & GitHub */
+        @keyframes gitPulseTilt {
+            0%, 100% {
+                transform: rotate(0deg) scale(1);
+            }
+            25% {
+                transform: rotate(-7deg) scale(1.08);
+            }
+            75% {
+                transform: rotate(7deg) scale(1.08);
+            }
+        }
+
+        @keyframes githubFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes subtleBeacon {
+            0%, 100% { opacity: 0.25; transform: scale(0.95); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        .anim-git-icon {
+            animation: gitPulseTilt 3.6s ease-in-out infinite;
+        }
+
+        .anim-github-icon {
+            animation: githubFloat 2.8s ease-in-out infinite;
+        }
+
+        .anim-beacon {
+            animation: subtleBeacon 2s ease-in-out infinite;
+        }
+
         /* Oculta qualquer botão/iframe flutuante injetado pelo Ko-fi */
         #kofi-widget-overlay, .floatingchat-container-wrap, .floating-chat-kofi-popup-iframe, [id^="kofi-"] {
             display: none !important;
@@ -124,30 +163,42 @@
                     Most Active GitHub Users
                 </h1>
                 
-                <!-- Dual Ranking Pillars: Git Commits & GitHub Contributions -->
+                <!-- Dual Ranking Pillars: Animated Git Commits & GitHub Contributions -->
                 <div class="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 p-1.5 bg-slate-50/90 border border-slate-200/80 rounded-2xl shadow-xs">
-                    <!-- Git Pillar Badge -->
-                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-slate-200/70 shadow-2xs">
-                        <svg class="w-4 h-4 text-[#F05032] shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M23.546 10.93L13.067.452a1.5 1.5 0 0 0-2.126 0L8.808 2.585l3.528 3.529a1.782 1.782 0 0 1 2.25 2.261l3.393 3.393a1.777 1.777 0 0 1 1.781 1.002 1.788 1.788 0 0 1-.413 1.956 1.787 1.787 0 0 1-1.956.413 1.787 1.787 0 0 1-1.002-1.78l-3.268-3.27a1.784 1.784 0 0 1-.95.27 1.786 1.786 0 0 1-1.488-.813L7.147 13.91a1.784 1.784 0 0 1 .28 1.01 1.789 1.789 0 0 1-3.053 1.265 1.789 1.789 0 0 1 0-2.53 1.789 1.789 0 0 1 2.215-.224l3.376-3.376a1.785 1.785 0 0 1-.27-.952 1.788 1.788 0 0 1 .812-1.489L7.042 4.148.454 10.736a1.5 1.5 0 0 0 0 2.125l10.48 10.478a1.5 1.5 0 0 0 2.125 0l10.487-10.283a1.503 1.503 0 0 0 0-2.126"/>
-                        </svg>
+                    <!-- Git Pillar Badge (Animated) -->
+                    <div class="group relative flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-white border border-slate-200/80 shadow-2xs hover:border-orange-300 transition-colors">
+                        <div class="relative w-5 h-5 flex items-center justify-center">
+                            <div class="absolute inset-0 rounded-full bg-orange-500/20 anim-beacon"></div>
+                            <svg class="w-4.5 h-4.5 text-[#F05032] shrink-0 anim-git-icon relative z-10 drop-shadow-xs" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.546 10.93L13.067.452a1.5 1.5 0 0 0-2.126 0L8.808 2.585l3.528 3.529a1.782 1.782 0 0 1 2.25 2.261l3.393 3.393a1.777 1.777 0 0 1 1.781 1.002 1.788 1.788 0 0 1-.413 1.956 1.787 1.787 0 0 1-1.956.413 1.787 1.787 0 0 1-1.002-1.78l-3.268-3.27a1.784 1.784 0 0 1-.95.27 1.786 1.786 0 0 1-1.488-.813L7.147 13.91a1.784 1.784 0 0 1 .28 1.01 1.789 1.789 0 0 1-3.053 1.265 1.789 1.789 0 0 1 0-2.53 1.789 1.789 0 0 1 2.215-.224l3.376-3.376a1.785 1.785 0 0 1-.27-.952 1.788 1.788 0 0 1 .812-1.489L7.042 4.148.454 10.736a1.5 1.5 0 0 0 0 2.125l10.48 10.478a1.5 1.5 0 0 0 2.125 0l10.487-10.283a1.503 1.503 0 0 0 0-2.126"/>
+                            </svg>
+                        </div>
                         <div class="text-left">
-                            <span class="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 leading-none">Git Engine</span>
-                            <span class="block text-xs font-semibold text-slate-800 leading-tight">Pure Commits</span>
+                            <div class="flex items-center gap-1.5">
+                                <span class="block text-[10px] font-mono font-bold uppercase tracking-wider text-orange-600 leading-none">Git Engine</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping"></span>
+                            </div>
+                            <span class="block text-xs font-semibold text-slate-900 leading-tight">Pure Commits</span>
                         </div>
                     </div>
 
-                    <!-- Divider dot / vs indicator -->
+                    <!-- Divider indicator -->
                     <span class="text-xs font-mono font-bold text-slate-300 select-none">&amp;</span>
 
-                    <!-- GitHub Pillar Badge -->
-                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-slate-200/70 shadow-2xs">
-                        <svg class="w-4 h-4 text-slate-900 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-                        </svg>
+                    <!-- GitHub Pillar Badge (Animated) -->
+                    <div class="group relative flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-white border border-slate-200/80 shadow-2xs hover:border-slate-400 transition-colors">
+                        <div class="relative w-5 h-5 flex items-center justify-center">
+                            <div class="absolute inset-0 rounded-full bg-slate-900/10 anim-beacon"></div>
+                            <svg class="w-4.5 h-4.5 text-slate-950 shrink-0 anim-github-icon relative z-10 drop-shadow-xs" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                            </svg>
+                        </div>
                         <div class="text-left">
-                            <span class="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 leading-none">GitHub Platform</span>
-                            <span class="block text-xs font-semibold text-slate-800 leading-tight">Total Contributions &amp; PRs</span>
+                            <div class="flex items-center gap-1.5">
+                                <span class="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-600 leading-none">GitHub Platform</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                            </div>
+                            <span class="block text-xs font-semibold text-slate-900 leading-tight">Total Contributions &amp; PRs</span>
                         </div>
                     </div>
                 </div>
