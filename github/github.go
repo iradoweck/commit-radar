@@ -68,7 +68,7 @@ func (client HTTPGithubClient) SearchUsers(query UserSearchQuery) (GithubSearchR
 	totalCount := 0
 	minFollowerCount := -1
 	maxPerQuery := 1000
-	perPage := 5
+	perPage := 25
 	totalUsersCount := 0
 
 	retryCount := 0
@@ -139,7 +139,7 @@ Pages:
 			if err := json.Unmarshal(body, &response); err != nil {
 				retryCount++
 				if retryCount < maxRetryCount {
-					log.Println("error unmarshalling JSON response... retrying")
+					log.Printf("error unmarshalling JSON response (retry %d/%d): %v", retryCount, maxRetryCount, err)
 					time.Sleep(10 * time.Second)
 					continue Pages
 				} else {
