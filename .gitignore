@@ -4,6 +4,7 @@ _data/locations/*.yml
 
 # Planning and notes
 *-plan.md
+/docs/
 
 # Local environment / IDE
 .DS_Store
