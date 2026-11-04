@@ -1595,6 +1595,17 @@
             executeActiveTableFilter(1);
         }
 
+                // HTML Sanitization Helper to prevent XSS from unescaped user profile fields
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         let currentRawDevs = [];
         let currentRankedDevs = [];
         let currentDevsList = [];
@@ -1865,21 +1876,25 @@
                 const contributions = u.contributions || 0;
                 const totalAll = commits + contributions;
 
+                const safeLogin = encodeURIComponent(u.login || '');
+                const safeName = escapeHtml(u.name || u.login || '');
+                const safeCompany = escapeHtml(u.company || '-');
+
                 tr.innerHTML = `
                     <td class="py-3 px-4 select-none">${getRankBadgeSvg(u.dynamicRank || u.rank)}</td>
                     <td class="py-3 px-4">
-                        <a href="https://github.com/${u.login}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 group">
+                        <a href="https://github.com/${safeLogin}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 group">
                             ${avatarImg}
                             <div class="truncate">
-                                <span class="font-medium text-slate-900 group-hover:underline block truncate">${u.name}</span>
-                                <span class="font-mono text-slate-400 text-[10px] block truncate">@${u.login}</span>
+                                <span class="font-medium text-slate-900 group-hover:underline block truncate">${safeName}</span>
+                                <span class="font-mono text-slate-400 text-[10px] block truncate">@${safeLogin}</span>
                             </div>
                         </a>
                     </td>
                     <td class="py-3 px-4 font-mono font-semibold text-slate-900">${commits.toLocaleString()}</td>
                     <td class="py-3 px-4 font-mono text-slate-700">${contributions.toLocaleString()}</td>
                     <td class="py-3 px-4 font-mono font-bold text-emerald-600 bg-emerald-50/40">${totalAll.toLocaleString()}</td>
-                    <td class="py-3 px-4 text-slate-500 font-mono text-[11px] truncate max-w-[200px]" title="${u.company || '-'}">${u.company || '-'}</td>
+                    <td class="py-3 px-4 text-slate-500 font-mono text-[11px] truncate max-w-[200px]" title="${safeCompany}">${safeCompany}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -1949,14 +1964,16 @@
             orgs.forEach(o => {
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-50/70 transition-colors';
-                const orgAvatar = `<img src="https://github.com/${o.name}.png" onerror="this.onerror=null;this.src='https://github.com/github.png';" alt="${o.name}" class="w-6 h-6 rounded-md border border-slate-200 object-cover bg-slate-100 shrink-0">`;
+                const safeOrgName = encodeURIComponent(o.name || '');
+                const safeOrgDisplay = escapeHtml(o.name || '');
+                const orgAvatar = `<img src="https://github.com/${safeOrgName}.png" onerror="this.onerror=null;this.src='https://github.com/github.png';" alt="${safeOrgDisplay}" class="w-6 h-6 rounded-md border border-slate-200 object-cover bg-slate-100 shrink-0">`;
                 
                 tr.innerHTML = `
                     <td class="py-3 px-4 select-none">${getRankBadgeSvg(o.rank)}</td>
                     <td class="py-3 px-4">
-                        <a href="https://github.com/${o.name}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 group">
+                        <a href="https://github.com/${safeOrgName}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 group">
                             ${orgAvatar}
-                            <span class="font-medium text-slate-900 group-hover:underline font-mono">@${o.name}</span>
+                            <span class="font-medium text-slate-900 group-hover:underline font-mono">@${safeOrgDisplay}</span>
                         </a>
                     </td>
                     <td class="py-3 px-4 font-mono text-slate-700 font-semibold">${o.members} developer${o.members > 1 ? 's' : ''}</td>
