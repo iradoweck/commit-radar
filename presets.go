@@ -664,7 +664,29 @@ var PRESETS = map[string]QueryPreset{
 	},
 	"united states": QueryPreset{
 		title:   "United States",
-		include: []string{",+US", "USA", "United+States", "Alabama", ",+AL", "Alaska", ",+AK", "Arizona", ",+AZ", "Arkansas", ",+AR", "California", ",+CA", "Colorado", ",+CO", "Connecticut", ",+CT", "Delaware", ",+DE", "Florida", ",+FL", "Georgia", ",+GA", "Hawaii", ",+HI", "Idaho", ",+ID", "Illinois", ",+IL", "Indiana", ",+IN", "Iowa", ",+IA", "Kansas", ",+KS", "Kentucky", ",+KY", "Louisiana", ",+LA", "Maine", ",+ME", "Maryland", ",+MD", "Massachusetts", ",+MA", "Michigan", ",+MI", "Minnesota", ",+MN", "Mississippi", ",+MS", "Missouri", ",+MO", "Montana", ",+MT", "Nebraska", ",+NE", "Nevada", ",+NV", "New+Hampshire", ",+NH", "New+Jersey", ",+NJ", "New+Mexico", ",+NM", "New+York", ",+NY", "North+Carolina", ",+NC", "North+Dakota", ",+ND", "Ohio", ",+OH", "Oklahoma", ",+OK", "Oregon", ",+OR", "Pennsylvania", ",+PA", "Rhode+Island", ",+RI", "South+Carolina", ",+SC", "South+Dakota", ",+SD", "Tennessee", ",+TN", "Texas", ",+TX", "Utah", ",+UT", "Vermont", ",+VT", "Virginia", ",+VA", "Washington", ",+WA", "West+Virginia", ",+WV", "Wisconsin", ",+WI", "Wyoming", ",+WY", "Los+Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San+Antonio", "San+Diego", "Dallas", "San+Jose", "Austin", "Jacksonville", "Fort+Worth", "Columbus", "Charlotte", "San+Francisco", "Indianapolis", "Seattle", "Denver", "Boston", "El+Paso", "Nashville", "Detroit", "Portland", "Las+Vegas", "Memphis", "Louisville", "Baltimore"},
+		include: []string{
+			// País e qualificadores nacionais
+			"United+States", "USA",
+			// Todos os 50 Estados Americanos
+			"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
+			"Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
+			"Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri",
+			"Montana", "Nebraska", "Nevada", "New+Hampshire", "New+Jersey", "New+Mexico", "New+York",
+			"North+Carolina", "North+Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode+Island",
+			"South+Carolina", "South+Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
+			"West+Virginia", "Wisconsin", "Wyoming",
+			// Principais Capitais e Hubs Tecnológicos / Econômicos
+			"Montgomery", "Juneau", "Phoenix", "Little+Rock", "Sacramento", "Los+Angeles", "San+Francisco",
+			"San+Jose", "San+Diego", "Denver", "Hartford", "Dover", "Tallahassee", "Miami", "Atlanta",
+			"Honolulu", "Boise", "Springfield", "Chicago", "Indianapolis", "Des+Moines", "Topeka",
+			"Frankfort", "Baton+Rouge", "Augusta", "Annapolis", "Baltimore", "Boston", "Lansing", "Detroit",
+			"Saint+Paul", "Minneapolis", "Jackson", "Jefferson+City", "Helena", "Lincoln", "Omaha",
+			"Carson+City", "Las+Vegas", "Concord", "Trenton", "Santa+Fe", "Albany", "New+York+City",
+			"Raleigh", "Charlotte", "Bismarck", "Columbus", "Oklahoma+City", "Salem", "Portland",
+			"Harrisburg", "Philadelphia", "Providence", "Columbia", "Pierre", "Nashville", "Austin",
+			"Houston", "Dallas", "Salt+Lake+City", "Montpelier", "Richmond", "Olympia", "Seattle",
+			"Charleston", "Madison", "Cheyenne", "Washington+D.C.",
+		},
 	},
 	"macedonia": QueryPreset{
 		title:   "North Macedonia",

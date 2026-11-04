@@ -96,6 +96,7 @@ type Options struct {
 	ExcludeLocations []string
 	Amount           int
 	ConsiderNum      int
+	OrgsAmount       int
 	PresetTitle      string
 	PresetChecksum   string
 }
