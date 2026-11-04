@@ -136,7 +136,18 @@ var PRESETS = map[string]QueryPreset{
 	},
 	"nigeria": QueryPreset{
 		title:   "Nigeria",
-		include: []string{"nigeria", "lagos", "kano", "ibadan", "benin+city", "port+harcourt", "jos", "ilorin", "kaduna"},
+		include: []string{
+			// País e termos coloquiais
+			"nigeria", "ng", "naija",
+			// Lagos & Tech Hubs
+			"lagos", "yaba", "ikeja", "lekki", "victoria+island", "surulere",
+			// FCT & Northern Tech Hubs
+			"abuja", "fct", "kano", "kaduna", "zaria", "jos", "ilorin", "sokoto", "maiduguri",
+			// Southern & Eastern Hubs
+			"ibadan", "oyo", "ogun", "abeokuta", "osun", "oshogbo", "ondo", "akure", "ekiti", "ado-ekiti",
+			"port+harcourt", "rivers", "benin+city", "edo", "delta", "warri", "asaba",
+			"enugu", "anambra", "awka", "onitsha", "imo", "owerri", "abia", "aba", "umuahia", "calabar", "cross+river", "uyo", "akwa+ibom",
+		},
 	},
 	"bangladesh": QueryPreset{
 		title:   "Bangladesh",
@@ -189,7 +200,28 @@ var PRESETS = map[string]QueryPreset{
 	},
 	"south africa": QueryPreset{
 		title:   "South Africa",
-		include: []string{"south+africa", "south+africa", "johannesburg", "cape+town", "rsa", "durban", "port+elizabeth", "pretoria", "nelspruit", "knysna"},
+		include: []string{
+			// País e abreviações oficiais
+			"south+africa", "rsa", "za", "suid-afrika",
+			// Gauteng
+			"johannesburg", "joburg", "pretoria", "tshwane", "sandton", "soweto", "centurion", "midrand",
+			// Western Cape
+			"cape+town", "stellenbosch", "george", "paarl", "knysna",
+			// KwaZulu-Natal
+			"durban", "ethekwini", "pietermaritzburg", "umhlanga", "ballito",
+			// Eastern Cape
+			"gqeberha", "port+elizabeth", "east+london", "makhanda", "grahamstown",
+			// Free State
+			"bloemfontein", "mangaung", "welkom",
+			// Mpumalanga
+			"mbombela", "nelspruit", "witbank", "emalahleni",
+			// Limpopo
+			"polokwane", "tzaneen",
+			// North West
+			"rustenburg", "potchefstroom", "mahikeng",
+			// Northern Cape
+			"kimberley", "upington",
+		},
 	},
 	"myanmar": QueryPreset{
 		title:   "Myanmar",
@@ -209,7 +241,20 @@ var PRESETS = map[string]QueryPreset{
 	},
 	"kenya": QueryPreset{
 		title:   "Kenya",
-		include: []string{"kenya", "nairobi", "mombasa", "kisumu", "nakuru", "eldoret", "kisii", "nyeri", "machakos", "Embu"},
+		include: []string{
+			// País e código
+			"kenya", "ke",
+			// Nairobi & Tech Corridor (Silicon Savannah)
+			"nairobi", "westlands", "kilimani", "karen", "ruiru", "thika", "kiambu",
+			// Coast
+			"mombasa", "malindi", "kilifi", "diani",
+			// Rift Valley & Western
+			"nakuru", "naivasha", "eldoret", "uasin+gishu", "kisumu", "kakamega", "kisii", "kericho", "kitale",
+			// Central & Mount Kenya
+			"nyeri", "embu", "meru", "kirinyaga", "murang'a",
+			// Eastern & Southern
+			"machakos", "kitui", "makueni", "kajiado", "ngong",
+		},
 	},
 	"argentina": QueryPreset{
 		title:   "Argentina",
@@ -330,7 +375,44 @@ var PRESETS = map[string]QueryPreset{
 	},
 	"angola": QueryPreset{
 		title:   "Angola",
-		include: []string{"angola", "luanda", "huambo", "lobito", "benguela"},
+		include: []string{
+			// País e abreviações
+			"angola", "ao",
+			// Luanda e arredores
+			"luanda", "talatona", "viana", "cazenga", "belas", "kilamba",
+			// Benguela
+			"benguela", "lobito", "catumbela", "baía+farta",
+			// Huambo
+			"huambo", "caála",
+			// Huíla
+			"huila", "huíla", "lubango",
+			// Cabinda
+			"cabinda",
+			// Cuanza Sul & Norte
+			"cuanza+sul", "kwanza+sul", "sumbe", "porto+amboim",
+			"cuanza+norte", "kwanza+norte", "ndalatando",
+			// Bié
+			"bié", "bie", "cuito", "kuito",
+			// Uíge
+			"uige", "uíge",
+			// Malanje
+			"malanje", "malange",
+			// Namibe
+			"namibe", "moçâmedes", "mocamedes",
+			// Zaire
+			"zaire", "mbanza+congo", "soyo",
+			// Lunda Norte & Sul
+			"lunda+norte", "dundo",
+			"lunda+sul", "saurimo",
+			// Moxico
+			"moxico", "luena",
+			// Cuando Cubango
+			"cuando+cubango", "kuando+kubango", "menongue",
+			// Cunene
+			"cunene", "ondjiva",
+			// Bengo
+			"bengo", "caxito",
+		},
 	},
 	"nepal": QueryPreset{
 		title:   "Nepal",
@@ -342,7 +424,30 @@ var PRESETS = map[string]QueryPreset{
 	},
 	"mozambique": QueryPreset{
 		title:   "Mozambique",
-		include: []string{"mozambique", "maputo", "matola", "nampula", "beira", "sofala", "chimoio", "tete", "quelimane"},
+		include: []string{
+			// Nomes do País e abreviações oficiais / coloquiais
+			"mozambique", "moçambique", "moz", "mz", "moç",
+			// Cidade de Maputo & Província de Maputo
+			"maputo", "matola", "boane", "marracuene", "namaacha", "manhiça", "ressano+garcia",
+			// Gaza
+			"gaza", "xai-xai", "chókwè", "chokwe", "bilene", "mandlakazi",
+			// Inhambane
+			"inhambane", "maxixe", "vilankulo", "vilanculos", "morrumbene", "massinga",
+			// Sofala
+			"sofala", "beira", "dondo", "nhamatanda", "búzi", "buzi",
+			// Manica
+			"manica", "chimoio", "gondola", "catandica",
+			// Tete
+			"tete", "moatize", "songo", "cahora+bassa",
+			// Zambézia
+			"zambezia", "zambézia", "quelimane", "mocuba", "milange", "gurué", "gurue",
+			// Nampula
+			"nampula", "nacala", "angoche", "ilha+de+moçambique", "monapo",
+			// Cabo Delgado
+			"cabo+delgado", "pemba", "montepuez", "palma", "mocímboa+da+praia",
+			// Niassa
+			"niassa", "lichinga", "cuamba", "metangula",
+		},
 	},
 	"ivory coast": QueryPreset{
 		title:   "Ivory Coast",
