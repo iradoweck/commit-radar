@@ -4,6 +4,26 @@ All notable changes and milestones in the **Most Active GitHub Users (Commit Ran
 
 ---
 
+### 2026-11-04 — Version 3.1.0
+
+- **UI & Mobile-First Experience**
+  - **Animated Bidirectional Git & GitHub Tree**: Introduced an interactive graph below the main title showing continuous commit flow and branching pipelines between Git and GitHub.
+  - **Live Repository Stars Badge**: Real-time GitHub stars counter integrated into the header alongside pull requests and issues telemetry.
+  - **Mobile-First Layout**: Adaptive responsive paddings, touch-friendly scrollable action toolbars, and visual swipe guidance for rankings tables on mobile viewports.
+  - **Brand Assets**: Added official `favicon.svg` and binary `favicon.ico` to eliminate console 404 errors.
+  - **Clean Presentation**: Removed external floating Ko-fi script, keeping donations strictly modal-driven and unintrusive.
+
+- **Security & Code Sanitization**
+  - **XSS Defense**: Implemented strict HTML entity escaping (`escapeHtml()`) and URL encoding (`encodeURIComponent()`) across all dynamic fields (names, logins, company, and organization handles).
+  - **Audit Alignment**: Full compliance with `/security-audit`, `/code-reviewer`, and `/backend-security-coder` guidelines.
+
+- **Crawler Engine & Geographical Presets**
+  - **Mozambique Complete Coverage**: Expanded preset to cover all 11 provinces, districts, major capitals, and colloquial aliases (`moz`, `mz`, `moç`).
+  - **Africa Regional Presets**: Added comprehensive provincial and tech-hub mappings for **Angola**, **Nigeria**, **South Africa**, and **Kenya**.
+  - **Worldwide & Africa Automated Daily Pipeline**: Configured `.github/workflows/update-rankings.yml` to automatically extract and publish daily datasets for `worldwide.json`, `mozambique.json`, `angola.json`, `nigeria.json`, `south-africa.json`, and `kenya.json`.
+
+---
+
 ### 2026-11-03 — Version 3.0.1
 
 - **Interactive Metric Sorting & Dynamic Re-Ranking**
