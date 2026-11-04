@@ -39,12 +39,19 @@ jobs:
             PRESETS="${{ github.event.inputs.preset }}"
           else
             # Worldwide Scope & African Catalog
-            PRESETS="worldwide mozambique angola nigeria south-africa kenya"
+            PRESETS="worldwide mozambique angola nigeria south-africa kenya united-states canada mexico the-bahamas panama brazil argentina colombia venezuela uruguay"
           fi
 
           for preset in $PRESETS; do
             echo "Extracting ranking for: $preset"
-            ./commit-rank --preset "$preset" --output json --file "data/countries/${preset}.json" || echo "Skipped $preset"
+            if [ "$preset" = "worldwide" ]; then
+              AMOUNT=100
+              ORGS=1000
+            else
+              AMOUNT=500
+              ORGS=100
+            fi
+            ./commit-rank --preset "$preset" --amount "$AMOUNT" --orgs "$ORGS" --output json --file "data/countries/${preset}.json" || echo "Skipped $preset"
           done
 
       - name: Commit and Push Updated Datasets
