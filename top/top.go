@@ -44,7 +44,7 @@ func GithubTop(options Options) (github.GithubSearchResults, error) {
 	for idx, loc := range options.Locations {
 		// Delay defensivo entre cidades para prevenir bloqueio por secondary rate limit do GitHub
 		if idx > 0 {
-			time.Sleep(250 * time.Millisecond)
+			time.Sleep(500 * time.Millisecond)
 		}
 
 		query := fmt.Sprintf("type:user location:%s%s", loc, excludeStr)
