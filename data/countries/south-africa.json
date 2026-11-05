@@ -1,9 +1,206 @@
 {
   "country": "South Africa",
   "generated_at": "2026-11-04",
-  "min_followers_required": -1,
-  "total_users": 0,
+  "min_followers_required": 8,
+  "total_users": 489,
   "definition_checksum": "80126c17682cd647c36acbd9249e6fbc3cf62164397f0f0150e8fd6090c23633",
-  "users": [],
-  "organizations": []
+  "users": [
+    {
+      "rank": 1,
+      "name": "Roché Compaan",
+      "login": "rochecompaan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/784273?u=6b83bedb3db51ae5b3868836b794c7428b9d0f7d\u0026v=4",
+      "contributions": 1885,
+      "commits": 1456,
+      "prs": 200,
+      "company": "Upfront Software, Six Feet Up",
+      "organizations": [
+        "Siyavula",
+        "oerpub",
+        "upfrontsoftware"
+      ]
+    },
+    {
+      "rank": 2,
+      "name": "Sam Mkwayi",
+      "login": "Drmkwayi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/288578746?u=c4c6210070f07b56ca3868aebf323609398c3de7\u0026v=4",
+      "contributions": 46,
+      "commits": 34,
+      "prs": 0,
+      "company": "Student at Nelson Mandela University",
+      "organizations": []
+    },
+    {
+      "rank": 3,
+      "name": "Lesley Ngcobo",
+      "login": "lesley-2198",
+      "avatar_url": "https://avatars.githubusercontent.com/u/112683472?u=3f815a670d8d9018cc21b6dbf1856374a679f7b4\u0026v=4",
+      "contributions": 42,
+      "commits": 42,
+      "prs": 0,
+      "company": "Nelson Mandela University",
+      "organizations": []
+    },
+    {
+      "rank": 4,
+      "name": "Brydon Leonard",
+      "login": "BrydonLeonard",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10340860?u=b273c822f35f6bc6e28d4dde954b7ab0d5224a55\u0026v=4",
+      "contributions": 12,
+      "commits": 11,
+      "prs": 0,
+      "company": "-",
+      "organizations": []
+    },
+    {
+      "rank": 5,
+      "name": "Tinyiko Rhifumo",
+      "login": "Tinyiko45",
+      "avatar_url": "https://avatars.githubusercontent.com/u/178563032?u=9031e1d1761f009ffe2ec6fc19eb1a46590132bc\u0026v=4",
+      "contributions": 11,
+      "commits": 7,
+      "prs": 0,
+      "company": "-",
+      "organizations": []
+    },
+    {
+      "rank": 6,
+      "name": "Robert Zeelie",
+      "login": "Quadrob",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19974017?u=4b21825135384c97682c9cc4776697594bb2f38e\u0026v=4",
+      "contributions": 9,
+      "commits": 6,
+      "prs": 1,
+      "company": "EPI-USE",
+      "organizations": []
+    },
+    {
+      "rank": 7,
+      "name": "Andrew Higgs",
+      "login": "andrew-m-higgs",
+      "avatar_url": "https://avatars.githubusercontent.com/u/404121?u=f84ed850be60beb95e1dcbd51ddcf143d86718df\u0026v=4",
+      "contributions": 9,
+      "commits": 6,
+      "prs": 0,
+      "company": "-",
+      "organizations": []
+    },
+    {
+      "rank": 8,
+      "name": "Shaun Pearce",
+      "login": "mavericksy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8345181?u=73aa8b59d64caadc181eae9879957cf5640f6fb2\u0026v=4",
+      "contributions": 2,
+      "commits": 0,
+      "prs": 0,
+      "company": "-",
+      "organizations": []
+    },
+    {
+      "rank": 9,
+      "name": "Michael Gooden",
+      "login": "MichaelGooden",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1275012?v=4",
+      "contributions": 2,
+      "commits": 0,
+      "prs": 1,
+      "company": "-",
+      "organizations": []
+    },
+    {
+      "rank": 10,
+      "name": "Kyle",
+      "login": "King-Kyle",
+      "avatar_url": "https://avatars.githubusercontent.com/u/26882808?u=f1232c79a1394a4e9ed431722ea64650389767eb\u0026v=4",
+      "contributions": 1,
+      "commits": 0,
+      "prs": 0,
+      "company": "ʕ•̫͡•ʔ-̫͡-ʕ•͓͡•ʔ-̫͡-ʔ",
+      "organizations": [
+        "ImpactStudio-Dev"
+      ]
+    },
+    {
+      "rank": 11,
+      "name": "Frank Glynne Grobbelaar",
+      "login": "frankdgcapital",
+      "avatar_url": "https://avatars.githubusercontent.com/u/96611469?u=9a16d506a26afd7e366e66970c3d10b342a91f14\u0026v=4",
+      "contributions": 0,
+      "commits": 0,
+      "prs": 0,
+      "company": "-",
+      "organizations": []
+    },
+    {
+      "rank": 12,
+      "name": "Chappy Strydom",
+      "login": "ChappyInnova",
+      "avatar_url": "https://avatars.githubusercontent.com/u/117151443?u=66ea68d565d5957c7d3e302d762281ffc157c686\u0026v=4",
+      "contributions": 0,
+      "commits": 0,
+      "prs": 0,
+      "company": "Innova - The Creative Techs",
+      "organizations": []
+    },
+    {
+      "rank": 13,
+      "name": "Rethar Osman Abdullah",
+      "login": "Rethar-yt",
+      "avatar_url": "https://avatars.githubusercontent.com/u/131811269?u=c4b4169a2924cebd7bce2db634ea9f30cae48b46\u0026v=4",
+      "contributions": 0,
+      "commits": 0,
+      "prs": 0,
+      "company": "Atul South Africa",
+      "organizations": []
+    },
+    {
+      "rank": 14,
+      "name": "Brandon",
+      "login": "BrandonHo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8308545?u=4d5e68e3c725e9dd660dc5e39178c599b849133b\u0026v=4",
+      "contributions": 0,
+      "commits": 0,
+      "prs": 0,
+      "company": "-",
+      "organizations": []
+    },
+    {
+      "rank": 15,
+      "name": "Chappy Strydom",
+      "login": "Chappy-Atomware",
+      "avatar_url": "https://avatars.githubusercontent.com/u/149477483?u=1c7f098ad4f3844cfaf7ffab61b2a1dee00d2004\u0026v=4",
+      "contributions": 0,
+      "commits": 0,
+      "prs": 0,
+      "company": "Atomware",
+      "organizations": []
+    }
+  ],
+  "organizations": [
+    {
+      "rank": 1,
+      "name": "siyavula",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 2,
+      "name": "oerpub",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 3,
+      "name": "upfrontsoftware",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 4,
+      "name": "impactstudio-dev",
+      "members": 1,
+      "impact": "Normal"
+    }
+  ]
 }

@@ -293,7 +293,7 @@
                 <input 
                     type="text" 
                     id="countrySearch" 
-                    placeholder="Search country by name or code (e.g. Mozambique, Brazil, Angola, UK)..."
+                    placeholder="Search country by name or code (e.g. Mozambique, Angola, Kenya)..."
                     class="w-full pl-10 pr-4 py-2.5 text-sm bg-white border border-slate-200 rounded-xl outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition shadow-xs"
                     oninput="filterCountries()"
                 >
@@ -1166,32 +1166,6 @@
             { id: "colombia", name: "Colombia", code: "CO", flag: "co", group: "south-america" },
             { id: "venezuela", name: "Venezuela", code: "VE", flag: "ve", group: "south-america" },
             { id: "uruguay", name: "Uruguay", code: "UY", flag: "uy", group: "south-america" },
-
-            // Europa (5)
-            { id: "netherlands", name: "Netherlands", code: "NL", flag: "nl", group: "europe" },
-            { id: "portugal", name: "Portugal", code: "PT", flag: "pt", group: "europe" },
-            { id: "germany", name: "Germany", code: "DE", flag: "de", group: "europe" },
-            { id: "russia", name: "Russia", code: "RU", flag: "ru", group: "europe" },
-            { id: "france", name: "France", code: "FR", flag: "fr", group: "europe" },
-
-            // Ásia (5)
-            { id: "china", name: "China", code: "CN", flag: "cn", group: "asia" },
-            { id: "india", name: "India", code: "IN", flag: "in", group: "asia" },
-            { id: "japan", name: "Japan", code: "JP", flag: "jp", group: "asia" },
-            { id: "south-korea", name: "Republic of Korea", code: "KR", flag: "kr", group: "asia" },
-            { id: "saudi-arabia", name: "Saudi Arabia", code: "SA", flag: "sa", group: "asia" },
-
-            // Oceânia (3)
-            { id: "australia", name: "Australia", code: "AU", flag: "au", group: "oceania" },
-            { id: "new-zealand", name: "New Zealand", code: "NZ", flag: "nz", group: "oceania" },
-            { id: "papua-new-guinea", name: "Papua New Guinea", code: "PG", flag: "pg", group: "oceania" },
-
-            // Países & Territórios Especiais (5)
-            { id: "hong-kong", name: "Hong Kong", code: "HK", flag: "hk", group: "special" },
-            { id: "macau", name: "Macau", code: "MO", flag: "mo", group: "special" },
-            { id: "taiwan", name: "Taiwan", code: "TW", flag: "tw", group: "special" },
-            { id: "kosovo", name: "Kosovo", code: "XK", flag: "xk", group: "special" },
-            { id: "kurdistan", name: "Kurdistan", code: "KRD", flag: "iq-kr", group: "special" }
         ].sort((a, b) => a.name.localeCompare(b.name));
 
         // Ordem e metadados das secções da página inicial.
