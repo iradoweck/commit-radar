@@ -42,9 +42,9 @@ func GithubTop(options Options) (github.GithubSearchResults, error) {
 	minFollowers := -1
 
 	for idx, loc := range options.Locations {
-		// Delay defensivo entre cidades para prevenir bloqueio por secondary rate limit do GitHub
+		// Delay defensivo de 1 segundo entre cidades para prevenir secondary rate limit do GitHub
 		if idx > 0 {
-			time.Sleep(500 * time.Millisecond)
+			time.Sleep(1 * time.Second)
 		}
 
 		query := fmt.Sprintf("type:user location:%s%s", loc, excludeStr)
