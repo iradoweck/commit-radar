@@ -45,13 +45,15 @@ jobs:
           for preset in $PRESETS; do
             echo "Extracting ranking for: $preset"
             if [ "$preset" = "worldwide" ]; then
-              AMOUNT=100
+              AMOUNT=1000
               ORGS=1000
+              CONSIDER=1500
             else
-              AMOUNT=500
+              AMOUNT=1000
               ORGS=100
+              CONSIDER=1500
             fi
-            ./commit-rank --preset "$preset" --amount "$AMOUNT" --orgs "$ORGS" --output json --file "data/countries/${preset}.json" || echo "Skipped $preset"
+            ./commit-rank --preset "$preset" --amount "$AMOUNT" --consider "$CONSIDER" --orgs "$ORGS" --output json --file "data/countries/${preset}.json" || echo "Skipped $preset"
           done
 
       - name: Commit and Push Updated Datasets
