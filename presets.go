@@ -665,7 +665,7 @@ var PRESETS = map[string]QueryPreset{
 	"united states": QueryPreset{
 		title:   "United States",
 		include: []string{
-			// País e qualificadores nacionais
+			// Pais e qualificadores nacionais
 			"United+States", "USA",
 			// Todos os 50 Estados Americanos
 			"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
@@ -675,7 +675,7 @@ var PRESETS = map[string]QueryPreset{
 			"North+Carolina", "North+Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode+Island",
 			"South+Carolina", "South+Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
 			"West+Virginia", "Wisconsin", "Wyoming",
-			// Principais Capitais e Hubs Tecnológicos / Econômicos
+			// Principais Capitais e Hubs Tecnologicos / Economicos
 			"Montgomery", "Juneau", "Phoenix", "Little+Rock", "Sacramento", "Los+Angeles", "San+Francisco",
 			"San+Jose", "San+Diego", "Denver", "Hartford", "Dover", "Tallahassee", "Miami", "Atlanta",
 			"Honolulu", "Boise", "Springfield", "Chicago", "Indianapolis", "Des+Moines", "Topeka",
