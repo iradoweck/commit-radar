@@ -14,12 +14,15 @@ import (
 
 const root string = "https://api.github.com/"
 
+var sharedHTTPClient = &http.Client{
+	Timeout: 30 * time.Second,
+}
+
 type HTTPGithubClient struct {
 	wrappers []net.Wrapper
 }
 
 func (client HTTPGithubClient) Request(url string, body string) ([]byte, error) {
-	httpClient := &http.Client{}
 	var req *http.Request
 	var err error
 	if body != "" {
@@ -32,7 +35,7 @@ func (client HTTPGithubClient) Request(url string, body string) ([]byte, error) 
 		return []byte{}, err
 	}
 
-	return net.Compose(client.wrappers...)(net.MakeRequester(httpClient))(req)
+	return net.Compose(client.wrappers...)(net.MakeRequester(sharedHTTPClient))(req)
 }
 
 func (client HTTPGithubClient) CurrentUser() (User, error) {
@@ -127,11 +130,11 @@ Pages:
 			if err != nil {
 				retryCount++
 				if retryCount < maxRetryCount {
-					log.Println("error making graphql request... retrying")
+					log.Printf("error making graphql request (retry %d/%d): %v", retryCount, maxRetryCount, err)
 					time.Sleep(10 * time.Second)
 					continue Pages
 				} else {
-					log.Fatalln("Too many errors received. Quitting.")
+					return GithubSearchResults{}, fmt.Errorf("too many errors making graphql request: %w", err)
 				}
 			}
 
@@ -143,18 +146,21 @@ Pages:
 					time.Sleep(10 * time.Second)
 					continue Pages
 				} else {
-					log.Fatalln("Too many errors received. Quitting.")
+					return GithubSearchResults{}, fmt.Errorf("too many errors unmarshalling JSON response: %w", err)
 				}
 			}
-			rootNode := response.(map[string]interface{})
+			rootNode, ok := response.(map[string]interface{})
+			if !ok {
+				return GithubSearchResults{}, fmt.Errorf("unexpected GraphQL response structure")
+			}
 			if val, ok := rootNode["errors"]; ok {
 				retryCount++
 				if retryCount < maxRetryCount {
-					log.Printf("Received error response (retrying): %+v", val)
+					log.Printf("received GraphQL error response (retry %d/%d): %+v", retryCount, maxRetryCount, val)
 					time.Sleep(10 * time.Second)
 					continue Pages
 				} else {
-					log.Fatalln("Too many errors received. Quitting.")
+					return GithubSearchResults{}, fmt.Errorf("too many GraphQL error responses: %+v", val)
 				}
 			}
 			dataNode, ok := rootNode["data"].(map[string]interface{})
@@ -188,7 +194,6 @@ Pages:
 
 				orgNodes := userNode["organizations"].(map[string]interface{})["nodes"].([]interface{})
 				for _, orgNode := range orgNodes {
-
 					organizations = append(organizations, orgNode.(map[string]interface{})["login"].(string))
 				}
 
@@ -236,21 +241,18 @@ func strPropOrEmpty(obj map[string]interface{}, prop string) string {
 	default:
 		return ""
 	}
-
 }
 
 func (client HTTPGithubClient) Organizations(login string) ([]string, error) {
 	url := fmt.Sprintf("https://api.github.com/users/%s/orgs", login)
 	body, err := client.Request(url, "")
 	if err != nil {
-		log.Fatalf("error requesting organizations for user %+v", login)
-		return []string{}, err
+		return []string{}, fmt.Errorf("error requesting organizations for user %s: %w", login, err)
 	}
 	orgResp := []OrgResponse{}
 	err = json.Unmarshal(body, &orgResp)
 	if err != nil {
-		log.Fatalf("error parsing organizations JSON for user %+v", login)
-		return []string{}, err
+		return []string{}, fmt.Errorf("error parsing organizations JSON for user %s: %w", login, err)
 	}
 	orgs := []string{}
 
@@ -258,7 +260,7 @@ func (client HTTPGithubClient) Organizations(login string) ([]string, error) {
 		orgs = append(orgs, org.Organization)
 	}
 
-	return orgs, err
+	return orgs, nil
 }
 
 type OrgResponse struct {

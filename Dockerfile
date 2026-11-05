@@ -1,12 +1,12 @@
 FROM alpine:latest AS ca-certs
 RUN apk add -U --no-cache ca-certificates
 
-FROM golang:1.17 AS go-builder
+FROM golang:1.24-alpine AS go-builder
 
 WORKDIR /go/src/main
 COPY . .
 
-RUN go get -d -v .
+RUN go mod download
 RUN CGO_ENABLED=0 go install -v .
 
 FROM scratch

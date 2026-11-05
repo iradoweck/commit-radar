@@ -1,8 +1,14 @@
 package net
 
-import "net/http"
-import "fmt"
-import "io/ioutil"
+import (
+	"context"
+	"fmt"
+	"io"
+	"net/http"
+	"time"
+)
+
+const DefaultRequestTimeout = 30 * time.Second
 
 type Requester func(req *http.Request) ([]byte, error)
 
@@ -28,13 +34,17 @@ func TokenAuth(token string) Wrapper {
 
 func MakeRequester(client *http.Client) Requester {
 	return func(req *http.Request) ([]byte, error) {
-		resp, err := client.Do(req)
+		ctx, cancel := context.WithTimeout(req.Context(), DefaultRequestTimeout)
+		defer cancel()
 
+		reqWithCtx := req.WithContext(ctx)
+		resp, err := client.Do(reqWithCtx)
 		if err != nil {
 			return []byte{}, err
 		}
+		defer resp.Body.Close()
 
-		bodyText, err := ioutil.ReadAll(resp.Body)
+		bodyText, err := io.ReadAll(resp.Body)
 		if err != nil {
 			return []byte{}, err
 		}
