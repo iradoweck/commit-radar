@@ -2,12 +2,12 @@ name: Update Country Rankings (JSON)
 
 on:
   schedule:
-    # Executa diariamente às 23:00 UTC (01:00 AM no horário de Moçambique / CAT - UTC+2)
+    # Executa diariamente às 23:00 UTC (01:00 AM CAT - UTC+2)
     - cron: '0 23 * * *'
   workflow_dispatch:
     inputs:
       preset:
-        description: 'Preset específico ou vazio para atualizar todos os 34 do catálogo'
+        description: 'Preset específico, "all" para todos os 16, ou vazio para o lote diário automático'
         required: false
         default: ''
 
@@ -35,24 +35,46 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p data/countries
-          if [ -n "${{ github.event.inputs.preset }}" ]; then
-            PRESETS="${{ github.event.inputs.preset }}"
-          else
-            # Worldwide Scope & African Catalog
+
+          INPUT_PRESET="${{ github.event.inputs.preset }}"
+          if [ "$INPUT_PRESET" = "all" ]; then
             PRESETS="worldwide mozambique angola nigeria south-africa kenya united-states canada mexico the-bahamas panama brazil argentina colombia venezuela uruguay"
+          elif [ -n "$INPUT_PRESET" ]; then
+            PRESETS="$INPUT_PRESET"
+          else
+            # Rotacao diaria inteligente (ciclo de 5 dias) para equilibrar paises longos e lotes de paises curtos (2 a 5 por dia)
+            DAY_MOD=$(( $(date -u +%j) % 5 ))
+            case $DAY_MOD in
+              0)
+                echo "Batch 0 (Long Presets - North America): Worldwide + United States"
+                PRESETS="worldwide united-states"
+                ;;
+              1)
+                echo "Batch 1 (Long Presets - South America): Worldwide + Brazil"
+                PRESETS="worldwide brazil"
+                ;;
+              2)
+                echo "Batch 2 (Short Presets - Africa): Mozambique, Angola, Nigeria, South Africa, Kenya"
+                PRESETS="mozambique angola nigeria south-africa kenya"
+                ;;
+              3)
+                echo "Batch 3 (Short Presets - North America & Caribbean): Canada, Mexico, The Bahamas, Panama"
+                PRESETS="canada mexico the-bahamas panama"
+                ;;
+              4)
+                echo "Batch 4 (Short Presets - South America): Argentina, Colombia, Venezuela, Uruguay"
+                PRESETS="argentina colombia venezuela uruguay"
+                ;;
+            esac
           fi
 
+          # Fase de desenvolvimento: 100 Devs, 100 Orgs e 300 Consider em todos os presets
+          AMOUNT=100
+          ORGS=100
+          CONSIDER=300
+
           for preset in $PRESETS; do
-            echo "Extracting ranking for: $preset"
-            if [ "$preset" = "worldwide" ]; then
-              AMOUNT=1000
-              ORGS=1000
-              CONSIDER=1500
-            else
-              AMOUNT=1000
-              ORGS=100
-              CONSIDER=1500
-            fi
+            echo "Extracting ranking for: $preset (amount=$AMOUNT, orgs=$ORGS, consider=$CONSIDER)"
             ./commit-rank --preset "$preset" --amount "$AMOUNT" --consider "$CONSIDER" --orgs "$ORGS" --output json --file "data/countries/${preset}.json" || echo "Skipped $preset"
           done
 

@@ -1,59 +1,86 @@
-# Most Active GitHub Users Counter
+# Commit-Rank — Most Active GitHub Users Counter
 
-This CLI tool queries the GitHub GraphQL API for users and ranks them according to number of contributions. Several preset locations are provided.
+This CLI tool and web platform queries the GitHub GraphQL API for developers and organizations, ranking them transparently according to their public contributions, commits, pull requests, and followers across global and regional presets.
 
-**GitHub Token**
+---
 
-In order to make requests against the GitHub API one needs an access token, which can be created [here](https://github.com/settings/tokens). The token needs `read:org` and `read:user` permissions.
+## 🌍 Open Source Purpose & Global Vision
 
-**Example usage (dev environment):**
+**Commit-Rank** is maintained as an open, neutral, and global analytics tool under the **Zedecks Open Source** initiative, building upon the foundational work originally created by [@lauripiispanen](https://github.com/lauripiispanen/most-active-github-users-counter) and maintained by [@ashkulz](https://github.com/ashkulz/committers.top).
 
-```
+Our core purpose is to:
+1. **Provide Neutral Global Visibility:** Highlight open-source consistency and engineering contributions across every continent without geographical bias.
+2. **Preserve Upstream Compatibility:** Maintain the battle-tested Go CLI and GraphQL extraction architecture while modernizing the runtime (Go 1.24+), HTTP context timeouts, segmented location deduplication, and automated JSON dataset pipelines.
+3. **Deliver a Fast, Dependency-Free Web Experience:** Offer a clean, mobile-first web interface (`index.html`) backed by static JSON datasets updated automatically via GitHub Actions.
+
+---
+
+## 🚀 Usage & CLI Engine
+
+### GitHub Token
+
+To make requests against the GitHub GraphQL API, you need a personal access token, which can be created [here](https://github.com/settings/tokens). The token requires `read:org` and `read:user` permissions.
+
+### Example Usage (Development Environment)
+
+```bash
 go run *.go \
    --token paste-your-token-here \
    --preset worldwide \
-   --amount 500 \
-   --consider 1000 \
-   --output csv \
-   --file ./output.csv
+   --amount 100 \
+   --consider 300 \
+   --orgs 100 \
+   --output json \
+   --file ./data/countries/worldwide.json
 ```
 
-## Contribution
+Supported `--output` formats: `plain`, `csv`, `yaml`, `json`.
 
-Contributions are accepted. Please report issues or make pull requests against either `master` or [branch for the website](https://github.com/ashkulz/committers.top/tree/gh-pages) as appropriate.
+---
 
-*Please use the provided precommit hooks and run `go fmt`, `go vet` and `go lint` liberally.*
+## 🔄 Automated Ranking Schedule
+
+To respect GitHub API rate limits while keeping datasets fresh, [`.github/workflows/update-rankings.yml`](.github/workflows/update-rankings.yml) runs a rotating daily schedule:
+- **Long Presets (High-volume regions):** Dedicated execution days for `worldwide`, `united-states`, and `brazil`.
+- **Short Presets (Regional batches):** Grouped into batches of 4–5 countries per run across Africa (`mozambique`, `angola`, `nigeria`, `south-africa`, `kenya`), North America & Caribbean (`canada`, `mexico`, `the-bahamas`, `panama`), and South America (`argentina`, `colombia`, `venezuela`, `uruguay`).
+- **Manual Trigger:** Any specific preset (or `all`) can be triggered on-demand via `workflow_dispatch`.
+
+---
+
+## 🤝 Contribution
+
+Contributions are welcome! Please report issues or open pull requests against `main`.
+
+*Please ensure your code is formatted and passes static checks (`go fmt ./...` and `go vet ./...`) before submitting a PR.*
 
 ### Preset Changes
 
-When sending PRs for changes to just `presets.go`, please ensure that you do the following (_replace `ashkulz` with your username in the links below_):
+When sending PRs for changes to `presets.go`:
+1. Ensure all strings and comments use strict UTF-8 encoding.
+2. Test or trigger the [Update Country Rankings workflow](.github/workflows/update-rankings.yml) via `workflow_dispatch` with your target preset name.
+3. Reference the generated dataset changes in your pull request description.
 
-* Make sure that both your PR branch and the `gh-pages` branch on your fork are up-to-date with upstream (_be sure **not** to use "Copy the `master` branch only" option when forking_).
-* Go to your fork's [daily update workflow](https://github.com/ashkulz/committers.top/actions/workflows/daily_update.yml) and trigger the workflow via "Run workflow" with your PR branch.
-* A commit should get pushed to the [`gh-pages` branch](https://github.com/ashkulz/committers.top/tree/gh-pages) and verify that the changes look good.
-* Reference the commit when making the PR, so that it's clear what the impact of merging the PR would be.
+---
 
-## FAQ
+## ❓ FAQ
 
-### Why is this running on a different domain?
+### Why is this project maintained here?
 
-The [original project](https://github.com/lauripiispanen/most-active-github-users-counter) by [@lauripiispanen](https://github.com/lauripiispanen) seems to have been archived. I also thought that `committers.top` was a more appropriate domain name and quickly grabbed it :grinning:
+The [original project](https://github.com/lauripiispanen/most-active-github-users-counter) by [@lauripiispanen](https://github.com/lauripiispanen) was archived, and [@ashkulz](https://github.com/ashkulz/committers.top) kept it alive for the community via `committers.top`. This repository continues that open-source lineage with a modernized Go 1.24 engine, segmented location search (preventing multi-location `AND` conjunction zero-result bugs), and an integrated interactive web directory supported by **Zedecks Open Source**.
 
 ### Why am I not on this list?
 
-This could be due to a number of things.
+This could be due to a few factors:
 
-1) Firstly, GitHub API doesn't allow sorting by contributions, so instead it is first sorted by number of followers to get a larger list, which is then sorted by contributions. This means you need a minimum number of followers to be on this list. Each page shows the minimum number of followers needed.
+1. **Follower Threshold:** The GitHub Search API does not allow sorting directly by contributions. Instead, the tool first queries users sorted by number of followers (`--consider`) and then ranks that sample by contributions (`--amount`). Each country dataset records the `min_followers_required` threshold.
+2. **Location String Matching:** GitHub location search is free-text and not strictly geographical. If your city is not listed in `presets.go`, adding your country name or state to your GitHub profile location will ensure you are matched.
+3. **Public vs. Private Contributions:** By default, the main ranking prioritizes public open-source contributions (`PublicContributionCount`).
 
-2) You live in a city which is not included in the query. Unfortunately the query is free-text and not strictly geographical. Rural areas may be excluded from the list, but you can often remedy this by adding the country name to your location in GitHub.
+### Why is my contribution count different from my GitHub profile?
 
-3) You have mostly private commits. These are included too, but they are not listed on the main country page anymore. Instead you will find a subpage with a list that also has private contributions included. This arrangement is done to favor open source contributions over private contributions.
+Depending on your profile settings, GitHub displays either only public contributions or both public and private (`restrictedContributionsCount`) contributions. You can inspect what the GitHub GraphQL API returns for your account using the [GitHub GraphQL Explorer](https://docs.github.com/en/graphql/overview/explorer):
 
-### Why is my contribution count not the same as on my GitHub profile?
-
-Depending on your settings, your GitHub profile displays either only your public contributions or both your public and private ones. commits.top by default shows only public contributions, but public+private count is accessible on a subpage on each region page. You can use the [GitHub API GraphQL Explorer](https://developer.github.com/v4/explorer/) and run the following query to see what the API returns for your user:
-
-```
+```graphql
 query { 
   viewer { 
     login

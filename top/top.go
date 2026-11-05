@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"sort"
+	"time"
 
 	"most-active-github-users-counter/github"
 	"most-active-github-users-counter/net"
@@ -22,7 +23,7 @@ func GithubTop(options Options) (github.GithubSearchResults, error) {
 
 	var client = github.NewGithubClient(net.TokenAuth(token))
 
-	// Caso não haja localizações especificadas (ex.: worldwide)
+	// Caso nao haja localizacoes especificadas (ex.: worldwide)
 	if len(options.Locations) == 0 {
 		query := fmt.Sprintf("type:user%s", excludeStr)
 		return client.SearchUsers(github.UserSearchQuery{
@@ -33,14 +34,19 @@ func GithubTop(options Options) (github.GithubSearchResults, error) {
 		})
 	}
 
-	// Quando há localizações, o GitHub Search API interpreta múltiplos "location:" consecutivos
-	// como conjunção (AND). Por isso, consultamos as localizações separadamente e deduplicamos.
+	// Quando ha localizacoes, o GitHub Search API interpreta multiplos "location:" consecutivos
+	// como conjuncao (AND). Por isso, consultamos as localizacoes separadamente e deduplicamos.
 	seen := make(map[string]bool)
 	var allUsers []github.User
 	totalUserCount := 0
 	minFollowers := -1
 
-	for _, loc := range options.Locations {
+	for idx, loc := range options.Locations {
+		// Delay defensivo entre cidades para prevenir bloqueio por secondary rate limit do GitHub
+		if idx > 0 {
+			time.Sleep(250 * time.Millisecond)
+		}
+
 		query := fmt.Sprintf("type:user location:%s%s", loc, excludeStr)
 		res, err := client.SearchUsers(github.UserSearchQuery{
 			Q:        query,
@@ -61,13 +67,13 @@ func GithubTop(options Options) (github.GithubSearchResults, error) {
 			}
 		}
 
-		// Se já atingimos usuários suficientes para o corte inicial, otimizamos as chamadas
+		// Se ja atingimos usuarios suficientes para o corte inicial, otimizamos as chamadas
 		if len(allUsers) >= options.ConsiderNum*2 {
 			break
 		}
 	}
 
-	// Ordena todos os usuários únicos prioritariamente por Followers decrescente
+	// Ordena todos os usuarios unicos prioritariamente por Followers decrescente
 	sort.Slice(allUsers, func(i, j int) bool {
 		if allUsers[i].FollowerCount == allUsers[j].FollowerCount {
 			return allUsers[i].ContributionCount > allUsers[j].ContributionCount
