@@ -71,7 +71,7 @@ func (client HTTPGithubClient) SearchUsers(query UserSearchQuery) (GithubSearchR
 	totalCount := 0
 	minFollowerCount := -1
 	maxPerQuery := 1000
-	perPage := 15
+	perPage := 10
 	totalUsersCount := 0
 
 	retryCount := 0
@@ -100,7 +100,7 @@ Pages:
                 avatarUrl,
                 name,
                 company,
-                organizations(first: 10) {
+                organizations(first: 5) {
                   nodes {
                     login
                   }
