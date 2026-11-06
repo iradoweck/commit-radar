@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-const DefaultRequestTimeout = 45 * time.Second
+const DefaultRequestTimeout = 35 * time.Second
 
 type Requester func(req *http.Request) ([]byte, error)
 
@@ -31,6 +31,18 @@ func TokenAuth(token string) Wrapper {
 			return r(req)
 		}
 	}
+}
+
+// computeJitter calcula um jitter temporal em milissegundos para evitar sincronizacao de retries
+func computeJitter(maxJitter time.Duration) time.Duration {
+	if maxJitter <= 0 {
+		return 0
+	}
+	nanos := time.Now().UnixNano()
+	if nanos < 0 {
+		nanos = -nanos
+	}
+	return time.Duration(nanos % int64(maxJitter))
 }
 
 func MakeRequester(client *http.Client) Requester {
@@ -62,10 +74,10 @@ func MakeRequester(client *http.Client) Requester {
 
 		if isRateLimit {
 			// GitHub exige esperar pelo menos 60s quando atinge secondary rate limit
-			backoff := 65 * time.Second
+			backoff := 62*time.Second + computeJitter(5*time.Second)
 			if retryAfter := resp.Header.Get("Retry-After"); retryAfter != "" {
 				if seconds, err := time.ParseDuration(retryAfter + "s"); err == nil && seconds > 0 {
-					backoff = seconds + (2 * time.Second)
+					backoff = seconds + (2 * time.Second) + computeJitter(3*time.Second)
 				}
 			}
 			time.Sleep(backoff)
@@ -74,7 +86,9 @@ func MakeRequester(client *http.Client) Requester {
 
 		// 2. Erros transitórios de infraestrutura da GitHub (502 Bad Gateway / 503 / 504 Gateway Timeout)
 		if resp.StatusCode >= 500 {
-			time.Sleep(15 * time.Second)
+			// Backoff exponencial/adaptativo com jitter entre 6s e 11s para recuperacao rapida do gateway
+			backoff := 6*time.Second + computeJitter(5*time.Second)
+			time.Sleep(backoff)
 			return []byte{}, fmt.Errorf("github server error (HTTP %d): %s", resp.StatusCode, bodySnippet)
 		}
 

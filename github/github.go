@@ -101,10 +101,9 @@ Pages:
 			var lastErr error
 
 			for attempt := 1; attempt <= maxPageRetries; attempt++ {
+				// Na primeira tentativa busca em lote de 5; em retries reduz imediatamente para 1 nó para aliviar o backend GraphQL
 				currentPerPage := perPage
-				if attempt == 2 {
-					currentPerPage = 2
-				} else if attempt >= 3 {
+				if attempt >= 2 {
 					currentPerPage = 1
 				}
 
@@ -148,6 +147,10 @@ Pages:
 				if err != nil {
 					lastErr = fmt.Errorf("error making graphql request: %w", err)
 					log.Printf("page %d (retry %d/%d): %v", currentPage, attempt, maxPageRetries, err)
+					if attempt < maxPageRetries {
+						retryDelay := time.Duration(attempt)*3*time.Second + time.Duration(time.Now().UnixNano()%2000)*time.Millisecond
+						time.Sleep(retryDelay)
+					}
 					continue
 				}
 
@@ -156,7 +159,8 @@ Pages:
 					lastErr = fmt.Errorf("error unmarshalling JSON response: %w", err)
 					log.Printf("page %d (retry %d/%d): %v", currentPage, attempt, maxPageRetries, lastErr)
 					if attempt < maxPageRetries {
-						time.Sleep(5 * time.Second)
+						retryDelay := time.Duration(attempt)*3*time.Second + time.Duration(time.Now().UnixNano()%2000)*time.Millisecond
+						time.Sleep(retryDelay)
 					}
 					continue
 				}
@@ -166,7 +170,8 @@ Pages:
 					lastErr = fmt.Errorf("unexpected GraphQL response structure")
 					log.Printf("page %d (retry %d/%d): %v", currentPage, attempt, maxPageRetries, lastErr)
 					if attempt < maxPageRetries {
-						time.Sleep(5 * time.Second)
+						retryDelay := time.Duration(attempt)*3*time.Second + time.Duration(time.Now().UnixNano()%2000)*time.Millisecond
+						time.Sleep(retryDelay)
 					}
 					continue
 				}
@@ -185,7 +190,8 @@ Pages:
 					lastErr = fmt.Errorf("GraphQL error response: %+v", val)
 					log.Printf("page %d (retry %d/%d): %v", currentPage, attempt, maxPageRetries, lastErr)
 					if attempt < maxPageRetries {
-						time.Sleep(5 * time.Second)
+						retryDelay := time.Duration(attempt)*3*time.Second + time.Duration(time.Now().UnixNano()%2000)*time.Millisecond
+						time.Sleep(retryDelay)
 					}
 					continue
 				}
@@ -195,7 +201,8 @@ Pages:
 					lastErr = fmt.Errorf("GraphQL response missing data.search node")
 					log.Printf("page %d (retry %d/%d): %v", currentPage, attempt, maxPageRetries, lastErr)
 					if attempt < maxPageRetries {
-						time.Sleep(5 * time.Second)
+						retryDelay := time.Duration(attempt)*3*time.Second + time.Duration(time.Now().UnixNano()%2000)*time.Millisecond
+						time.Sleep(retryDelay)
 					}
 					continue
 				}
@@ -205,7 +212,8 @@ Pages:
 					lastErr = fmt.Errorf("unexpected search node structure")
 					log.Printf("page %d (retry %d/%d): %v", currentPage, attempt, maxPageRetries, lastErr)
 					if attempt < maxPageRetries {
-						time.Sleep(5 * time.Second)
+						retryDelay := time.Duration(attempt)*3*time.Second + time.Duration(time.Now().UnixNano()%2000)*time.Millisecond
+						time.Sleep(retryDelay)
 					}
 					continue
 				}
@@ -216,14 +224,23 @@ Pages:
 			}
 
 			if lastErr != nil {
-				if minFollowerCount > 0 && toxicSkips < maxToxicSkips {
+				errMsg := lastErr.Error()
+				isServerOrRateLimit := strings.Contains(errMsg, "502") || strings.Contains(errMsg, "503") || strings.Contains(errMsg, "504") || strings.Contains(errMsg, "rate limit")
+
+				// Degradação graciosa: se o GitHub estiver instável (502/504/rate-limit) e já temos dados, preserva os usuários coletados
+				if isServerOrRateLimit && len(users) > 0 {
+					log.Printf("warning: page %d encountered persistent server/rate error (%v); gracefully preserving %d users collected so far", currentPage, lastErr, len(users))
+					break Pages
+				}
+
+				if minFollowerCount > 0 && toxicSkips < maxToxicSkips && !isServerOrRateLimit {
 					toxicSkips++
 					minFollowerCount--
 					log.Printf("skipping toxic cursor via followers:<%d (skip %d/%d)", minFollowerCount, toxicSkips, maxToxicSkips)
 					continue Pages
 				}
 				if len(users) > 0 {
-					log.Printf("warning: page %d exhausted %d retries (%v); returning %d users collected so far", currentPage, maxPageRetries, lastErr, len(users))
+					log.Printf("warning: page %d exhausted %d retries (%v); gracefully returning %d users collected so far", currentPage, maxPageRetries, lastErr, len(users))
 					break Pages
 				}
 				return GithubSearchResults{}, fmt.Errorf("too many errors on page %d: %w", currentPage, lastErr)
@@ -332,7 +349,8 @@ Pages:
 				}
 			}
 
-			time.Sleep(350 * time.Millisecond)
+			// Intervalo anti-rate limit com jitter suave entre páginas
+			time.Sleep(420*time.Millisecond + time.Duration(time.Now().UnixNano()%100)*time.Millisecond)
 		}
 	}
 
