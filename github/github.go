@@ -76,7 +76,9 @@ func (client HTTPGithubClient) SearchUsers(query UserSearchQuery) (GithubSearchR
 	totalUsersCount := 0
 	totalUsersCountSet := false
 
-	maxPageRetries := 6
+	maxPageRetries := 4
+	toxicSkips := 0
+	maxToxicSkips := 5
 
 Pages:
 	for len(users) < query.MaxUsers {
@@ -94,7 +96,19 @@ Pages:
 			if previousCursor != "" {
 				cursorQueryStr = fmt.Sprintf(", after: \\\"%s\\\"", previousCursor)
 			}
-			graphQlString := fmt.Sprintf(`{ "query": "query {
+
+			var searchNode map[string]interface{}
+			var lastErr error
+
+			for attempt := 1; attempt <= maxPageRetries; attempt++ {
+				currentPerPage := perPage
+				if attempt == 2 {
+					currentPerPage = 2
+				} else if attempt >= 3 {
+					currentPerPage = 1
+				}
+
+				graphQlString := fmt.Sprintf(`{ "query": "query {
         search(type: USER, query:\"%s%s sort:%s-%s\", first: %d%s) {
           userCount
           edges {
@@ -126,14 +140,10 @@ Pages:
             cursor
           }
         }
-      }" }`, query.Q, followerCountQueryStr, query.Sort, query.Order, perPage, cursorQueryStr)
+      }" }`, query.Q, followerCountQueryStr, query.Sort, query.Order, currentPerPage, cursorQueryStr)
 
-			graphQlString = newlineRegex.ReplaceAllString(graphQlString, " ")
+				graphQlString = newlineRegex.ReplaceAllString(graphQlString, " ")
 
-			var searchNode map[string]interface{}
-			var lastErr error
-
-			for attempt := 1; attempt <= maxPageRetries; attempt++ {
 				body, err := client.Request("https://api.github.com/graphql", graphQlString)
 				if err != nil {
 					lastErr = fmt.Errorf("error making graphql request: %w", err)
@@ -161,7 +171,17 @@ Pages:
 					continue
 				}
 
-				if val, ok := rootNode["errors"]; ok {
+				if val, hasErrors := rootNode["errors"]; hasErrors {
+					if dataNode, ok := rootNode["data"].(map[string]interface{}); ok && dataNode != nil {
+						if sn, ok := dataNode["search"].(map[string]interface{}); ok && sn != nil {
+							if edges, ok := sn["edges"].([]interface{}); ok && len(edges) > 0 {
+								log.Printf("page %d returned partial data with GraphQL field errors; salvaging %d edges", currentPage, len(edges))
+								searchNode = sn
+								lastErr = nil
+								break
+							}
+						}
+					}
 					lastErr = fmt.Errorf("GraphQL error response: %+v", val)
 					log.Printf("page %d (retry %d/%d): %v", currentPage, attempt, maxPageRetries, lastErr)
 					if attempt < maxPageRetries {
@@ -196,12 +216,19 @@ Pages:
 			}
 
 			if lastErr != nil {
+				if minFollowerCount > 0 && toxicSkips < maxToxicSkips {
+					toxicSkips++
+					minFollowerCount--
+					log.Printf("skipping toxic cursor via followers:<%d (skip %d/%d)", minFollowerCount, toxicSkips, maxToxicSkips)
+					continue Pages
+				}
 				if len(users) > 0 {
 					log.Printf("warning: page %d exhausted %d retries (%v); returning %d users collected so far", currentPage, maxPageRetries, lastErr, len(users))
 					break Pages
 				}
 				return GithubSearchResults{}, fmt.Errorf("too many errors on page %d: %w", currentPage, lastErr)
 			}
+			toxicSkips = 0
 
 			if !totalUsersCountSet {
 				if uc, ok := searchNode["userCount"].(float64); ok {
