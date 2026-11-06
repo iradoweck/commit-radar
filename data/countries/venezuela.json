@@ -2,7 +2,7 @@
   "country": "Venezuela",
   "generated_at": "2026-11-06",
   "min_followers_required": 30,
-  "total_users": 17276,
+  "total_users": 17277,
   "definition_checksum": "29f829a5766a0d092254193cc293736ce2c013f580ef162d896829f0a0ab2689",
   "users": [
     {
@@ -107,9 +107,9 @@
       "name": "Jesus Graterol",
       "login": "jesusgraterol",
       "avatar_url": "https://avatars.githubusercontent.com/u/136823357?u=ff71827657d14669036e0480060b3d70843d6ce4\u0026v=4",
-      "contributions": 3239,
-      "commits": 2636,
-      "prs": 591,
+      "contributions": 3242,
+      "commits": 2638,
+      "prs": 592,
       "company": "@bitcoin-balancer",
       "organizations": [
         "bitcoin-balancer",
@@ -205,9 +205,9 @@
       "name": "Daniel Esteves",
       "login": "danestves",
       "avatar_url": "https://avatars.githubusercontent.com/u/31737273?u=2e973421590a1b1cf4e74001c67c316e1b8b1b87\u0026v=4",
-      "contributions": 2170,
-      "commits": 1665,
-      "prs": 493,
+      "contributions": 2180,
+      "commits": 1666,
+      "prs": 502,
       "company": "@ClickITDev",
       "organizations": []
     },
@@ -270,8 +270,8 @@
       "name": "David Brito",
       "login": "davbrito",
       "avatar_url": "https://avatars.githubusercontent.com/u/39559632?u=840375356442cfacb190e8ee100e553fb5ef908c\u0026v=4",
-      "contributions": 1392,
-      "commits": 1218,
+      "contributions": 1397,
+      "commits": 1219,
       "prs": 91,
       "company": "-",
       "organizations": []
@@ -316,8 +316,8 @@
       "name": "Wonder Diaz",
       "login": "MetalSyntax",
       "avatar_url": "https://avatars.githubusercontent.com/u/25257337?u=a2832836df9bf5a4d5845b85c5887c4ac653a291\u0026v=4",
-      "contributions": 1100,
-      "commits": 1031,
+      "contributions": 1103,
+      "commits": 1034,
       "prs": 5,
       "company": "Multipro Consulting",
       "organizations": []
@@ -533,9 +533,9 @@
       "name": "Jesus Daniel Perdomo Ramirez",
       "login": "DaniDev-19",
       "avatar_url": "https://avatars.githubusercontent.com/u/167467455?u=86c32d533d5cb1a69833fd45d8cce0b4899e26e3\u0026v=4",
-      "contributions": 524,
-      "commits": 395,
-      "prs": 98,
+      "contributions": 527,
+      "commits": 397,
+      "prs": 99,
       "company": "-",
       "organizations": []
     },
@@ -805,8 +805,8 @@
       "name": "Jose Alvarado",
       "login": "josealvaradoo",
       "avatar_url": "https://avatars.githubusercontent.com/u/6018790?u=79386130d5830bfb1d6487d91b185008f005fada\u0026v=4",
-      "contributions": 263,
-      "commits": 259,
+      "contributions": 264,
+      "commits": 260,
       "prs": 0,
       "company": "-",
       "organizations": []
@@ -879,6 +879,17 @@
     },
     {
       "rank": 74,
+      "name": "Andrew Carrero",
+      "login": "ZITZ-bit",
+      "avatar_url": "https://avatars.githubusercontent.com/u/191728792?u=0af6f774828ead2f1c6aa56759390a5a4766ccab\u0026v=4",
+      "contributions": 243,
+      "commits": 221,
+      "prs": 17,
+      "company": "-",
+      "organizations": []
+    },
+    {
+      "rank": 75,
       "name": "Juanperias",
       "login": "Juanperias",
       "avatar_url": "https://avatars.githubusercontent.com/u/136520331?u=7353ba372f09091049692d6e95f5a8cd8a42565f\u0026v=4",
@@ -889,17 +900,6 @@
       "organizations": [
         "RustLangES"
       ]
-    },
-    {
-      "rank": 75,
-      "name": "Andrew Carrero",
-      "login": "ZITZ-bit",
-      "avatar_url": "https://avatars.githubusercontent.com/u/191728792?u=0af6f774828ead2f1c6aa56759390a5a4766ccab\u0026v=4",
-      "contributions": 243,
-      "commits": 221,
-      "prs": 17,
-      "company": "-",
-      "organizations": []
     },
     {
       "rank": 76,
@@ -938,6 +938,17 @@
     },
     {
       "rank": 79,
+      "name": "Santiago Rodriguez",
+      "login": "santiago-dev96",
+      "avatar_url": "https://avatars.githubusercontent.com/u/43162770?u=ebfe72cbfc74901df57734a7cc27307fac8238ef\u0026v=4",
+      "contributions": 225,
+      "commits": 223,
+      "prs": 0,
+      "company": "NBCUniversal",
+      "organizations": []
+    },
+    {
+      "rank": 80,
       "name": "Aaron Barcenas",
       "login": "Astharmin",
       "avatar_url": "https://avatars.githubusercontent.com/u/114181941?u=d1fbd38ac03dd14ea6603cc97c772b56f946ffc2\u0026v=4",
@@ -945,17 +956,6 @@
       "commits": 218,
       "prs": 1,
       "company": "Analista y Desarrollador de Sistemas",
-      "organizations": []
-    },
-    {
-      "rank": 80,
-      "name": "Santiago Rodriguez",
-      "login": "santiago-dev96",
-      "avatar_url": "https://avatars.githubusercontent.com/u/43162770?u=ebfe72cbfc74901df57734a7cc27307fac8238ef\u0026v=4",
-      "contributions": 224,
-      "commits": 222,
-      "prs": 0,
-      "company": "NBCUniversal",
       "organizations": []
     },
     {
@@ -974,8 +974,8 @@
       "name": "David Pino",
       "login": "aesthezel",
       "avatar_url": "https://avatars.githubusercontent.com/u/57817604?u=8fc24304f5607500861b38225f8dd27019716caf\u0026v=4",
-      "contributions": 219,
-      "commits": 202,
+      "contributions": 222,
+      "commits": 205,
       "prs": 4,
       "company": "@quesillostudios",
       "organizations": [
@@ -998,7 +998,7 @@
       "name": "Eleazar Meza",
       "login": "zarmeza",
       "avatar_url": "https://avatars.githubusercontent.com/u/242656?u=df651881b792143627d176c1027644616f89a888\u0026v=4",
-      "contributions": 212,
+      "contributions": 213,
       "commits": 162,
       "prs": 41,
       "company": "@ruby-ve",
@@ -1210,55 +1210,55 @@
     },
     {
       "rank": 2,
-      "name": "klayenhq",
+      "name": "vaslibre",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 3,
-      "name": "solop-develop",
+      "name": "wellu-development",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 4,
-      "name": "it-oriente",
+      "name": "canguro",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 5,
-      "name": "no-country-simulation",
+      "name": "petcare-manager",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 6,
-      "name": "frogged-studio",
+      "name": "tbtbglobal",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 7,
-      "name": "devsofthesolstice",
+      "name": "rustlanges",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 8,
-      "name": "moldea-ai",
+      "name": "lumen-oss",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 9,
-      "name": "rails-ve",
+      "name": "reactvenezuela",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 10,
-      "name": "laravelve",
+      "name": "meteorvenezuela",
       "members": 1,
       "impact": "Normal"
     },
@@ -1270,205 +1270,205 @@
     },
     {
       "rank": 12,
-      "name": "pkgforge-dev",
+      "name": "clickitdev",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 13,
-      "name": "huntingbears",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 14,
-      "name": "nextwave-labs",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 15,
-      "name": "canguro",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 16,
-      "name": "repuestos-edge",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 17,
-      "name": "bmkeros",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 18,
-      "name": "petcare-manager",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 19,
-      "name": "jamstackpy",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 20,
-      "name": "freelawproject",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 21,
-      "name": "concertplaza",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 22,
-      "name": "meteorvenezuela",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 23,
-      "name": "somosmalla",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 24,
-      "name": "vaslibre",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 25,
-      "name": "flisol",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 26,
-      "name": "ctlcumana",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 27,
-      "name": "noofficelocation",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 28,
-      "name": "meldiu",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 29,
-      "name": "wellu-development",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 30,
-      "name": "uru-web-2",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 31,
-      "name": "bitcoin-balancer",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 32,
-      "name": "nrc25783-g4-arrowmaze",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 33,
-      "name": "agronin-tech",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 34,
-      "name": "dockershelf",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 35,
-      "name": "jeaninformatico",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 36,
-      "name": "proyectoarepalinux",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 37,
-      "name": "erpcya",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 38,
-      "name": "debian-ve",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 39,
-      "name": "nvim-neorg",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 40,
-      "name": "rest-nvim",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 41,
-      "name": "rustlanges",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 42,
       "name": "ruby-ve",
       "members": 1,
       "impact": "Normal"
     },
     {
-      "rank": 43,
+      "rank": 14,
+      "name": "ctlcumana",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 15,
+      "name": "somosmalla",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 16,
+      "name": "jamstackpy",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 17,
+      "name": "pkgforge-dev",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 18,
+      "name": "bitcoin-balancer",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 19,
+      "name": "solop-develop",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 20,
+      "name": "jeaninformatico",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 21,
+      "name": "nvim-neorg",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 22,
+      "name": "it-oriente",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 23,
+      "name": "bmkeros",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 24,
+      "name": "laravelve",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 25,
+      "name": "unistats",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 26,
+      "name": "frogged-studio",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 27,
+      "name": "campus-experts",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 28,
+      "name": "cubitz-cube",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 29,
+      "name": "flisolcumana",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 30,
+      "name": "klayenhq",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 31,
+      "name": "adempiere",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 32,
+      "name": "uru-web-1",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 33,
+      "name": "erpcya",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 34,
+      "name": "flisol",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 35,
+      "name": "nodosapien",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 36,
+      "name": "agronin-tech",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 37,
+      "name": "pkgforge-community",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 38,
+      "name": "berserktech",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 39,
+      "name": "pixel-plaza-dev",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 40,
+      "name": "noofficelocation",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 41,
       "name": "freebsd",
       "members": 1,
       "impact": "Normal"
     },
     {
+      "rank": 42,
+      "name": "moldea-ai",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 43,
+      "name": "proyectoarepalinux",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
       "rank": 44,
-      "name": "openrise-hub",
+      "name": "nrc25783-g4-arrowmaze",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 45,
-      "name": "tbtbglobal",
+      "name": "meldiu",
       "members": 1,
       "impact": "Normal"
     },
@@ -1480,133 +1480,133 @@
     },
     {
       "rank": 47,
-      "name": "flex-studios",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 48,
-      "name": "adempiere",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 49,
-      "name": "appjail-makejails",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 50,
-      "name": "collagelabs",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 51,
-      "name": "berserktech",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 52,
-      "name": "uru-web-1",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 53,
-      "name": "fenix-core",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 54,
-      "name": "clickitdev",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 55,
-      "name": "cubitz-cube",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 56,
-      "name": "lidalabs",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 57,
-      "name": "pkgforge-community",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 58,
-      "name": "flisol-ve",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 59,
-      "name": "lumen-oss",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 60,
-      "name": "flisolcumana",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 61,
-      "name": "wteam-llc",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 62,
-      "name": "platzi",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 63,
-      "name": "speclock",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 64,
-      "name": "nodosapien",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 65,
-      "name": "campus-experts",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 66,
       "name": "flaskcwg",
       "members": 1,
       "impact": "Normal"
     },
     {
+      "rank": 48,
+      "name": "appjail-makejails",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 49,
+      "name": "devsofthesolstice",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 50,
+      "name": "debian-ve",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 51,
+      "name": "fenix-core",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 52,
+      "name": "uru-web-2",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 53,
+      "name": "repuestos-edge",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 54,
+      "name": "flisol-ve",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 55,
+      "name": "freelawproject",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 56,
+      "name": "rest-nvim",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 57,
+      "name": "concertplaza",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 58,
+      "name": "nextwave-labs",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 59,
+      "name": "flex-studios",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 60,
+      "name": "huntingbears",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 61,
+      "name": "dockershelf",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 62,
+      "name": "speclock",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 63,
+      "name": "no-country-simulation",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 64,
+      "name": "wteam-llc",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 65,
+      "name": "platzi",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 66,
+      "name": "openrise-hub",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
       "rank": 67,
-      "name": "reactvenezuela",
+      "name": "collagelabs",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 68,
-      "name": "pixel-plaza-dev",
+      "name": "lidalabs",
       "members": 1,
       "impact": "Normal"
     },
@@ -1618,7 +1618,7 @@
     },
     {
       "rank": 70,
-      "name": "unistats",
+      "name": "rails-ve",
       "members": 1,
       "impact": "Normal"
     }

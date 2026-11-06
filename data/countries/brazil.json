@@ -2,7 +2,7 @@
   "country": "Brazil",
   "generated_at": "2026-11-06",
   "min_followers_required": 834,
-  "total_users": 498139,
+  "total_users": 498146,
   "definition_checksum": "a75c6dfc4dd490354d70542775c5fe0dd48d2fa5e8c5f949fec8ed5f56dc279d",
   "users": [
     {
@@ -10,8 +10,8 @@
       "name": "Jefferson Gonçalves",
       "login": "jeffersongoncalves",
       "avatar_url": "https://avatars.githubusercontent.com/u/411493?u=53b5f0453da8f12a07b081a3b5e45103a571a2d8\u0026v=4",
-      "contributions": 22105,
-      "commits": 17866,
+      "contributions": 22108,
+      "commits": 17869,
       "prs": 3860,
       "company": "-",
       "organizations": []
@@ -21,8 +21,8 @@
       "name": "Diego Rodrigues de Sa e Souza",
       "login": "diegosouzapw",
       "avatar_url": "https://avatars.githubusercontent.com/u/8016841?u=ed2ff706399ff7157d41e9d2c03281d65a192dde\u0026v=4",
-      "contributions": 20824,
-      "commits": 11258,
+      "contributions": 20825,
+      "commits": 11259,
       "prs": 8651,
       "company": "CDWA Solutions",
       "organizations": []
@@ -32,8 +32,8 @@
       "name": "Fabio Akita",
       "login": "akitaonrails",
       "avatar_url": "https://avatars.githubusercontent.com/u/2840?u=6923ae49ba086f2c94d29287bc998bacf5b32010\u0026v=4",
-      "contributions": 12504,
-      "commits": 11933,
+      "contributions": 12511,
+      "commits": 11940,
       "prs": 332,
       "company": "Codeminer 42",
       "organizations": [
@@ -45,8 +45,8 @@
       "name": "Cezar Augusto",
       "login": "cezaraugusto",
       "avatar_url": "https://avatars.githubusercontent.com/u/4672033?u=b39b46ee15c79e9d9c42eb723934707f762b7708\u0026v=4",
-      "contributions": 11396,
-      "commits": 10724,
+      "contributions": 11397,
+      "commits": 10725,
       "prs": 601,
       "company": "@h5bp",
       "organizations": [
@@ -79,8 +79,8 @@
       "name": "Kleber Vales",
       "login": "KleberVales",
       "avatar_url": "https://avatars.githubusercontent.com/u/181349255?u=ee403b387bf6acdaf5b8990b1d41fa5a798499ca\u0026v=4",
-      "contributions": 7615,
-      "commits": 7552,
+      "contributions": 7631,
+      "commits": 7568,
       "prs": 0,
       "company": "-",
       "organizations": []
@@ -104,9 +104,9 @@
       "name": "Otávio Miranda",
       "login": "luizomf",
       "avatar_url": "https://avatars.githubusercontent.com/u/553862?u=28d6db8f57fa7a7b0090b9b6f6f01199ed87fae2\u0026v=4",
-      "contributions": 5557,
-      "commits": 4129,
-      "prs": 591,
+      "contributions": 5568,
+      "commits": 4139,
+      "prs": 592,
       "company": "Otávio Miranda",
       "organizations": []
     },
@@ -206,9 +206,9 @@
       "name": "Avelino",
       "login": "avelino",
       "avatar_url": "https://avatars.githubusercontent.com/u/31996?u=867314ee32416a56c62d7b0715d31d7b0ccd8e62\u0026v=4",
-      "contributions": 2712,
+      "contributions": 2713,
       "commits": 1633,
-      "prs": 378,
+      "prs": 379,
       "company": "@buserbrasil",
       "organizations": [
         "django",
@@ -380,8 +380,8 @@
       "name": "Pirata",
       "login": "bmorcelli",
       "avatar_url": "https://avatars.githubusercontent.com/u/104320209?u=d43f1eae0ffd4eb9962360dcd27819ec48aa217b\u0026v=4",
-      "contributions": 1028,
-      "commits": 919,
+      "contributions": 1030,
+      "commits": 921,
       "prs": 50,
       "company": "@BruceDevices",
       "organizations": [
@@ -1352,193 +1352,193 @@
     },
     {
       "rank": 2,
-      "name": "casadocodigo",
-      "members": 2,
-      "impact": "Normal"
-    },
-    {
-      "rank": 3,
-      "name": "resend",
-      "members": 2,
-      "impact": "Normal"
-    },
-    {
-      "rank": 4,
-      "name": "react-brasil",
-      "members": 2,
-      "impact": "Normal"
-    },
-    {
-      "rank": 5,
-      "name": "corabank",
-      "members": 2,
-      "impact": "Normal"
-    },
-    {
-      "rank": 6,
-      "name": "nodeschool",
-      "members": 2,
-      "impact": "Normal"
-    },
-    {
-      "rank": 7,
-      "name": "php-brasil",
-      "members": 2,
-      "impact": "Normal"
-    },
-    {
-      "rank": 8,
       "name": "caelum",
       "members": 2,
       "impact": "Normal"
     },
     {
-      "rank": 9,
-      "name": "nodesource",
+      "rank": 3,
+      "name": "nodeschool",
       "members": 2,
       "impact": "Normal"
     },
     {
-      "rank": 10,
+      "rank": 4,
       "name": "nodejs",
       "members": 2,
       "impact": "Normal"
     },
     {
+      "rank": 5,
+      "name": "react-brasil",
+      "members": 2,
+      "impact": "Normal"
+    },
+    {
+      "rank": 6,
+      "name": "resend",
+      "members": 2,
+      "impact": "Normal"
+    },
+    {
+      "rank": 7,
+      "name": "nodesource",
+      "members": 2,
+      "impact": "Normal"
+    },
+    {
+      "rank": 8,
+      "name": "corabank",
+      "members": 2,
+      "impact": "Normal"
+    },
+    {
+      "rank": 9,
+      "name": "php-brasil",
+      "members": 2,
+      "impact": "Normal"
+    },
+    {
+      "rank": 10,
+      "name": "casadocodigo",
+      "members": 2,
+      "impact": "Normal"
+    },
+    {
       "rank": 11,
-      "name": "softwaredobem",
+      "name": "codeedu",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 12,
-      "name": "binarly-io",
+      "name": "line-ime-usp",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 13,
-      "name": "compozy",
+      "name": "bananadigital",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 14,
-      "name": "reactivex",
+      "name": "carpentries",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 15,
-      "name": "falvojr-phd",
+      "name": "gobelohorizonte",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 16,
-      "name": "gmate",
+      "name": "graphql-community",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 17,
-      "name": "nubank",
+      "name": "squarestack",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 18,
-      "name": "satrdays",
+      "name": "fiergs",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 19,
-      "name": "codeminer42",
+      "name": "acpy",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 20,
-      "name": "hypersignal",
+      "name": "lhc",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 21,
-      "name": "zupit",
+      "name": "zephyrproject-rtos",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 22,
-      "name": "titan-lang",
+      "name": "tcees-nti",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 23,
-      "name": "atlantico",
+      "name": "goreleaser",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 24,
-      "name": "softwareunderground",
+      "name": "hypersignal",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 25,
-      "name": "mosai",
+      "name": "sibs-projects",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 26,
-      "name": "nodeconf",
+      "name": "gdg-cabreuva",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 27,
-      "name": "makerama",
+      "name": "triadworks",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 28,
-      "name": "wpbrasil",
+      "name": "ifood",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 29,
-      "name": "luarocks",
+      "name": "workshopper",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 30,
-      "name": "css-vernon",
+      "name": "luarocks",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 31,
-      "name": "livedepython",
+      "name": "pythoniccafe",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 32,
-      "name": "querosertech",
+      "name": "abduzidos",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 33,
-      "name": "cubos-academy",
+      "name": "wpbrasil",
       "members": 1,
       "impact": "Normal"
     },
@@ -1550,397 +1550,397 @@
     },
     {
       "rank": 35,
-      "name": "curso-r",
+      "name": "reactivex",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 36,
-      "name": "respect",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 37,
-      "name": "coderwall-charity",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 38,
-      "name": "coderwall-mongoose",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 39,
-      "name": "chaijs",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 40,
-      "name": "carpentries",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 41,
-      "name": "rails-api",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 42,
-      "name": "colyseus",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 43,
-      "name": "phpsp",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 44,
-      "name": "opennbs",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 45,
-      "name": "nixos",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 46,
-      "name": "dracula",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 47,
-      "name": "pythoniccafe",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 48,
-      "name": "garoa",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 49,
-      "name": "github",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 50,
-      "name": "gamestdio",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 51,
-      "name": "zephyrproject-rtos",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 52,
-      "name": "line-ime-usp",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 53,
-      "name": "rocketseat",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 54,
-      "name": "coderwall-polygamous",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 55,
-      "name": "codeedu",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 56,
-      "name": "horaextra",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 57,
-      "name": "webschool-io",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 58,
-      "name": "graphql-community",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 59,
-      "name": "falvojr-msc",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 60,
-      "name": "noctrasystems",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 61,
-      "name": "emacs-evil",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 62,
-      "name": "pythonmg",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 63,
-      "name": "project-oma",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 64,
-      "name": "editor-bootstrap",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 65,
-      "name": "neovim",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 66,
-      "name": "simpeg",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 67,
-      "name": "rails",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 68,
-      "name": "mendicant-original",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 69,
-      "name": "schoolofaisaopaulo",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 70,
-      "name": "openjs-foundation",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 71,
-      "name": "librtlsdr",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 72,
-      "name": "fiergs",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 73,
-      "name": "workshopper",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 74,
-      "name": "keplerproject",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 75,
-      "name": "caelumaulas",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 76,
-      "name": "higherorderco",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 77,
-      "name": "nodejs-private",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 78,
-      "name": "design-and-code",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 79,
-      "name": "acpy",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 80,
-      "name": "nodeschool-br",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 81,
-      "name": "django",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 82,
-      "name": "nerdzao",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 83,
-      "name": "py-contributors",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 84,
-      "name": "githubfieldday",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 85,
-      "name": "msmvps",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 86,
-      "name": "sampajs",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 87,
-      "name": "abduzidos",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 88,
-      "name": "frontendbr",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 89,
-      "name": "devpleno",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 90,
-      "name": "referenceerror",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 91,
-      "name": "tauri-apps",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 92,
-      "name": "superlogicalabs",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 93,
-      "name": "apda-hq",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 94,
-      "name": "imastersdev",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 95,
       "name": "buserbrasil",
       "members": 1,
       "impact": "Normal"
     },
     {
+      "rank": 37,
+      "name": "dangercenter",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 38,
+      "name": "gurusc",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 39,
+      "name": "r-devel",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 40,
+      "name": "keplerproject",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 41,
+      "name": "emacs-evil",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 42,
+      "name": "preciso-disso",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 43,
+      "name": "epicgames",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 44,
+      "name": "simpeg",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 45,
+      "name": "chaijs",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 46,
+      "name": "islamicfinanceguru",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 47,
+      "name": "rethinkdb",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 48,
+      "name": "styled-components-community",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 49,
+      "name": "shtools",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 50,
+      "name": "design-and-code",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 51,
+      "name": "falvojr-msc",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 52,
+      "name": "opennbs",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 53,
+      "name": "open-pix",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 54,
+      "name": "querosertech",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 55,
+      "name": "zupit",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 56,
+      "name": "cubos-academy",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 57,
+      "name": "imastersdev",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 58,
+      "name": "superlogicalabs",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 59,
+      "name": "mosai",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 60,
+      "name": "msmvps",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 61,
+      "name": "referenceerror",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 62,
+      "name": "sampajs",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 63,
+      "name": "antisocial-minecraft",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 64,
+      "name": "nodejs-private",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 65,
+      "name": "guia-dev-brasil",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 66,
+      "name": "rails",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 67,
+      "name": "mongoengine",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 68,
+      "name": "teskevirtualsystem",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 69,
+      "name": "pantanalstudio",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 70,
+      "name": "makerama",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 71,
+      "name": "chibistudio",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 72,
+      "name": "mendicant-original",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 73,
+      "name": "lua-users-foundation",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 74,
+      "name": "colyseus",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 75,
+      "name": "plone",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 76,
+      "name": "rladies",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 77,
+      "name": "dracula",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 78,
+      "name": "gamestdio",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 79,
+      "name": "openjournals",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 80,
+      "name": "bottlepy",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 81,
+      "name": "py-contributors",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 82,
+      "name": "titan-lang",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 83,
+      "name": "bacen",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 84,
+      "name": "project-oma",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 85,
+      "name": "github",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 86,
+      "name": "sociau",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 87,
+      "name": "coderwall-polygamous",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 88,
+      "name": "codeminer42",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 89,
+      "name": "phpsp",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 90,
+      "name": "nixos",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 91,
+      "name": "rocketseat",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 92,
+      "name": "bountyhuntersltda",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 93,
+      "name": "nanoshots",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 94,
+      "name": "noctrasystems",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 95,
+      "name": "code-cracker",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
       "rank": 96,
-      "name": "goreleaser",
+      "name": "fastify",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 97,
-      "name": "lispxxx",
+      "name": "remix-cookbook",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 98,
-      "name": "gdg-cabreuva",
+      "name": "editor-bootstrap",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 99,
-      "name": "triadworks",
+      "name": "sos-rs",
       "members": 1,
       "impact": "Normal"
     },
     {
       "rank": 100,
-      "name": "fastify",
+      "name": "fatiando",
       "members": 1,
       "impact": "Normal"
     }

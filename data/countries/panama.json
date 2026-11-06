@@ -10,8 +10,8 @@
       "name": "Alejandro Von Chong",
       "login": "AlejoBSmith",
       "avatar_url": "https://avatars.githubusercontent.com/u/65981114?u=726063252baea9e18d8fca9d0380fad1f91d31d7\u0026v=4",
-      "contributions": 297418,
-      "commits": 297409,
+      "contributions": 297684,
+      "commits": 297675,
       "prs": 2,
       "company": "Universidad Tecnológica de Panamá",
       "organizations": []
@@ -56,8 +56,8 @@
       "name": "Yizack Rangel",
       "login": "Yizack",
       "avatar_url": "https://avatars.githubusercontent.com/u/16264115?u=447f2bd5f88a4a5ed4d150c70a245d63d22fa165\u0026v=4",
-      "contributions": 2311,
-      "commits": 2023,
+      "contributions": 2313,
+      "commits": 2025,
       "prs": 18,
       "company": "MailChannels",
       "organizations": [
@@ -71,8 +71,8 @@
       "name": "Miguel",
       "login": "migueltrevinom",
       "avatar_url": "https://avatars.githubusercontent.com/u/9138358?u=09edaf623cd35321e4efd3636733085f956233e2\u0026v=4",
-      "contributions": 2278,
-      "commits": 1777,
+      "contributions": 2281,
+      "commits": 1780,
       "prs": 429,
       "company": "MAT",
       "organizations": []
@@ -252,8 +252,8 @@
       "name": "Alvaro Samudio",
       "login": "alvarosamudio",
       "avatar_url": "https://avatars.githubusercontent.com/u/25090546?u=ce5ef4404362e797bfe4defc6a72bd90543ce8d9\u0026v=4",
-      "contributions": 616,
-      "commits": 582,
+      "contributions": 619,
+      "commits": 585,
       "prs": 19,
       "company": "@deepin-espanol",
       "organizations": [
@@ -355,9 +355,9 @@
       "name": "Joseph Cano",
       "login": "Jcanotorr06",
       "avatar_url": "https://avatars.githubusercontent.com/u/59259618?u=b4abf55d54640f25e7a2fb4dc2fc353aa878a73b\u0026v=4",
-      "contributions": 387,
+      "contributions": 388,
       "commits": 209,
-      "prs": 70,
+      "prs": 71,
       "company": "-",
       "organizations": []
     },
@@ -576,8 +576,8 @@
       "name": "Héctor Vásquez",
       "login": "HectorIV",
       "avatar_url": "https://avatars.githubusercontent.com/u/15794670?u=e144cd5122e23d72a91406f1505ad46430f5d41d\u0026v=4",
-      "contributions": 219,
-      "commits": 217,
+      "contributions": 221,
+      "commits": 219,
       "prs": 0,
       "company": "@TuEspacioTecnologico",
       "organizations": [
@@ -589,8 +589,8 @@
       "name": "jason cai",
       "login": "jasoncai0",
       "avatar_url": "https://avatars.githubusercontent.com/u/8760914?u=17194e26833eb2ce325a5ac4ac02c48642a07f8c\u0026v=4",
-      "contributions": 215,
-      "commits": 189,
+      "contributions": 216,
+      "commits": 190,
       "prs": 5,
       "company": "Bahringer-Gulgowski",
       "organizations": []
@@ -833,17 +833,6 @@
     },
     {
       "rank": 72,
-      "name": "Dennis Layden",
-      "login": "d3layd",
-      "avatar_url": "https://avatars.githubusercontent.com/u/42395324?u=925a1902833f2b4ff2558a56914547b91becd3c1\u0026v=4",
-      "contributions": 119,
-      "commits": 62,
-      "prs": 32,
-      "company": "-",
-      "organizations": []
-    },
-    {
-      "rank": 73,
       "name": "Ricardo Tovar",
       "login": "rtovardev",
       "avatar_url": "https://avatars.githubusercontent.com/u/124527551?u=7f76733bc0987182cad6f66c33ba479b0eeea971\u0026v=4",
@@ -851,6 +840,17 @@
       "commits": 93,
       "prs": 12,
       "company": "@MART-Automations",
+      "organizations": []
+    },
+    {
+      "rank": 73,
+      "name": "Dennis Layden",
+      "login": "d3layd",
+      "avatar_url": "https://avatars.githubusercontent.com/u/42395324?u=925a1902833f2b4ff2558a56914547b91becd3c1\u0026v=4",
+      "contributions": 119,
+      "commits": 62,
+      "prs": 32,
+      "company": "-",
       "organizations": []
     },
     {
@@ -891,6 +891,17 @@
     },
     {
       "rank": 77,
+      "name": "Jhorman Nieto P",
+      "login": "jhorman9",
+      "avatar_url": "https://avatars.githubusercontent.com/u/79775604?u=09a5d11543634e8cf179b7dffd7e553994cc79f1\u0026v=4",
+      "contributions": 106,
+      "commits": 83,
+      "prs": 10,
+      "company": "-",
+      "organizations": []
+    },
+    {
+      "rank": 78,
       "name": "José López",
       "login": "Jslquintero",
       "avatar_url": "https://avatars.githubusercontent.com/u/30123105?u=8ca7d65e7b8b707a609d46af684a28da8fa9d1a4\u0026v=4",
@@ -901,24 +912,13 @@
       "organizations": []
     },
     {
-      "rank": 78,
+      "rank": 79,
       "name": "David Morán",
       "login": "vidm27",
       "avatar_url": "https://avatars.githubusercontent.com/u/47898368?u=a0a3b75e64e419b117dabe1d89bed5a1b457c753\u0026v=4",
       "contributions": 105,
       "commits": 55,
       "prs": 18,
-      "company": "-",
-      "organizations": []
-    },
-    {
-      "rank": 79,
-      "name": "Jhorman Nieto P",
-      "login": "jhorman9",
-      "avatar_url": "https://avatars.githubusercontent.com/u/79775604?u=09a5d11543634e8cf179b7dffd7e553994cc79f1\u0026v=4",
-      "contributions": 104,
-      "commits": 81,
-      "prs": 10,
       "company": "-",
       "organizations": []
     },
@@ -1128,19 +1128,6 @@
     },
     {
       "rank": 98,
-      "name": "Helene C. Muller-Landau",
-      "login": "hmullerlandau",
-      "avatar_url": "https://avatars.githubusercontent.com/u/15363767?u=f558fd719a90f0265e6c768a7744240252ff87aa\u0026v=4",
-      "contributions": 66,
-      "commits": 64,
-      "prs": 0,
-      "company": "Smithsonian Tropical Research Institute",
-      "organizations": [
-        "Smithsonian-SDCH"
-      ]
-    },
-    {
-      "rank": 99,
       "name": "Javier Lopez",
       "login": "muniter",
       "avatar_url": "https://avatars.githubusercontent.com/u/9699804?u=9a978f4f57fbd79b7548022e5fdc9ba6ab5ad806\u0026v=4",
@@ -1150,6 +1137,19 @@
       "company": "@Partido-MIRA",
       "organizations": [
         "Partido-MIRA"
+      ]
+    },
+    {
+      "rank": 99,
+      "name": "Helene C. Muller-Landau",
+      "login": "hmullerlandau",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15363767?u=f558fd719a90f0265e6c768a7744240252ff87aa\u0026v=4",
+      "contributions": 66,
+      "commits": 64,
+      "prs": 0,
+      "company": "Smithsonian Tropical Research Institute",
+      "organizations": [
+        "Smithsonian-SDCH"
       ]
     },
     {
@@ -1167,247 +1167,247 @@
   "organizations": [
     {
       "rank": 1,
-      "name": "jimrsng",
-      "members": 2,
-      "impact": "Normal"
-    },
-    {
-      "rank": 2,
       "name": "pespgg",
       "members": 2,
       "impact": "Normal"
     },
     {
+      "rank": 2,
+      "name": "jimrsng",
+      "members": 2,
+      "impact": "Normal"
+    },
+    {
       "rank": 3,
-      "name": "tuespaciotecnologico",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 4,
-      "name": "pulsedev2",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 5,
-      "name": "ghini",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 6,
-      "name": "grupokh",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 7,
-      "name": "19signals",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 8,
-      "name": "somostet",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 9,
-      "name": "omicronpanama",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 10,
-      "name": "frozedclubdevelopment",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 11,
-      "name": "otteruniversity",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 12,
-      "name": "platzi",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 13,
-      "name": "trackit",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 14,
-      "name": "time-of-data",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 15,
-      "name": "zelta-dev",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 16,
-      "name": "ieee-cs-utp-drteam",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 17,
-      "name": "initiumlab",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 18,
-      "name": "canvasflow",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 19,
-      "name": "microsoft",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 20,
-      "name": "un2versidad",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 21,
-      "name": "paymesoft",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 22,
-      "name": "parkeando-edicion-universitaria",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 23,
       "name": "pythonpanama",
       "members": 1,
       "impact": "Normal"
     },
     {
-      "rank": 24,
-      "name": "leone-gaming",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 25,
-      "name": "pixmat",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 26,
-      "name": "bryanjtc-platzi",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 27,
-      "name": "cohesivestack",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 28,
-      "name": "quantumsocietycommunity",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 29,
+      "rank": 4,
       "name": "deepin-espanol",
       "members": 1,
       "impact": "Normal"
     },
     {
-      "rank": 30,
+      "rank": 5,
+      "name": "omicronpanama",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 6,
+      "name": "trackit",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 7,
+      "name": "ghini",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 8,
+      "name": "frozedclubdevelopment",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 9,
+      "name": "leone-gaming",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 10,
       "name": "zestianmc",
       "members": 1,
       "impact": "Normal"
     },
     {
-      "rank": 31,
+      "rank": 11,
       "name": "smithsonian-sdch",
       "members": 1,
       "impact": "Normal"
     },
     {
-      "rank": 32,
+      "rank": 12,
+      "name": "grupokh",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 13,
+      "name": "initiumlab",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 14,
       "name": "floss-pa",
       "members": 1,
       "impact": "Normal"
     },
     {
-      "rank": 33,
-      "name": "automattic",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 34,
-      "name": "effortless-technologies",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 35,
+      "rank": 15,
       "name": "veridit",
       "members": 1,
       "impact": "Normal"
     },
     {
-      "rank": 36,
+      "rank": 16,
       "name": "lykz",
       "members": 1,
       "impact": "Normal"
     },
     {
-      "rank": 37,
-      "name": "hootmarket",
+      "rank": 17,
+      "name": "ieee-cs-utp-drteam",
       "members": 1,
       "impact": "Normal"
     },
     {
-      "rank": 38,
-      "name": "venganza-de-python-ii",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 39,
-      "name": "epicgames",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 40,
+      "rank": 18,
       "name": "partido-mira",
       "members": 1,
       "impact": "Normal"
     },
     {
-      "rank": 41,
+      "rank": 19,
+      "name": "tuespaciotecnologico",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 20,
+      "name": "quantumsocietycommunity",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 21,
+      "name": "venganza-de-python-ii",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 22,
+      "name": "somostet",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 23,
+      "name": "19signals",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 24,
       "name": "open-gsd",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 25,
+      "name": "un2versidad",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 26,
+      "name": "parkeando-edicion-universitaria",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 27,
+      "name": "pulsedev2",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 28,
+      "name": "time-of-data",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 29,
+      "name": "canvasflow",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 30,
+      "name": "hootmarket",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 31,
+      "name": "bryanjtc-platzi",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 32,
+      "name": "automattic",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 33,
+      "name": "cohesivestack",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 34,
+      "name": "epicgames",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 35,
+      "name": "microsoft",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 36,
+      "name": "paymesoft",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 37,
+      "name": "otteruniversity",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 38,
+      "name": "pixmat",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 39,
+      "name": "effortless-technologies",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 40,
+      "name": "platzi",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 41,
+      "name": "zelta-dev",
       "members": 1,
       "impact": "Normal"
     }

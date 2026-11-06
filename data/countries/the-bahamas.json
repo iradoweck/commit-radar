@@ -54,9 +54,9 @@
       "name": "Ray Gao",
       "login": "darth-cy",
       "avatar_url": "https://avatars.githubusercontent.com/u/4976777?u=8e47c3ed28dc32eb52d3996a5f7d89c152d26bb2\u0026v=4",
-      "contributions": 369,
+      "contributions": 370,
       "commits": 288,
-      "prs": 77,
+      "prs": 78,
       "company": "-",
       "organizations": []
     },
@@ -164,8 +164,8 @@
       "name": "Alex Drask Ivanov",
       "login": "Ragdeap",
       "avatar_url": "https://avatars.githubusercontent.com/u/65538839?u=344f526db2b6c8102e55426e9dba693c6d706c02\u0026v=4",
-      "contributions": 93,
-      "commits": 91,
+      "contributions": 94,
+      "commits": 92,
       "prs": 0,
       "company": "Microsoft",
       "organizations": []
@@ -1123,43 +1123,43 @@
     },
     {
       "rank": 2,
-      "name": "joinbubbel",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 3,
       "name": "basecamp",
       "members": 1,
       "impact": "Normal"
     },
     {
-      "rank": 4,
-      "name": "cloudcarib",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 5,
+      "rank": 3,
       "name": "leapdao",
       "members": 1,
       "impact": "Normal"
     },
     {
-      "rank": 6,
-      "name": "archipelagoapps",
-      "members": 1,
-      "impact": "Normal"
-    },
-    {
-      "rank": 7,
+      "rank": 4,
       "name": "platoalpha",
       "members": 1,
       "impact": "Normal"
     },
     {
-      "rank": 8,
+      "rank": 5,
+      "name": "joinbubbel",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 6,
       "name": "btcwoot",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 7,
+      "name": "cloudcarib",
+      "members": 1,
+      "impact": "Normal"
+    },
+    {
+      "rank": 8,
+      "name": "archipelagoapps",
       "members": 1,
       "impact": "Normal"
     },
