@@ -15,7 +15,7 @@ import (
 const root string = "https://api.github.com/"
 
 var sharedHTTPClient = &http.Client{
-	Timeout: 30 * time.Second,
+	Timeout: 60 * time.Second,
 }
 
 type HTTPGithubClient struct {
@@ -64,27 +64,32 @@ func (client HTTPGithubClient) User(login string) (User, error) {
 	return user, nil
 }
 
+var newlineRegex = regexp.MustCompile(`\r?\n`)
+
 func (client HTTPGithubClient) SearchUsers(query UserSearchQuery) (GithubSearchResults, error) {
 	users := []User{}
 	userLogins := map[string]bool{}
 
-	totalCount := 0
 	minFollowerCount := -1
 	maxPerQuery := 1000
-	perPage := 10
+	perPage := 5
 	totalUsersCount := 0
+	totalUsersCountSet := false
 
-	retryCount := 0
-	maxRetryCount := 10
+	maxPageRetries := 6
 
 Pages:
-	for totalCount < query.MaxUsers {
+	for len(users) < query.MaxUsers {
 		previousCursor := ""
 		followerCountQueryStr := ""
 		if minFollowerCount >= 0 {
 			followerCountQueryStr = fmt.Sprintf(" followers:<%d", minFollowerCount)
 		}
 		for currentPage := 1; currentPage <= (maxPerQuery / perPage); currentPage++ {
+			if len(users) >= query.MaxUsers {
+				break Pages
+			}
+
 			cursorQueryStr := ""
 			if previousCursor != "" {
 				cursorQueryStr = fmt.Sprintf(", after: \\\"%s\\\"", previousCursor)
@@ -123,86 +128,158 @@ Pages:
         }
       }" }`, query.Q, followerCountQueryStr, query.Sort, query.Order, perPage, cursorQueryStr)
 
-			re := regexp.MustCompile(`\r?\n`)
-			graphQlString = re.ReplaceAllString(graphQlString, " ")
+			graphQlString = newlineRegex.ReplaceAllString(graphQlString, " ")
 
-			body, err := client.Request("https://api.github.com/graphql", graphQlString)
-			if err != nil {
-				retryCount++
-				if retryCount < maxRetryCount {
-					log.Printf("error making graphql request (retry %d/%d): %v", retryCount, maxRetryCount, err)
-					time.Sleep(10 * time.Second)
-					continue Pages
-				} else {
-					return GithubSearchResults{}, fmt.Errorf("too many errors making graphql request: %w", err)
+			var searchNode map[string]interface{}
+			var lastErr error
+
+			for attempt := 1; attempt <= maxPageRetries; attempt++ {
+				body, err := client.Request("https://api.github.com/graphql", graphQlString)
+				if err != nil {
+					lastErr = fmt.Errorf("error making graphql request: %w", err)
+					log.Printf("page %d (retry %d/%d): %v", currentPage, attempt, maxPageRetries, err)
+					continue
+				}
+
+				var response interface{}
+				if err := json.Unmarshal(body, &response); err != nil {
+					lastErr = fmt.Errorf("error unmarshalling JSON response: %w", err)
+					log.Printf("page %d (retry %d/%d): %v", currentPage, attempt, maxPageRetries, lastErr)
+					if attempt < maxPageRetries {
+						time.Sleep(5 * time.Second)
+					}
+					continue
+				}
+
+				rootNode, ok := response.(map[string]interface{})
+				if !ok {
+					lastErr = fmt.Errorf("unexpected GraphQL response structure")
+					log.Printf("page %d (retry %d/%d): %v", currentPage, attempt, maxPageRetries, lastErr)
+					if attempt < maxPageRetries {
+						time.Sleep(5 * time.Second)
+					}
+					continue
+				}
+
+				if val, ok := rootNode["errors"]; ok {
+					lastErr = fmt.Errorf("GraphQL error response: %+v", val)
+					log.Printf("page %d (retry %d/%d): %v", currentPage, attempt, maxPageRetries, lastErr)
+					if attempt < maxPageRetries {
+						time.Sleep(5 * time.Second)
+					}
+					continue
+				}
+
+				dataNode, ok := rootNode["data"].(map[string]interface{})
+				if !ok || dataNode == nil || dataNode["search"] == nil {
+					lastErr = fmt.Errorf("GraphQL response missing data.search node")
+					log.Printf("page %d (retry %d/%d): %v", currentPage, attempt, maxPageRetries, lastErr)
+					if attempt < maxPageRetries {
+						time.Sleep(5 * time.Second)
+					}
+					continue
+				}
+
+				sn, ok := dataNode["search"].(map[string]interface{})
+				if !ok || sn == nil {
+					lastErr = fmt.Errorf("unexpected search node structure")
+					log.Printf("page %d (retry %d/%d): %v", currentPage, attempt, maxPageRetries, lastErr)
+					if attempt < maxPageRetries {
+						time.Sleep(5 * time.Second)
+					}
+					continue
+				}
+
+				searchNode = sn
+				lastErr = nil
+				break
+			}
+
+			if lastErr != nil {
+				if len(users) > 0 {
+					log.Printf("warning: page %d exhausted %d retries (%v); returning %d users collected so far", currentPage, maxPageRetries, lastErr, len(users))
+					break Pages
+				}
+				return GithubSearchResults{}, fmt.Errorf("too many errors on page %d: %w", currentPage, lastErr)
+			}
+
+			if !totalUsersCountSet {
+				if uc, ok := searchNode["userCount"].(float64); ok {
+					totalUsersCount = int(uc)
+					totalUsersCountSet = true
 				}
 			}
 
-			var response interface{}
-			if err := json.Unmarshal(body, &response); err != nil {
-				retryCount++
-				if retryCount < maxRetryCount {
-					log.Printf("error unmarshalling JSON response (retry %d/%d): %v", retryCount, maxRetryCount, err)
-					time.Sleep(10 * time.Second)
-					continue Pages
-				} else {
-					return GithubSearchResults{}, fmt.Errorf("too many errors unmarshalling JSON response: %w", err)
-				}
-			}
-			rootNode, ok := response.(map[string]interface{})
-			if !ok {
-				return GithubSearchResults{}, fmt.Errorf("unexpected GraphQL response structure")
-			}
-			if val, ok := rootNode["errors"]; ok {
-				retryCount++
-				if retryCount < maxRetryCount {
-					log.Printf("received GraphQL error response (retry %d/%d): %+v", retryCount, maxRetryCount, val)
-					time.Sleep(10 * time.Second)
-					continue Pages
-				} else {
-					return GithubSearchResults{}, fmt.Errorf("too many GraphQL error responses: %+v", val)
-				}
-			}
-			dataNode, ok := rootNode["data"].(map[string]interface{})
-			if !ok || dataNode == nil || dataNode["search"] == nil {
-				// Fim natural dos resultados de busca
+			edgeNodes, ok := searchNode["edges"].([]interface{})
+			if !ok || len(edgeNodes) == 0 {
 				break Pages
 			}
-
-			searchNode := dataNode["search"].(map[string]interface{})
-			totalUsersCount = int(searchNode["userCount"].(float64))
-			edgeNodes := searchNode["edges"].([]interface{})
-
-			if len(edgeNodes) == 0 {
-				break Pages
-			}
-			totalCount += len(edgeNodes)
 
 		Edges:
 			for _, edge := range edgeNodes {
-				edgeNode := edge.(map[string]interface{})
-				userNode := edgeNode["node"].(map[string]interface{})
-				typename := userNode["__typename"].(string)
+				edgeNode, ok := edge.(map[string]interface{})
+				if !ok {
+					continue Edges
+				}
+				if c, ok := edgeNode["cursor"].(string); ok && c != "" {
+					previousCursor = c
+				}
+				userNode, ok := edgeNode["node"].(map[string]interface{})
+				if !ok || userNode == nil {
+					continue Edges
+				}
+				typename, _ := userNode["__typename"].(string)
 				if typename != "User" {
 					continue Edges
 				}
-				login := userNode["login"].(string)
-				avatarURL := userNode["avatarUrl"].(string)
+				login, _ := userNode["login"].(string)
+				if login == "" {
+					continue Edges
+				}
+				avatarURL := strPropOrEmpty(userNode, "avatarUrl")
 				name := strPropOrEmpty(userNode, "name")
 				company := strPropOrEmpty(userNode, "company")
 				organizations := []string{}
 
-				orgNodes := userNode["organizations"].(map[string]interface{})["nodes"].([]interface{})
-				for _, orgNode := range orgNodes {
-					organizations = append(organizations, orgNode.(map[string]interface{})["login"].(string))
+				if orgsContainer, ok := userNode["organizations"].(map[string]interface{}); ok {
+					if orgNodes, ok := orgsContainer["nodes"].([]interface{}); ok {
+						for _, orgNode := range orgNodes {
+							if orgMap, ok := orgNode.(map[string]interface{}); ok {
+								if orgLogin, ok := orgMap["login"].(string); ok && orgLogin != "" {
+									organizations = append(organizations, orgLogin)
+								}
+							}
+						}
+					}
 				}
 
-				followerCount := int(userNode["followers"].(map[string]interface{})["totalCount"].(float64))
-				contributionsCollection := userNode["contributionsCollection"].(map[string]interface{})
-				contributionCount := int(contributionsCollection["contributionCalendar"].(map[string]interface{})["totalContributions"].(float64))
-				privateContributionCount := int(contributionsCollection["restrictedContributionsCount"].(float64))
-				commitsCount := int(contributionsCollection["totalCommitContributions"].(float64))
-				pullRequestsCount := int(contributionsCollection["totalPullRequestContributions"].(float64))
+				followerCount := 0
+				if followersMap, ok := userNode["followers"].(map[string]interface{}); ok {
+					if fc, ok := followersMap["totalCount"].(float64); ok {
+						followerCount = int(fc)
+					}
+				}
+
+				contributionCount := 0
+				privateContributionCount := 0
+				commitsCount := 0
+				pullRequestsCount := 0
+				if contributionsCollection, ok := userNode["contributionsCollection"].(map[string]interface{}); ok {
+					if calendar, ok := contributionsCollection["contributionCalendar"].(map[string]interface{}); ok {
+						if tc, ok := calendar["totalContributions"].(float64); ok {
+							contributionCount = int(tc)
+						}
+					}
+					if rc, ok := contributionsCollection["restrictedContributionsCount"].(float64); ok {
+						privateContributionCount = int(rc)
+					}
+					if cc, ok := contributionsCollection["totalCommitContributions"].(float64); ok {
+						commitsCount = int(cc)
+					}
+					if prc, ok := contributionsCollection["totalPullRequestContributions"].(float64); ok {
+						pullRequestsCount = int(prc)
+					}
+				}
 
 				user := User{
 					Login:                    login,
@@ -222,9 +299,13 @@ Pages:
 					users = append(users, user)
 				}
 
-				previousCursor = edgeNode["cursor"].(string)
-				minFollowerCount = int(followerCount)
+				minFollowerCount = followerCount
+				if len(users) >= query.MaxUsers {
+					break Pages
+				}
 			}
+
+			time.Sleep(350 * time.Millisecond)
 		}
 	}
 

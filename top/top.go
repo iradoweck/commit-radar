@@ -3,12 +3,53 @@ package top
 import (
 	"errors"
 	"fmt"
+	"log"
 	"sort"
+	"strings"
 	"time"
 
 	"most-active-github-users-counter/github"
 	"most-active-github-users-counter/net"
 )
+
+func chunkLocations(locations []string) [][]string {
+	if len(locations) == 0 {
+		return nil
+	}
+
+	// Se o preset possui ate 12 localizacoes e a string combinada e compacta (<= 180 chars),
+	// executa em um unico chunk para evitar multiplas buscas desnecessarias.
+	totalLen := 0
+	for _, loc := range locations {
+		totalLen += len(" location:") + len(loc)
+	}
+	if len(locations) <= 12 && totalLen <= 180 {
+		return [][]string{locations}
+	}
+
+	const maxLocsPerChunk = 8
+	const maxCharsPerChunk = 150
+
+	var chunks [][]string
+	var current []string
+	currentLen := 0
+
+	for _, loc := range locations {
+		partLen := len(" location:") + len(loc)
+		if len(current) > 0 && (len(current) >= maxLocsPerChunk || currentLen+partLen > maxCharsPerChunk) {
+			chunks = append(chunks, current)
+			current = nil
+			currentLen = 0
+		}
+		current = append(current, loc)
+		currentLen += partLen
+	}
+	if len(current) > 0 {
+		chunks = append(chunks, current)
+	}
+
+	return chunks
+}
 
 func GithubTop(options Options) (github.GithubSearchResults, error) {
 	var token = options.Token
@@ -16,10 +57,12 @@ func GithubTop(options Options) (github.GithubSearchResults, error) {
 		return github.GithubSearchResults{}, errors.New("Missing GITHUB token")
 	}
 
-	excludeStr := ""
+	var excludeBuilder strings.Builder
 	for _, location := range options.ExcludeLocations {
-		excludeStr = fmt.Sprintf("%s -location:%s", excludeStr, location)
+		excludeBuilder.WriteString(" -location:")
+		excludeBuilder.WriteString(location)
 	}
+	excludeStr := excludeBuilder.String()
 
 	var client = github.NewGithubClient(net.TokenAuth(token))
 
@@ -34,20 +77,39 @@ func GithubTop(options Options) (github.GithubSearchResults, error) {
 		})
 	}
 
-	// Quando ha localizacoes, o GitHub Search API interpreta multiplos "location:" consecutivos
-	// como conjuncao (AND). Por isso, consultamos as localizacoes separadamente e deduplicamos.
+	chunks := chunkLocations(options.Locations)
+	if len(chunks) == 1 {
+		var locBuilder strings.Builder
+		for _, loc := range chunks[0] {
+			locBuilder.WriteString(" location:")
+			locBuilder.WriteString(loc)
+		}
+		query := fmt.Sprintf("type:user%s%s", locBuilder.String(), excludeStr)
+		return client.SearchUsers(github.UserSearchQuery{
+			Q:        query,
+			Sort:     "followers",
+			Order:    "desc",
+			MaxUsers: options.ConsiderNum,
+		})
+	}
+
 	seen := make(map[string]bool)
 	var allUsers []github.User
 	totalUserCount := 0
 	minFollowers := -1
 
-	for idx, loc := range options.Locations {
-		// Delay defensivo de 1 segundo entre cidades para prevenir secondary rate limit do GitHub
+	for idx, chunk := range chunks {
 		if idx > 0 {
-			time.Sleep(1 * time.Second)
+			time.Sleep(2 * time.Second)
 		}
 
-		query := fmt.Sprintf("type:user location:%s%s", loc, excludeStr)
+		var locBuilder strings.Builder
+		for _, loc := range chunk {
+			locBuilder.WriteString(" location:")
+			locBuilder.WriteString(loc)
+		}
+
+		query := fmt.Sprintf("type:user%s%s", locBuilder.String(), excludeStr)
 		res, err := client.SearchUsers(github.UserSearchQuery{
 			Q:        query,
 			Sort:     "followers",
@@ -55,21 +117,22 @@ func GithubTop(options Options) (github.GithubSearchResults, error) {
 			MaxUsers: options.ConsiderNum,
 		})
 		if err != nil {
+			if len(allUsers) > 0 {
+				log.Printf("warning: chunk %d/%d failed (%v); proceeding with %d users collected so far", idx+1, len(chunks), err, len(allUsers))
+				break
+			}
 			return github.GithubSearchResults{}, err
 		}
 
-		totalUserCount += res.TotalUserCount
+		if res.TotalUserCount > totalUserCount {
+			totalUserCount = res.TotalUserCount
+		}
 
 		for _, u := range res.Users {
 			if !seen[u.Login] {
 				seen[u.Login] = true
 				allUsers = append(allUsers, u)
 			}
-		}
-
-		// Se ja atingimos usuarios suficientes para o corte inicial, otimizamos as chamadas
-		if len(allUsers) >= options.ConsiderNum*2 {
-			break
 		}
 	}
 

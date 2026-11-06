@@ -131,22 +131,19 @@ var PRESETS = map[string]QueryPreset{
 		include: []string{"pakistan", "karachi", "lahore", "faisalabad", "rawalpindi", "peshawar", "islamabad"},
 	},
 	"brazil": QueryPreset{
-		title:   "Brazil",
-		include: []string{"brazil", "brasil", "são+paulo", "brasília", "salvador", "fortaleza", "belém", "belo+horizonte", "manaus", "curitiba", "recife", "rio+de+janeiro", "maceió", "aracaju", "porto+alegre", "florianópolis", "acre", "alagoas", "amapá", "amazonas", "bahia", "ceará", "distrito+federal", "espírito+santo", "goiás", "maranhão", "mato+grosso", "mato+grosso+do+sul", "minas+gerais", "pará", "paraíba", "paraná", "pernambuco", "piauí", "rio+grande+do+norte", "rio+grande+do+sul", "rondônia", "roraima", "santa+catarina", "sergipe", "tocantins"},
+		title: "Brazil",
+		include: []string{
+			"brazil", "brasil", "são+paulo", "rio+de+janeiro", "belo+horizonte", "brasília",
+			"curitiba", "porto+alegre", "recife", "florianópolis", "salvador", "fortaleza",
+			"campinas", "goiânia", "belém", "manaus",
+		},
 	},
 	"nigeria": QueryPreset{
-		title:   "Nigeria",
+		title: "Nigeria",
 		include: []string{
-			// País e termos coloquiais
-			"nigeria", "ng", "naija",
-			// Lagos & Tech Hubs
-			"lagos", "yaba", "ikeja", "lekki", "victoria+island", "surulere",
-			// FCT & Northern Tech Hubs
-			"abuja", "fct", "kano", "kaduna", "zaria", "jos", "ilorin", "sokoto", "maiduguri",
-			// Southern & Eastern Hubs
-			"ibadan", "oyo", "ogun", "abeokuta", "osun", "oshogbo", "ondo", "akure", "ekiti", "ado-ekiti",
-			"port+harcourt", "rivers", "benin+city", "edo", "delta", "warri", "asaba",
-			"enugu", "anambra", "awka", "onitsha", "imo", "owerri", "abia", "aba", "umuahia", "calabar", "cross+river", "uyo", "akwa+ibom",
+			"nigeria", "naija", "lagos", "abuja", "ibadan", "port+harcourt",
+			"kano", "enugu", "benin+city", "kaduna", "ilorin", "abeokuta",
+			"owerri", "akure", "uyo", "calabar",
 		},
 	},
 	"bangladesh": QueryPreset{
@@ -155,7 +152,7 @@ var PRESETS = map[string]QueryPreset{
 	},
 	"mexico": QueryPreset{
 		title:   "Mexico",
-		include: []string{"mexico", "mexico+city", "guadalajara", "puebla", "tijuana", "mexicali", "monterrey", "hermosillo", "zapopan", "ciudad+juarez", "chihuahua", "aguascalientes", "mx"},
+		include: []string{"mexico", "mexico+city", "guadalajara", "puebla", "tijuana", "mexicali", "monterrey", "hermosillo", "zapopan", "ciudad+juarez", "chihuahua", "aguascalientes"},
 	},
 	"philippines": QueryPreset{
 		title:   "Philippines",
@@ -199,28 +196,12 @@ var PRESETS = map[string]QueryPreset{
 		include: []string{"thailand", "bangkok", "nonthaburi", "nakhon", "phuket", "pattaya", "chiang+mai"},
 	},
 	"south africa": QueryPreset{
-		title:   "South Africa",
+		title: "South Africa",
 		include: []string{
-			// País e abreviações oficiais
-			"south+africa", "rsa", "za", "suid-afrika",
-			// Gauteng
-			"johannesburg", "joburg", "pretoria", "tshwane", "sandton", "soweto", "centurion", "midrand",
-			// Western Cape
-			"cape+town", "stellenbosch", "george", "paarl", "knysna",
-			// KwaZulu-Natal
-			"durban", "ethekwini", "pietermaritzburg", "umhlanga", "ballito",
-			// Eastern Cape
-			"gqeberha", "port+elizabeth", "east+london", "makhanda", "grahamstown",
-			// Free State
-			"bloemfontein", "mangaung", "welkom",
-			// Mpumalanga
-			"mbombela", "nelspruit", "witbank", "emalahleni",
-			// Limpopo
-			"polokwane", "tzaneen",
-			// North West
-			"rustenburg", "potchefstroom", "mahikeng",
-			// Northern Cape
-			"kimberley", "upington",
+			"south+africa", "suid-afrika", "johannesburg", "cape+town", "pretoria",
+			"durban", "sandton", "stellenbosch", "centurion", "midrand",
+			"port+elizabeth", "gqeberha", "bloemfontein", "east+london", "pietermaritzburg",
+			"polokwane", "mbombela", "nelspruit",
 		},
 	},
 	"myanmar": QueryPreset{
@@ -240,20 +221,11 @@ var PRESETS = map[string]QueryPreset{
 		include: []string{"colombia", "bogota", "medellin", "cali", "barranquilla", "cartagena", "cucuta", "bucaramanga", "ibague", "soledad", "pereira", "santa+marta"},
 	},
 	"kenya": QueryPreset{
-		title:   "Kenya",
+		title: "Kenya",
 		include: []string{
-			// País e código
-			"kenya", "ke",
-			// Nairobi & Tech Corridor (Silicon Savannah)
-			"nairobi", "westlands", "kilimani", "karen", "ruiru", "thika", "kiambu",
-			// Coast
-			"mombasa", "malindi", "kilifi", "diani",
-			// Rift Valley & Western
-			"nakuru", "naivasha", "eldoret", "uasin+gishu", "kisumu", "kakamega", "kisii", "kericho", "kitale",
-			// Central & Mount Kenya
-			"nyeri", "embu", "meru", "kirinyaga", "murang'a",
-			// Eastern & Southern
-			"machakos", "kitui", "makueni", "kajiado", "ngong",
+			"kenya", "nairobi", "mombasa", "nakuru", "eldoret", "kisumu",
+			"thika", "kiambu", "ruiru", "machakos", "nyeri", "naivasha",
+			"kakamega", "meru", "kilifi", "malindi",
 		},
 	},
 	"argentina": QueryPreset{
@@ -374,44 +346,11 @@ var PRESETS = map[string]QueryPreset{
 		include: []string{"ghana", "accra", "kumasi", "sekondi", "ashaiman", "sunyani", "tamale", "tema"},
 	},
 	"angola": QueryPreset{
-		title:   "Angola",
+		title: "Angola",
 		include: []string{
-			// País e abreviações
-			"angola", "ao",
-			// Luanda e arredores
-			"luanda", "talatona", "viana", "cazenga", "belas", "kilamba",
-			// Benguela
-			"benguela", "lobito", "catumbela", "baía+farta",
-			// Huambo
-			"huambo", "caála",
-			// Huíla
-			"huila", "huíla", "lubango",
-			// Cabinda
-			"cabinda",
-			// Cuanza Sul & Norte
-			"cuanza+sul", "kwanza+sul", "sumbe", "porto+amboim",
-			"cuanza+norte", "kwanza+norte", "ndalatando",
-			// Bié
-			"bié", "bie", "cuito", "kuito",
-			// Uíge
-			"uige", "uíge",
-			// Malanje
-			"malanje", "malange",
-			// Namibe
-			"namibe", "moçâmedes", "mocamedes",
-			// Zaire
-			"zaire", "mbanza+congo", "soyo",
-			// Lunda Norte & Sul
-			"lunda+norte", "dundo",
-			"lunda+sul", "saurimo",
-			// Moxico
-			"moxico", "luena",
-			// Cuando Cubango
-			"cuando+cubango", "kuando+kubango", "menongue",
-			// Cunene
-			"cunene", "ondjiva",
-			// Bengo
-			"bengo", "caxito",
+			"angola", "luanda", "benguela", "lobito", "huambo", "lubango",
+			"huíla", "cabinda", "malanje", "namibe", "sumbe", "cuito",
+			"uíge", "soyo", "dundo", "saurimo", "luena", "menongue", "ondjiva", "caxito",
 		},
 	},
 	"nepal": QueryPreset{
@@ -423,30 +362,11 @@ var PRESETS = map[string]QueryPreset{
 		include: []string{"yemen", "sana'a", "taiz", "aden", "mukalla", "ibb"},
 	},
 	"mozambique": QueryPreset{
-		title:   "Mozambique",
+		title: "Mozambique",
 		include: []string{
-			// Nomes do País e abreviações oficiais / coloquiais
-			"mozambique", "moçambique", "moz", "mz", "moç",
-			// Cidade de Maputo & Província de Maputo
-			"maputo", "matola", "boane", "marracuene", "namaacha", "manhiça", "ressano+garcia",
-			// Gaza
-			"gaza", "xai-xai", "chókwè", "chokwe", "bilene", "mandlakazi",
-			// Inhambane
-			"inhambane", "maxixe", "vilankulo", "vilanculos", "morrumbene", "massinga",
-			// Sofala
-			"sofala", "beira", "dondo", "nhamatanda", "búzi", "buzi",
-			// Manica
-			"manica", "chimoio", "gondola", "catandica",
-			// Tete
-			"tete", "moatize", "songo", "cahora+bassa",
-			// Zambézia
-			"zambezia", "zambézia", "quelimane", "mocuba", "milange", "gurué", "gurue",
-			// Nampula
-			"nampula", "nacala", "angoche", "ilha+de+moçambique", "monapo",
-			// Cabo Delgado
-			"cabo+delgado", "pemba", "montepuez", "palma", "mocímboa+da+praia",
-			// Niassa
-			"niassa", "lichinga", "cuamba", "metangula",
+			"mozambique", "moçambique", "maputo", "matola", "beira", "nampula",
+			"chimoio", "quelimane", "tete", "xai-xai", "inhambane", "maxixe",
+			"pemba", "lichinga", "nacala", "dondo", "mocuba", "gurué",
 		},
 	},
 	"ivory coast": QueryPreset{
@@ -663,29 +583,12 @@ var PRESETS = map[string]QueryPreset{
 		include: []string{"uruguay", "montevideo"},
 	},
 	"united states": QueryPreset{
-		title:   "United States",
+		title: "United States",
 		include: []string{
-			// Pais e qualificadores nacionais
-			"United+States", "USA",
-			// Todos os 50 Estados Americanos
-			"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
-			"Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
-			"Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri",
-			"Montana", "Nebraska", "Nevada", "New+Hampshire", "New+Jersey", "New+Mexico", "New+York",
-			"North+Carolina", "North+Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode+Island",
-			"South+Carolina", "South+Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
-			"West+Virginia", "Wisconsin", "Wyoming",
-			// Principais Capitais e Hubs Tecnologicos / Economicos
-			"Montgomery", "Juneau", "Phoenix", "Little+Rock", "Sacramento", "Los+Angeles", "San+Francisco",
-			"San+Jose", "San+Diego", "Denver", "Hartford", "Dover", "Tallahassee", "Miami", "Atlanta",
-			"Honolulu", "Boise", "Springfield", "Chicago", "Indianapolis", "Des+Moines", "Topeka",
-			"Frankfort", "Baton+Rouge", "Augusta", "Annapolis", "Baltimore", "Boston", "Lansing", "Detroit",
-			"Saint+Paul", "Minneapolis", "Jackson", "Jefferson+City", "Helena", "Lincoln", "Omaha",
-			"Carson+City", "Las+Vegas", "Concord", "Trenton", "Santa+Fe", "Albany", "New+York+City",
-			"Raleigh", "Charlotte", "Bismarck", "Columbus", "Oklahoma+City", "Salem", "Portland",
-			"Harrisburg", "Philadelphia", "Providence", "Columbia", "Pierre", "Nashville", "Austin",
-			"Houston", "Dallas", "Salt+Lake+City", "Montpelier", "Richmond", "Olympia", "Seattle",
-			"Charleston", "Madison", "Cheyenne", "Washington+D.C.",
+			"United+States", "USA", "California", "New+York", "Texas", "Washington",
+			"Massachusetts", "Illinois", "San+Francisco", "Seattle", "New+York+City",
+			"Los+Angeles", "Austin", "Boston", "Chicago", "San+Jose",
+			"San+Diego", "Atlanta", "Denver", "Washington+D.C.",
 		},
 	},
 	"macedonia": QueryPreset{
